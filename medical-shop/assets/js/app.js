@@ -13,7 +13,8 @@
     return "";
   };
   const brandTitle = id => (BRANDS.find(b => b.id === id) || {}).title || "";
-  const productImg = p => p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : icon(p.icon);
+  /* عکس واقعی: اول p.image، بعد assets/img/products/<slug>.jpg؛ اگر نبود آیکن برداری نمایش داده می‌شود */
+  const productImg = p => `<img src="${p.image || `assets/img/products/${p.slug}.jpg`}" alt="${p.title}" loading="lazy" onerror="this.outerHTML=icon('${p.icon}')">`;
 
   /* ---------- سبد خرید (localStorage) ---------- */
   const CART_KEY = "medshop_cart";
