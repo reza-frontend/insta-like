@@ -185,7 +185,7 @@ CSS = """
   .cover-strip span{display:block;font-weight:500;color:var(--ink-2);font-size:8.3pt}
 
   /* about */
-  .about-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:9mm;align-items:start;margin-top:6mm}
+  .about-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:9mm;align-items:start;margin-top:9mm}
   .about-hero p{font-size:10.8pt;color:var(--ink-2);margin-bottom:3.5mm;text-align:justify}
   .about-hero p b{color:var(--ink)}
   .quote{background:var(--leaf-soft);border-radius:6mm;padding:8mm 7mm;position:relative;overflow:hidden}
@@ -198,7 +198,7 @@ CSS = """
   .stat b{direction:ltr;display:block;font-size:24pt;font-weight:900;line-height:1.15;color:var(--leaf-deep)}
   .stat b i{font-style:normal;color:var(--primary);font-size:14pt}
   .stat span{font-size:9pt;color:var(--ink-2)}
-  .values{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:8mm}
+  .values{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:12mm}
   .value{padding:6mm}
   .value h4{font-size:11.5pt;font-weight:800;margin:3mm 0 1.5mm}
   .value p{font-size:9.3pt;color:var(--ink-2);line-height:1.8}
@@ -338,12 +338,6 @@ def solar():
       <small>— مدیریت فردیس انرژی</small>
     </div>
   </div>
-  <div class="stats">
-    <div class="stat"><b>+۱۴۰</b><span>پروژه اجراشده</span></div>
-    <div class="stat"><b>۲۲<i> MW</i></b><span>ظرفیت نصب‌شده تجمعی</span></div>
-    <div class="stat"><b>۱۱</b><span>استان تحت پوشش</span></div>
-    <div class="stat"><b>+۸</b><span>سال تجربه تیم فنی</span></div>
-  </div>
   <div class="values">
     <div class="value card">{ico("shield", "o")}<h4>کیفیت و تضمین</h4><p>پنل‌های Tier‑1، اینورترهای معتبر و ضمانت عملکرد تا ۲۵ سال.</p></div>
     <div class="value card">{ico("pulse")}<h4>مهندسی دقیق</h4><p>شبیه‌سازی تولید با PVsyst، طراحی سازه و حفاظت مطابق استانداردهای IEC.</p></div>
@@ -455,7 +449,7 @@ def solar():
       <div class="c card">{ico("phone", "solid")}<div><small>تلفن تماس</small><b class="ltr">{PHONE}</b></div></div>
       <div class="c card">{ico("msg", "solid")}<div><small>واتساپ / تلگرام</small><b class="ltr">{PHONE}</b></div></div>
       <div class="c card">{ico("web", "solid")}<div><small>وب‌سایت</small><b class="ltr">www.fardisenergy.ir</b></div></div>
-      <div class="c card">{ico("pin", "solid")}<div><small>دفتر مرکزی</small><b>مشهد، خیابان چمران ۱۳</b></div></div>
+      <div class="c card">{ico("pin", "solid")}<div><small>دفتر مرکزی</small><b>مشهد، بین چمران ۶ و ۸، پلاک ۷۸، طبقه ۱، واحد ۲</b></div></div>
     </div>
   </div>
 </section>
