@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فردیس انرژی - برق قابل حمل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#F28C0F;
+    --primary-soft:#FDF0DE;
+    --primary-deep:#C96F05;
+    --ink:#16181D;
+    --ink-2:#4A4F59;
+    --line:#E6E2DA;
+    --paper:#FBFAF7;
+    --white:#ffffff;
+    --sky-1:#BFE3FA;--sky-2:#DDF0FC;--sky-3:#F2F9FE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  @page{size:A4;margin:0}
+  html,body{background:#d9d6cf}
+  body{font-family:"Vazirmatn",Tahoma,sans-serif;color:var(--ink);line-height:1.85;
+       -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;height:297mm;margin:10mm auto;background:var(--paper);position:relative;overflow:hidden;
+        box-shadow:0 10px 40px rgba(0,0,0,.15);break-after:page;page-break-after:always}
+  @media print{html,body{background:none}.page{margin:0;box-shadow:none}}
+  .pad{padding:18mm 17mm}
+  .ltr{direction:ltr;unicode-bidi:isolate}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11pt;font-weight:700;color:var(--primary)}
+  .eyebrow::before{content:"";width:26px;height:3px;background:var(--primary);border-radius:3px}
+  .sec-title{font-size:27pt;font-weight:900;margin:6px 0 8px;line-height:1.3}
+  .sec-title span{color:var(--primary)}
+  .lead{font-size:11pt;color:var(--ink-2);max-width:150mm}
+  .folio{position:absolute;bottom:10mm;left:17mm;right:17mm;display:flex;justify-content:space-between;
+         font-size:8.5pt;color:#9a9690;border-top:1px solid var(--line);padding-top:4mm}
+  .folio b{color:var(--ink)}
+  .ico{width:34px;height:34px;border-radius:10px;background:var(--primary-soft);display:grid;place-items:center;flex:none}
+  .ico svg{width:20px;height:20px;stroke:var(--primary-deep);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .logo-mark{width:44px;height:44px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-name{font-weight:900;font-size:16pt;line-height:1.3}
+  .brand-name small{display:block;font-size:7.5pt;font-weight:500;letter-spacing:2.5px;color:#4A5A6A;direction:ltr;text-align:right}
+
+  /* ---------- COVER ---------- */
+  .cover{background:linear-gradient(180deg,var(--sky-1) 0%,var(--sky-2) 55%,var(--sky-3) 100%)}
+  .cover .grid{position:absolute;inset:0;opacity:.05;
+     background-image:linear-gradient(var(--ink) 1px,transparent 1px),linear-gradient(90deg,var(--ink) 1px,transparent 1px);background-size:12mm 12mm}
+  .cover .brand{position:absolute;top:18mm;right:17mm}
+  .cover .sub-brand{position:absolute;top:21mm;left:17mm;font-size:9pt;font-weight:800;background:var(--ink);color:var(--primary);padding:1.5mm 4mm;border-radius:30px}
+  .cover-body{position:absolute;right:17mm;left:17mm;top:52mm}
+  .cover h1{font-size:44pt;font-weight:900;line-height:1.45;letter-spacing:-.5px}
+  .cover h1 em{font-style:normal;color:var(--primary);background:var(--ink);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3}
+  .cover .desc{font-size:13pt;font-weight:500;margin-top:5mm;max-width:120mm}
+  .cover .calm{display:inline-block;margin-top:5mm;font-size:12pt;font-weight:800;border-right:4px solid var(--primary);padding-right:4mm}
+  .hero{position:absolute;left:10mm;bottom:40mm;width:118mm}
+  .uses{position:absolute;right:17mm;bottom:58mm;display:flex;flex-direction:column;gap:3mm}
+  .use{display:flex;align-items:center;gap:3mm;background:rgba(255,255,255,.85);border-radius:30px;padding:1.5mm 4mm 1.5mm 2mm;font-size:10pt;font-weight:700;width:max-content}
+  .use .ico{width:28px;height:28px;border-radius:50%;background:var(--ink)}
+  .use .ico svg{stroke:var(--primary);width:16px;height:16px}
+  .badges{position:absolute;bottom:13mm;right:17mm;left:17mm;display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+  .badge{display:flex;gap:4mm;align-items:center;background:var(--white);border-radius:4mm;padding:4mm 5mm;box-shadow:0 4px 18px rgba(30,70,110,.08)}
+  .badge b{display:block;font-size:11pt}
+  .badge span{font-size:8.8pt;color:var(--ink-2)}
+
+  /* ---------- PRODUCTS ---------- */
+  .cats{display:flex;gap:2mm;margin-top:5mm}
+  .cats i{font-style:normal;font-size:8.8pt;font-weight:700;padding:1mm 4mm;border-radius:30px;border:1px solid var(--line);background:var(--white);color:var(--ink-2)}
+  .cats i:first-child{background:var(--ink);color:var(--primary);border-color:var(--ink)}
+  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:6mm}
+  .prod{background:var(--white);border:1px solid var(--line);border-radius:5mm;overflow:hidden;display:flex;flex-direction:column;position:relative}
+  .prod .art{height:40mm;background:var(--primary-soft);display:grid;place-items:center;position:relative}
+  .prod .art svg{height:30mm;width:auto}
+  .prod .cat{position:absolute;top:3mm;right:3mm;font-size:7.8pt;font-weight:800;background:var(--white);color:var(--primary-deep);padding:.4mm 3mm;border-radius:20px}
+  .prod .hot{position:absolute;top:3mm;left:3mm;font-size:7.8pt;font-weight:800;background:var(--ink);color:var(--primary);padding:.4mm 3mm;border-radius:20px}
+  .prod .body{padding:4.5mm 5mm 5mm;display:flex;flex-direction:column;flex:1}
+  .prod h3{font-size:12pt;font-weight:900;line-height:1.5}
+  .spec{font-size:8.6pt;font-weight:700;color:var(--primary-deep);margin:.5mm 0 1.5mm}
+  .prod p{font-size:8.9pt;color:var(--ink-2);line-height:1.75;flex:1}
+  .price{display:flex;align-items:flex-end;justify-content:space-between;margin-top:3mm;padding-top:3mm;border-top:1px dashed var(--line)}
+  .price s{display:block;font-size:9pt;color:#8a857e;text-decoration-thickness:1px}
+  .price b{font-size:14pt;font-weight:900}
+  .price b small{font-size:8pt;font-weight:600;color:var(--ink-2)}
+  .off{background:var(--primary);color:var(--ink);font-weight:900;font-size:9pt;padding:1mm 3mm;border-radius:2.5mm}
+  .note{font-size:8pt;color:#9a9690;margin-top:4mm}
+
+  /* ---------- WHY + GUIDE ---------- */
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:7mm}
+  .f{display:flex;gap:4mm;background:var(--white);border:1px solid var(--line);border-radius:4mm;padding:5mm}
+  .f .ico{width:40px;height:40px;border-radius:12px;background:var(--ink)}
+  .f .ico svg{stroke:var(--primary);width:22px;height:22px}
+  .f b{font-size:11pt;display:block}
+  .f span{font-size:9pt;color:var(--ink-2)}
+  .guide{margin-top:9mm}
+  .guide h3{font-size:17pt;font-weight:900}
+  .guide > p{font-size:10pt;color:var(--ink-2)}
+  .g-table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:9.4pt}
+  .g-table th{text-align:right;font-size:8.5pt;color:var(--ink-2);font-weight:800;padding:2.5mm 3mm;border-bottom:2px solid var(--ink)}
+  .g-table td{padding:3.2mm 3mm;border-bottom:1px solid var(--line);vertical-align:middle}
+  .g-table td:first-child{font-weight:800}
+  .g-table .pick{font-weight:900;color:var(--primary-deep)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:8mm}
+  .st{border:1.5px dashed var(--primary);border-radius:4mm;padding:4mm 5mm;background:var(--white)}
+  .st i{font-style:normal;display:inline-grid;place-items:center;width:8mm;height:8mm;border-radius:50%;background:var(--primary);font-weight:900;font-size:10pt;margin-bottom:1.5mm}
+  .st b{display:block;font-size:10.5pt}
+  .st span{font-size:8.8pt;color:var(--ink-2)}
+  .cta{margin-top:7mm;background:var(--ink);color:#fff;border-radius:5mm;padding:6mm 7mm;display:flex;align-items:center;justify-content:space-between;gap:6mm}
+  .cta b{font-size:13pt;color:var(--primary);display:block}
+  .cta span{font-size:9.4pt;color:#cfcac2}
+  .cta .btn{flex:none;background:var(--primary);color:var(--ink);font-weight:900;font-size:10pt;padding:3mm 6mm;border-radius:30px}
+
+  /* ---------- BACK ---------- */
+  .back{background:var(--primary)}
+  .back .ring{position:absolute;width:260mm;height:260mm;border-radius:50%;border:30mm solid rgba(255,255,255,.12);top:-90mm;right:-110mm}
+  .back .ring.two{width:160mm;height:160mm;border-width:18mm;top:auto;bottom:-60mm;right:auto;left:-50mm;border-color:rgba(0,0,0,.06)}
+  .back-in{position:absolute;inset:18mm 17mm;display:flex;flex-direction:column}
+  .back .brand-name small{color:#5b4320}
+  .back h2{font-size:38pt;font-weight:900;line-height:1.45;margin-top:30mm}
+  .back h2 span{background:var(--ink);color:var(--primary);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3}
+  .back .sub{font-size:12.5pt;margin-top:5mm;max-width:140mm;font-weight:500}
+  .bolt{position:absolute;left:20mm;top:128mm;width:44mm;opacity:.95}
+  .contacts{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+  .c{background:rgba(255,255,255,.9);border-radius:4mm;padding:4.5mm 5mm;display:flex;gap:4mm;align-items:center}
+  .c.wide{grid-column:span 2}
+  .c .ico{background:var(--ink)}
+  .c .ico svg{stroke:var(--primary)}
+  .c small{display:block;font-size:8pt;color:var(--ink-2)}
+  .c b{font-size:10.5pt;font-weight:800}
+  .back-foot{margin-top:6mm;display:flex;justify-content:space-between;font-size:8.5pt;font-weight:700}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="logo" viewBox="0 0 48 48">
+      <circle cx="24" cy="20" r="9" style="fill:var(--sun,#F28C0F)"/>
+      <g style="stroke:var(--sun,#F28C0F)" stroke-width="3" stroke-linecap="round">
+        <path d="M24 3v4M24 33v4M7 20h4M37 20h4M12 8l3 3M33 29l3 3M36 8l-3 3M15 29l-3 3"/>
+      </g>
+      <path d="M6 44 L14 34 H34 L42 44 Z" fill="currentColor"/>
+      <path d="M17.5 34 L15 44 M24 34 V44 M30.5 34 L33 44 M10 39 H38" style="stroke:var(--grid,#16181D)" stroke-width="1.4"/>
+    </symbol>
+    <!-- power station -->
+    <symbol id="station" viewBox="0 0 160 120">
+      <rect x="10" y="30" width="140" height="84" rx="12" fill="#16181D"/>
+      <path d="M45 30 V14 a6 6 0 0 1 6-6 h58 a6 6 0 0 1 6 6 V30" fill="none" stroke="#16181D" stroke-width="8"/>
+      <rect x="22" y="44" width="54" height="30" rx="4" fill="#2a2e36"/>
+      <path d="M44 50 l-6 10 h7 l-4 9 l11-13 h-7 l4-6z" fill="#F28C0F"/>
+      <rect x="56" y="54" width="14" height="10" rx="1.5" fill="none" stroke="#F28C0F" stroke-width="1.6"/>
+      <rect x="58" y="56" width="7" height="6" fill="#F28C0F"/>
+      <g fill="#3a3f48"><circle cx="96" cy="58" r="7"/><circle cx="120" cy="58" r="7"/></g>
+      <g fill="#F28C0F"><rect x="92" y="56" width="2" height="4"/><rect x="98" y="56" width="2" height="4"/><rect x="116" y="56" width="2" height="4"/><rect x="122" y="56" width="2" height="4"/></g>
+      <g fill="#3a3f48"><rect x="22" y="86" width="12" height="7" rx="2"/><rect x="38" y="86" width="12" height="7" rx="2"/><rect x="54" y="86" width="12" height="7" rx="2"/></g>
+      <rect x="88" y="84" width="48" height="12" rx="6" fill="#F28C0F"/>
+      <rect x="10" y="104" width="140" height="10" rx="0" fill="#F28C0F" opacity=".9"/>
+      <rect x="10" y="104" width="140" height="10" rx="5" fill="none"/>
+    </symbol>
+    <!-- power bank -->
+    <symbol id="bank" viewBox="0 0 120 120">
+      <rect x="30" y="10" width="60" height="100" rx="12" fill="#16181D"/>
+      <rect x="38" y="22" width="44" height="22" rx="4" fill="#2a2e36"/>
+      <text x="60" y="38" font-family="Vazirmatn,sans-serif" font-size="12" font-weight="900" fill="#F28C0F" text-anchor="middle">100%</text>
+      <g fill="#F28C0F"><rect x="40" y="56" width="40" height="5" rx="2.5"/><rect x="40" y="65" width="40" height="5" rx="2.5"/><rect x="40" y="74" width="40" height="5" rx="2.5"/><rect x="40" y="83" width="26" height="5" rx="2.5" opacity=".45"/></g>
+      <rect x="50" y="98" width="20" height="5" rx="2.5" fill="#3a3f48"/>
+    </symbol>
+    <!-- backup package -->
+    <symbol id="pack" viewBox="0 0 170 120">
+      <rect x="6" y="20" width="70" height="94" rx="8" fill="#16181D"/>
+      <rect x="16" y="32" width="50" height="22" rx="3" fill="#2a2e36"/>
+      <text x="41" y="47" font-family="Vazirmatn,sans-serif" font-size="10" font-weight="900" fill="#F28C0F" text-anchor="middle">2kVA</text>
+      <g fill="#3a3f48"><circle cx="26" cy="70" r="5"/><circle cx="41" cy="70" r="5"/><circle cx="56" cy="70" r="5"/></g>
+      <g stroke="#3a3f48" stroke-width="3"><path d="M18 88 h46 M18 96 h46 M18 104 h46"/></g>
+      <rect x="88" y="8" width="76" height="106" rx="8" fill="#2a2e36"/>
+      <rect x="88" y="8" width="76" height="16" rx="8" fill="#16181D"/>
+      <g fill="#F28C0F"><rect x="100" y="34" width="52" height="14" rx="3"/><rect x="100" y="54" width="52" height="14" rx="3"/><rect x="100" y="74" width="52" height="14" rx="3"/><rect x="100" y="94" width="52" height="12" rx="3" opacity=".45"/></g>
+      <path d="M76 60 C82 60 82 40 88 40" fill="none" stroke="#F28C0F" stroke-width="3"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ================= PAGE 1 : COVER ================= -->
+<section class="page cover">
+  <div class="grid"></div>
+  <div class="brand">
+    <svg class="logo-mark" style="color:#16181D;--grid:#DDF0FC"><use href="#logo"/></svg>
+    <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
+  </div>
+  <span class="sub-brand">تجهیزات برق قابل‌حمل</span>
+
+  <div class="cover-body">
+    <h1>برق مطمئن،<br><em>هرجا</em> که بهش<br>نیاز داری</h1>
+    <p class="desc">محصولات قابل حمل و اضطراری برای خانه، محل کار، سفر و کمپینگ</p>
+    <span class="calm">دیگه نگران قطع برق نباش؛ ما کنارتیم.</span>
+  </div>
+
+  <svg class="hero" viewBox="0 0 300 200" aria-hidden="true">
+    <defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+    <ellipse cx="150" cy="105" rx="150" ry="95" fill="url(#glow)" opacity=".9"/>
+    <ellipse cx="135" cy="188" rx="110" ry="8" fill="#16181D" opacity=".12"/>
+    <use href="#station" x="40" y="40" width="190" height="145"/>
+    <use href="#bank" x="200" y="88" width="98" height="98"/>
+    <g fill="#F28C0F"><path d="M58 22 l-10 18 h12 l-7 16 l19-23 h-12 l7-11z"/></g>
+    <g stroke="#F28C0F" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M250 50 l12-6 M256 66 l14 0 M246 34 l8-10"/></g>
+  </svg>
+
+  <div class="uses">
+    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span>خانه</div>
+    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3"/></svg></span>محل کار</div>
+    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 16h18l-2-7H5z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>سفر</div>
+    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3L2 21h20z"/><path d="M12 3v18M9 21l3-6 3 6"/></svg></span>کمپینگ</div>
+  </div>
+
+  <div class="badges">
+    <div class="badge"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>ایمن و مطمئن</b><span>حفاظت باتری و اصالت کالا</span></div></div>
+    <div class="badge"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><div><b>ارسال سریع</b><span>به سراسر کشور</span></div></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 2 : PRODUCTS ================= -->
+<section class="page"><div class="pad">
+  <span class="eyebrow">محصولات ما</span>
+  <h2 class="sec-title">برای هر <span>نیاز</span>، یک منبع برق</h2>
+  <p class="lead">از پکیج برق اضطراری خانه و مغازه تا پاوربانکی که توی کیف جا می‌شه.</p>
+  <div class="cats"><i>همه</i><i>پاوراستیشن</i><i>پاوربانک</i><i>پکیج</i></div>
+
+  <div class="prod-grid">
+    <div class="prod">
+      <div class="art"><span class="cat">پکیج</span><svg viewBox="0 0 170 120"><use href="#pack"/></svg></div>
+      <div class="body">
+        <h3>پکیج برق اضطراری ۳.۲ کیلووات</h3>
+        <div class="spec ltr" style="text-align:right">Inverter 2kVA · Battery 3.2kWh</div>
+        <p>برای خونه و مغازه‌ای که قطعی برق اذیتش می‌کنه؛ یخچال، روشنایی و وسایل ضروری رو ساعت‌ها روشن نگه می‌داره.</p>
+        <div class="price"><div><s>۲۴۹,۰۰۰,۰۰۰ تومان</s><b>۲۱۷,۸۵۴,۰۰۰ <small>تومان</small></b></div><span class="off">۱۳٪ تخفیف</span></div>
+      </div>
+    </div>
+    <div class="prod">
+      <div class="art"><span class="cat">پاوراستیشن</span><svg viewBox="0 0 160 120"><use href="#station"/></svg></div>
+      <div class="body">
+        <h3>پاور استیشن <span class="ltr">PS-OT600B</span></h3>
+        <div class="spec ltr" style="text-align:right">Inverter 900VA · Battery 1kWh</div>
+        <p>همراه سبک و قابل حمل برای سفر و کمپینگ؛ شارژ گوشی، لپ‌تاپ و روشنایی چادر رو تضمین می‌کنه.</p>
+        <div class="price"><div><s>۱۵۴,۰۰۰,۰۰۰ تومان</s><b>۱۲۴,۰۰۰,۰۰۰ <small>تومان</small></b></div><span class="off">۱۹٪ تخفیف</span></div>
+      </div>
+    </div>
+    <div class="prod">
+      <div class="art"><span class="cat">پاوربانک</span><svg viewBox="0 0 120 120"><use href="#bank"/></svg></div>
+      <div class="body">
+        <h3>پاوربانک ۶۰ آمپرساعت <span class="ltr">PB600-100W</span></h3>
+        <div class="spec ltr" style="text-align:right">60Ah · USB-C 100W</div>
+        <p>برای کسایی که یک روز کامل بیرون‌اند؛ چند بار شارژ کامل گوشی و لپ‌تاپ با یک بار شارژ خودش.</p>
+        <div class="price"><div><s>۲۱,۹۰۰,۰۰۰ تومان</s><b>۲۰,۱۰۰,۰۰۰ <small>تومان</small></b></div><span class="off">۸٪ تخفیف</span></div>
+      </div>
+    </div>
+    <div class="prod">
+      <div class="art"><span class="cat">پاوربانک</span><span class="hot">★ پرفروش</span><svg viewBox="0 0 120 120"><use href="#bank" transform="translate(60 60) scale(.85) translate(-60 -60)"/></svg></div>
+      <div class="body">
+        <h3>پاوربانک ۴۰ آمپرساعت <span class="ltr">PB400-100W</span></h3>
+        <div class="spec ltr" style="text-align:right">40Ah · USB-C 100W</div>
+        <p>سبک‌ترین انتخاب برای مسافرت‌های روزمره؛ توی کیف جا می‌شه ولی برای شارژ سریع گوشی و لپ‌تاپ کم نمیاره.</p>
+        <div class="price"><div><s>۱۷,۹۰۰,۰۰۰ تومان</s><b>۱۵,۵۰۰,۰۰۰ <small>تومان</small></b></div><span class="off">۱۳٪ تخفیف</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="note">* قیمت‌ها ممکن است تغییر کند؛ برای استعلام قیمت روز در دایرکت پیام دهید.</p>
+
+  <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۲</span></div>
+</div></section>
+
+<!-- ================= PAGE 3 : WHY + GUIDE ================= -->
+<section class="page"><div class="pad">
+  <span class="eyebrow">چرا فردیس انرژی؟</span>
+  <h2 class="sec-title">خیالت از <span>برق</span> راحت</h2>
+
+  <div class="feat">
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span><div><b>ساخته شده برای ایران</b><span>سازگار با شرایط اقلیمی و نیاز کاربران ایرانی</span></div></div>
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>ضمانت و خدمات</b><span>گارانتی معتبر و خدمات پس از فروش</span></div></div>
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><div><b>پشتیبانی سریع در دایرکت</b><span>پاسخ‌گویی صمیمی و تخصصی</span></div></div>
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span><div><b>طراحی و توسعه داخلی</b><span>توسط یک تیم جوان و حرفه‌ای</span></div></div>
+  </div>
+
+  <div class="guide">
+    <h3>کدوم محصول مناسب شماست؟</h3>
+    <p>یه نگاه به نیازت بنداز و انتخابت رو راحت کن.</p>
+    <table class="g-table">
+      <thead><tr><th>نیاز شما</th><th>کجا به کارتون میاد</th><th>پیشنهاد ما</th></tr></thead>
+      <tbody>
+        <tr><td>قطعی برق خونه یا مغازه</td><td>یخچال، روشنایی، مودم، وسایل ضروری</td><td class="pick">پکیج برق اضطراری ۳.۲ کیلووات</td></tr>
+        <tr><td>سفر جاده‌ای و کمپینگ</td><td>روشنایی چادر، لپ‌تاپ، گوشی، وسایل کوچک</td><td class="pick">پاور استیشن <span class="ltr">PS-OT600B</span></td></tr>
+        <tr><td>یه روز کامل بیرون از خونه</td><td>چند بار شارژ کامل گوشی و لپ‌تاپ</td><td class="pick">پاوربانک <span class="ltr">PB600-100W</span></td></tr>
+        <tr><td>همراه روزمره توی کیف</td><td>شارژ سریع گوشی و لپ‌تاپ در مسیر</td><td class="pick">پاوربانک <span class="ltr">PB400-100W</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="steps">
+    <div class="st"><i>۱</i><b>پیام بده</b><span>نیازت رو در دایرکت یا تلفنی بگو</span></div>
+    <div class="st"><i>۲</i><b>انتخاب کن</b><span>کمکت می‌کنیم بهترین گزینه رو برداری</span></div>
+    <div class="st"><i>۳</i><b>تحویل بگیر</b><span>ارسال سریع به سراسر کشور</span></div>
+  </div>
+
+  <div class="cta">
+    <div><b>هنوز مطمئن نیستی؟</b><span>اگه مطمئن نیستی کدوم محصول به کارت میاد، برای راهنمایی سریع پیام بده.</span></div>
+    <span class="btn">پشتیبانی در دایرکت</span>
+  </div>
+
+  <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۳</span></div>
+</div></section>
+
+<!-- ================= PAGE 4 : BACK ================= -->
+<section class="page back">
+  <div class="ring"></div><div class="ring two"></div>
+  <div class="back-in">
+    <div class="brand">
+      <svg class="logo-mark" style="color:#16181D;--sun:#16181D;--grid:#F28C0F"><use href="#logo"/></svg>
+      <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
+    </div>
+    <h2>قطعی برق؟<br><span>ما کنارتیم.</span></h2>
+    <p class="sub">تأمین و فروش تجهیزات برق قابل‌حمل با کیفیت و پشتیبانی مطمئن. برای مشاوره و سفارش با ما در تماس باش.</p>
+
+    <svg class="bolt" viewBox="0 0 100 140" aria-hidden="true"><path d="M62 4 L14 78 h30 l-10 58 L86 56 H54 Z" fill="#16181D"/></svg>
+
+    <div class="contacts">
+      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div><div><small>تلفن تماس</small><b class="ltr">0915 550 3263</b></div></div>
+      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div><div><small>پشتیبانی و سفارش</small><b>دایرکت اینستاگرام</b></div></div>
+      <div class="c wide"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><small>آدرس</small><b>مشهد، بین چمران ۶ و ۸، پلاک ۷۸، طبقه ۱، واحد ۲</b></div></div>
+    </div>
+    <div class="back-foot"><span>فردیس انرژی — تجهیزات برق قابل‌حمل</span><span>ارسال به سراسر کشور</span></div>
+  </div>
+</section>
+
+</body>
+</html>
