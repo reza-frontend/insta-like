@@ -38,7 +38,7 @@ def bird(x, y, s=1.0):
     return f'<path d="M{x} {y} q{5 * s} {-5 * s} {10 * s} 0 q{5 * s} {-5 * s} {10 * s} 0" fill="none" stroke="#5B6B60" stroke-width="1.4" stroke-linecap="round"/>'
 
 
-def landscape(seed=1, fields=True, trees=True, flowers=40, h=260, top_fade=False):
+def landscape(seed=1, fields=True, trees=True, flowers=40, h=260, with_river=False):
     """Wide (800 x h) layered landscape; meant to sit at the bottom of a page (slice)."""
     rnd = random.Random(seed)
     W = 800
@@ -61,12 +61,13 @@ def landscape(seed=1, fields=True, trees=True, flowers=40, h=260, top_fade=False
             y = h * .66 + i * 7
             out.append(f'<path d="M{430 + i * 8} {y:.0f} H{800}" stroke="#8CC56E" stroke-width="3" opacity=".6"/>')
     out.append(f'<path d="M0 {h * .78:.0f} C160 {h * .70:.0f} 330 {h * .80:.0f} 480 {h * .74:.0f} S700 {h * .70:.0f} 800 {h * .76:.0f} V{h} H0Z" fill="#86C46A"/>')
-    out.append(river([(250, h * .56, 6), (300, h * .62, 14), (240, h * .70, 26), (330, h * .82, 46), (470, h * .93, 72), (560, h + 30, 110)],
-                     f"l{seed}", 6))
-    out.append(reeds(205, h * .86, 1.1) + reeds(420, h * .78, .9) + reeds(640, h * .96, 1.2))
+    if with_river:
+        out.append(river([(250, h * .56, 6), (300, h * .62, 14), (240, h * .70, 26), (330, h * .82, 46), (470, h * .93, 72), (560, h + 30, 110)],
+                         f"l{seed}", 6))
+        out.append(reeds(205, h * .86, 1.1) + reeds(420, h * .78, .9) + reeds(640, h * .96, 1.2))
     for _ in range(flowers):
         x, y = rnd.uniform(8, W - 8), rnd.uniform(h * .82, h - 6)
-        if 280 < x < 640 and y > h * .8:   # keep the river clear
+        if with_river and 280 < x < 640 and y > h * .8:   # keep the river clear
             continue
         s = rnd.uniform(2.2, 3.6)
         out.append(stem(x, y, rnd.uniform(6, 12)) + flower(x, y, s, rnd.choice(FLOWER_COLS)))
@@ -131,13 +132,11 @@ def reeds(x, y, s=1.0):
 
 
 def meadow(seed=3):
-    """Footer strip: soft hills, a few trees and a small 3D river (no flowers)."""
+    """Footer strip: soft hills and a few trees."""
     out = ['<svg class="meadow" viewBox="0 0 800 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true">',
            '<path d="M0 52 C140 34 300 56 420 44 S680 30 800 46 V100 H0Z" fill="#DDEFD2"/>',
            tree(60, 58, .75), tree(95, 62, .5), tree(745, 56, .7),
-           '<path d="M0 70 C180 58 330 74 500 64 S720 58 800 66 V100 H0Z" fill="#A9D88E"/>',
-           river([(430, 54, 3), (480, 60, 6), (430, 67, 10), (340, 76, 17), (250, 88, 28), (190, 108, 50)], f"m{seed}", 4),
-           reeds(150, 96, .9), reeds(372, 74, .7), reeds(500, 60, .55)]
+           '<path d="M0 70 C180 58 330 74 500 64 S720 58 800 66 V100 H0Z" fill="#A9D88E"/>',]
     out.append("</svg>")
     return "".join(out)
 
@@ -145,7 +144,6 @@ def meadow(seed=3):
 def sky_deco(seed=5):
     rnd = random.Random(seed)
     parts = [cloud(rnd.uniform(80, 720), rnd.uniform(40, 150), rnd.uniform(.6, 1.1), rnd.uniform(.7, .95)) for _ in range(4)]
-    parts += [bird(rnd.uniform(140, 330), rnd.uniform(150, 210), rnd.uniform(.6, 1)) for _ in range(3)]
     return '<svg class="skydeco" viewBox="0 0 800 260" preserveAspectRatio="xMidYMin slice" aria-hidden="true">' + "".join(parts) + "</svg>"
 
 
@@ -205,7 +203,7 @@ def brand(sub="FARDIS ENERGY"):
 
 def folio(n, label):
     k = int(n.translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789")))
-    corner = f'<svg class="corner" viewBox="0 0 300 120" aria-hidden="true">{cloud(70, 70, .9, .9)}{cloud(190, 40, .55, .7)}{bird(150, 90, .8)}</svg>'
+    corner = f'<svg class="corner" viewBox="0 0 300 120" aria-hidden="true">{cloud(70, 70, .9, .9)}{cloud(190, 40, .55, .7)}</svg>'
     return f'{corner}{meadow(k + 7)}<div class="folio"><span><b>فردیس انرژی</b> — {label}</span><span>{n}</span></div>'
 
 

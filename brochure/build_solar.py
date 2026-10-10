@@ -1,6 +1,6 @@
 """Builds fardis-energy-brochure.html (solar EPC brochure, airy nature theme)."""
 import pathlib
-from iso3d import DARK, ORANGE, STEEL, WALL, Iso, house, island, pv_ground, pv_quad
+from iso3d import CANOPY, DARK, EARTH, GRASS, ORANGE, STEEL, WALL, WATER, Iso, house, island, pv_ground, pv_quad, vtree
 from nature import PHONE, SUN, brand, folio, ico, landscape, meadow, page_html, sky_deco, tel_qr
 
 LEG = ("#9aa3af", "#7d8592", "#646b77")
@@ -72,6 +72,57 @@ def m_plant(iso):
     iso.box(132, 42, 26, 14, 18, 4, STEEL)
 
 
+def diorama():
+    """Isometric river valley: PV field on the far bank, floating PV on the river, farmhouse on the near bank, waterfall."""
+    iso = Iso()
+    TOPSOIL = ("#A6D98A", EARTH[1], EARTH[2])
+    L, H = 330, 30
+
+    def bank(y, d):
+        iso.box(0, y, 0, L, d, H - 4, EARTH)
+        iso.box(0, y, H - 4, L, d, 4, TOPSOIL)
+
+    bank(0, 120)
+    iso.dz = H
+    for row in range(2):
+        for i in range(4):
+            pv_ground(iso, 16 + i * 66, 14 + row * 46, 58, 30, 6, 24, 4, 2)
+    vtree(iso, 296, 8, 0, 1.1); vtree(iso, 300, 60, 0, .8)
+    iso.dz = 0
+    iso.box(0, 120, 0, L, 66, 10, EARTH)                       # river bed
+    iso.box(0, 120, 10, L, 66, 13, WATER)                      # water
+    iso.dz = 23
+    for i in range(4):
+        for j in range(2):
+            x, y = 150 + i * 36, 130 + j * 26
+            iso.box(x, y, 0, 30, 20, 2.5, ("#FFFFFF", "#E6EEF2", "#CBD6DC"))
+            pv_quad(iso, (x + 2, y + 2, 7), (x + 28, y + 2, 7), (x + 28, y + 18, 3.5), (x + 2, y + 18, 3.5), 3, 1)
+    iso.dz = 0
+    # ripples on the open water
+    for (x, y) in ((40, 140), (90, 165), (60, 175), (120, 135)):
+        a, b = iso.p(x, y, 23.2), iso.p(x + 22, y, 23.2)
+        iso.parts.append(f'<path d="M{a[0]:.1f} {a[1]:.1f} Q{(a[0] + b[0]) / 2:.1f} {(a[1] + b[1]) / 2 - 3:.1f} {b[0]:.1f} {b[1]:.1f}" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" fill="none"/>')
+    bank(186, 92)
+    iso.dz = H
+    house(iso, 26, 206, 84, 56, 44, 24)
+    for (x, y, k) in ((140, 214, 1.0), (172, 240, .8), (232, 206, .9), (286, 236, 1.1)):
+        vtree(iso, x, y, 0, k)
+    iso.dz = 0
+    # waterfall over the near edge (+x face) into a pool
+    fall = '<defs><linearGradient id="fallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9F7FD"/><stop offset="1" stop-color="#7CC3E6"/></linearGradient></defs>'
+    iso.parts.append(fall)
+    iso.poly([(L + .5, 120, 23), (L + .5, 186, 23), (L + .5, 186, 2), (L + .5, 120, 2)], "url(#fallG)")
+    for k in range(5):
+        y0 = 126 + k * 12
+        a, b = iso.p(L + .6, y0, 22), iso.p(L + .6, y0, 4)
+        iso.parts.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#fff" stroke-opacity=".7" stroke-width="1.6"/>')
+    iso.box(L, 104, 0, 60, 98, 2, WATER)
+    for (y, r) in ((140, 8), (160, 10), (178, 7)):
+        cx, cy = iso.p(L + 6, y, 2)
+        iso.parts.append(f'<ellipse cx="{cx:.1f}" cy="{cy:.1f}" rx="{r}" ry="{r * .45:.1f}" fill="#fff" opacity=".85"/>')
+    return iso.svg(14, "dio")
+
+
 LEAF = '<svg><use href="#leaf"/></svg>'
 
 CSS = """
@@ -139,18 +190,31 @@ CSS = """
 
   /* solutions */
   .sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4mm;margin-top:6mm}
-  .sol{padding:5mm;display:grid;grid-template-columns:24mm 1fr;gap:4.5mm;align-items:start}
+  .sol{padding:4.5mm;display:grid;grid-template-columns:24mm 1fr;gap:4.5mm;align-items:start}
   .sol.feature{grid-column:span 2;grid-template-columns:44mm 1fr;background:linear-gradient(135deg,#F1F9EC,#fff)}
   .sol .art{width:100%;aspect-ratio:1;border-radius:4mm;background:linear-gradient(180deg,#E6F4FD 0 58%,#DDF0D0 58%);display:grid;place-items:center;overflow:hidden}
   .sol .art svg{width:98%;height:98%}
   .sol h3{font-size:13pt;font-weight:900}
   .sol .tag-pill{margin:1.5mm 0 2mm}
-  .sol p{font-size:9.2pt;color:var(--ink-2);line-height:1.75}
+  .sol p{font-size:9pt;color:var(--ink-2);line-height:1.75}
   .range{margin-top:5mm;padding:5mm 6mm}
   .range-h{display:flex;justify-content:space-between;font-size:9pt;font-weight:700;margin-bottom:3mm}
   .bar{height:9px;border-radius:9px;background:linear-gradient(90deg,var(--primary),#FFC93C 50%,var(--leaf-2))}
   .ticks{display:flex;justify-content:space-between;font-size:8pt;color:var(--ink-2);margin-top:2.5mm}
   .ticks span{direction:ltr;unicode-bidi:isolate}
+
+  /* river page */
+  .river-page .ribbon{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .dio-wrap{position:relative;height:138mm;margin-top:0;display:grid;place-items:center}
+  .dio{height:100%;width:auto;filter:drop-shadow(0 22px 20px rgba(40,90,120,.22))}
+  .eco{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:4mm}
+  .eco .card{padding:5mm;position:relative;overflow:hidden}
+  .eco .card::after{content:"";position:absolute;left:-6mm;bottom:-10mm;width:30mm;height:16mm;border-radius:50%;background:#DFF1FA}
+  .eco h4{font-size:11.5pt;font-weight:900;margin:3mm 0 1mm;position:relative;z-index:1}
+  .eco p{font-size:9pt;color:var(--ink-2);line-height:1.75;position:relative;z-index:1}
+  .ico.w{background:#DFF1FA}.ico.w svg{stroke:#3E8FC4}
+  .river-quote{margin-top:7mm;text-align:center;font-size:12pt;font-weight:800;color:#2F6F95}
+  .river-quote em{font-style:normal;color:var(--primary)}
 
   /* back */
   .back .sun{top:-18mm;left:-18mm;width:80mm;height:80mm}
@@ -292,7 +356,27 @@ def solar():
   </div>
 </div>{folio("۰۴", LABEL)}</section>
 
-<!-- 5 BACK -->
+<!-- 5 RIVER -->
+<section class="page sky river-page">
+  <svg class="ribbon" viewBox="0 0 210 297" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="rib" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE4F6" stop-opacity=".0"/><stop offset=".35" stop-color="#BFE4F6" stop-opacity=".55"/><stop offset="1" stop-color="#9DD3EE" stop-opacity=".7"/></linearGradient></defs>
+    <path d="M230 -10 C170 40 210 80 140 110 S40 150 70 200 S10 260 -20 310 L40 310 C70 270 100 230 80 200 S170 140 190 110 S250 50 260 -10Z" fill="url(#rib)"/>
+  </svg>
+  <div class="pad">
+    <span class="eyebrow">{LEAF}هم‌نفس با طبیعت</span>
+    <h2 class="sec-title">انرژی پاک، کنار <span>رود</span> و مزرعه</h2>
+    <p class="lead">خورشید بی‌صدا برق می‌سازد؛ نه دودی، نه صدایی و نه آبی که هدر برود. ما سامانه‌ها را طوری طراحی می‌کنیم که کنار زمین کشاورزی، باغ و آب، بخشی از طبیعت باشند — نه مزاحم آن.</p>
+    <div class="dio-wrap">{diorama()}</div>
+    <div class="eco">
+      <div class="card">{ico("shield")}<h4>بدون دود و صدا</h4><p>پنل‌های خورشیدی هنگام تولید برق هیچ آلاینده و صدایی ایجاد نمی‌کنند.</p></div>
+      <div class="card">{ico("pulse", "w")}<h4>بدون مصرف آب</h4><p>برخلاف نیروگاه‌های حرارتی، تولید برق خورشیدی به آب خنک‌کاری نیاز ندارد.</p></div>
+      <div class="card">{ico("web", "o")}<h4>خورشید روی آب</h4><p>سامانه‌های شناور روی کانال‌ها و مخازن، هم برق می‌سازند و هم تبخیر آب را کم می‌کنند.</p></div>
+    </div>
+    <p class="river-quote">هر کیلووات خورشیدی، یک قدم برای <em>آب و هوای پاک‌تر</em></p>
+  </div>{folio("۰۵", LABEL)}
+</section>
+
+<!-- 6 BACK -->
 <section class="page sky back">
   {SUN}{sky_deco(17)}
   {landscape(seed=33, flowers=22, h=514)}

@@ -15,7 +15,7 @@ class Iso:
         self.parts, self.xs, self.ys = [], [], []
 
     def p(self, x, y, z):
-        sx, sy = (x - y) * C, (x + y) * S - z
+        sx, sy = (x - y) * C, (x + y) * S - z - getattr(self, 'dz', 0)
         self.xs.append(sx); self.ys.append(sy)
         return sx, sy
 
@@ -137,3 +137,16 @@ def island(iso, cx, cy, r, h=16, seed=1, flowers=14):
         f'<path d="M{sx - rx:.1f},{sy:.1f} v{h * .28:.1f} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0 v{-h * .28:.1f} z" fill="#6FB25A"/>'
         f'<ellipse cx="{sx:.1f}" cy="{sy:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="url(#islTop)"/>'
         + "".join(dots))
+
+
+GRASS = ("#A6D98A", "#7DBE62", "#5E9E4F")
+EARTH = ("#C99B6D", "#AD7F52", "#8E6640")
+WATER = ("#8FD0EE", "#5FB3DE", "#4C9FD0")
+CANOPY = ("#9AD27E", "#6FB25A", "#4F8F45")
+
+
+def vtree(iso, x, y, z=0, s=1.0):
+    """Voxel-style tree."""
+    iso.box(x + 6 * s, y + 6 * s, z, 4 * s, 4 * s, 12 * s, EARTH)
+    iso.box(x, y, z + 12 * s, 16 * s, 16 * s, 14 * s, CANOPY)
+    iso.box(x + 4 * s, y + 4 * s, z + 26 * s, 8 * s, 8 * s, 7 * s, CANOPY)

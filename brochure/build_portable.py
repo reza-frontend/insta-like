@@ -106,7 +106,8 @@ def ask():
 CSS = """
   .cover .sun{top:-14mm;left:-14mm;width:88mm;height:88mm}
   .cover .brand{position:absolute;top:16mm;right:17mm;z-index:2}
-  .sub-brand{position:absolute;top:20mm;left:62mm;font-size:9pt;font-weight:800;background:#fff;color:var(--leaf);padding:1.5mm 4mm;border-radius:30px;box-shadow:var(--shadow);z-index:2}
+  .sub-brand{display:inline-flex;align-items:center;gap:6px;font-size:10pt;font-weight:800;background:#fff;color:var(--leaf);padding:4px 14px;border-radius:30px;box-shadow:var(--shadow);margin-bottom:4mm}
+  .sub-brand svg{width:16px;height:16px}
   .cover-body{position:absolute;right:17mm;left:17mm;top:42mm;z-index:2}
   .cover h1{font-size:40pt;font-weight:900;line-height:1.45;color:var(--leaf-deep)}
   .cover h1 em{font-style:normal;color:var(--primary)}
@@ -215,8 +216,8 @@ def build():
 <section class="page sky cover">
   {SUN}{sky_deco(41)}
   {brand()}
-  <span class="sub-brand">تجهیزات برق قابل‌حمل</span>
   <div class="cover-body">
+    <span class="sub-brand">{LEAF}تجهیزات برق قابل‌حمل</span>
     <h1>برق مطمئن،<br><em>هرجا</em> که بهش<br>نیاز داری</h1>
     <p class="desc">محصولات قابل حمل و اضطراری برای خانه، محل کار، سفر و کمپینگ</p>
     <span class="calm">دیگه نگران قطع برق نباش؛ ما کنارتیم.</span>
