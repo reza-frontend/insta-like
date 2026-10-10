@@ -3,125 +3,106 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{name} | فروش لوازم مصرفی و یکبار مصرف پزشکی</title>
-<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، مش و لوازم جانبی الکتروکوتر">
+<title>{name} | تجهیزات تخصصی پزشکی</title>
+<meta name="description" content="تولید و فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="data/site.js"></script><script src="data/products.js"></script>
 <script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
 </head>
-<body>
+<body class="home">
 <div id="site-header"></div>
 <main>
-<!-- Hero -->
-<section class="hero"><div class="container">
-  <div class="hero-grid">
-    <div class="slider">
-      <div class="slide s1"><div><span class="tag">تجهیزات لاپاراسکوپی</span><h2>لوازم یکبار مصرف لاپاراسکوپی<br>با استاندارد ISO 13485</h2><p>تروکار، سوزن ورس، گراسپر، کلیپ عروقی و ست ساکشن ایریگیشن؛ مستقیم از تولیدکننده، بدون واسطه.</p><a class="btn white" href="shop.html?cat=laparoscopy">مشاهده محصولات</a></div><div class="slide-art" data-icon="trocar"></div></div>
-      <div class="slide s2"><div><span class="tag">استپلرهای جراحی</span><h2>انواع استپلر خطی برشی،<br>حلقوی، هموروئید و پوستی</h2><p>کارتریج در تمام رنگ‌ها و ارتفاع منگنه، با ضمانت اصالت کالا و ارسال سریع.</p><a class="btn white" href="shop.html?cat=stapler">خرید استپلر</a></div><div class="slide-art" data-icon="stapler"></div></div>
-      <div class="slide s3"><div><span class="tag">مش جراحی</span><h2>مش پلی‌پروپیلن جهت<br>ترمیم انواع فتق</h2><p>مش مونوفیلامان ماکروپور در سایزهای متنوع؛ برای بیمارستان‌ها شرایط فروش ویژه داریم.</p><a class="btn white" href="shop.html?cat=mesh">مشاهده مش‌ها</a></div><div class="slide-art" data-icon="mesh"></div></div>
-      <button class="s-prev" aria-label="قبلی">›</button><button class="s-next" aria-label="بعدی">‹</button><div class="dots"></div>
-    </div>
-    <div class="hero-side">
-      <a class="mini-banner" href="shop.html?cat=electrocautery"><h3>لوازم جانبی الکتروکوتر</h3><p>قلم کوتر و پلیت بیمار یکبار مصرف</p><span class="lnk">خرید ←</span><span class="art" data-icon="pencil"></span></a>
-      <a class="mini-banner b2" href="shop.html?cat=monitoring"><h3>لوازم جانبی مانیتورینگ</h3><p>الکترود ECG، پراب SpO2 و کاف NIBP</p><span class="lnk">خرید ←</span><span class="art" data-icon="ecg"></span></a>
-    </div>
+<!-- Hero: عکس‌ها را با نام assets/img/hero-1.jpg ، hero-2.jpg ، hero-3.jpg بگذارید -->
+<section class="hero slider">
+  <div class="slide" data-img="assets/img/hero-1.jpg" style="background:radial-gradient(circle at 30% 50%,#4d7fc4,#14325e 55%,#0a1a33)">
+    <div class="fallback" data-icons="trocar,trocar,trocar"></div>
+    <div class="container"><div class="slide-txt"><span class="kicker">تجهیزات تخصصی پزشکی</span><h1 class="js-hero-title"></h1><p class="js-hero-text"></p>
+      <div class="hero-btns"><a href="shop.html"><i>✚</i> محصولات</a><a href="about.html">درباره ما</a></div></div></div>
   </div>
-  <div class="features">
-    <div class="feat"><span class="fi">🚚</span><div><b>ارسال سریع</b><span>تحویل ۲ تا ۳ روزه در سراسر کشور</span></div></div>
-    <div class="feat"><span class="fi">🛡️</span><div><b>ضمانت اصالت</b><span>دارای مجوز IRC و نشان CE</span></div></div>
-    <div class="feat"><span class="fi">🏭</span><div><b>فروش بدون واسطه</b><span>قیمت رقابتی مستقیم از تأمین‌کننده</span></div></div>
-    <div class="feat"><span class="fi">🎧</span><div><b>مشاوره تخصصی</b><span>شنبه تا پنجشنبه ۹ الی ۱۹</span></div></div>
+  <div class="slide" data-img="assets/img/hero-2.jpg" style="background:radial-gradient(circle at 30% 50%,#3fb7a6,#0d5a55 55%,#062b29)">
+    <div class="fallback" data-icons="stapler,cartridge"></div>
+    <div class="container"><div class="slide-txt"><span class="kicker">استپلرهای جراحی</span><h2>انواع استپلر خطی برشی، حلقوی، هموروئید و پوستی</h2><p>کارتریج در تمامی رنگ‌ها و ارتفاع منگنه با ضمانت اصالت کالا و ارسال سریع به سراسر کشور.</p>
+      <div class="hero-btns"><a href="shop.html?cat=stapler"><i>✚</i> مشاهده استپلرها</a><a href="contact.html">تماس با ما</a></div></div></div>
   </div>
-</div></section>
+  <div class="slide" data-img="assets/img/hero-3.jpg" style="background:radial-gradient(circle at 30% 50%,#6a6f78,#2a2d33 55%,#141518)">
+    <div class="fallback" data-icons="grasper,scalpel"></div>
+    <div class="container"><div class="slide-txt"><span class="kicker">لوازم یکبار مصرف لاپاراسکوپی</span><h2>گرسپر، دایسکتور، قیچی و هندپیس انسداد عروق</h2><p>تولید شده تحت سیستم مدیریت کیفیت ISO 13485، مستقیم از تولیدکننده و بدون واسطه.</p>
+      <div class="hero-btns"><a href="shop.html?cat=laparoscopy"><i>✚</i> محصولات</a><a href="${SITE.catalog}" class="js-catalog">دانلود کاتالوگ</a></div></div></div>
+  </div>
+  <button class="s-prev" aria-label="قبلی">›</button><button class="s-next" aria-label="بعدی">‹</button><div class="dots"></div>
+</section>
 
 <!-- Categories -->
 <section class="sec"><div class="container">
-  <div class="sec-head"><div><h2>دسته‌بندی محصولات</h2><p>هر آنچه برای اتاق عمل و بخش‌های درمانی نیاز دارید</p></div><a class="more" href="shop.html">همه محصولات ←</a></div>
-  <div class="cats" id="cats"></div>
+  <h2 class="title-c">دسته بندی محصولات</h2>
+  <div class="cat-grid" id="cats"></div>
 </div></section>
 
-<!-- Best sellers carousel -->
-<section class="sec" style="padding-top:0"><div class="container carousel">
-  <div class="sec-head"><div><h2>پرفروش‌ترین محصولات</h2><p>منتخب خریداران بیمارستانی و کلینیک‌ها</p></div><div class="c-nav"><button class="c-prev">›</button><button class="c-next">‹</button></div></div>
-  <div class="track" id="best"></div>
-</div></section>
-
-<!-- Laparoscopy band -->
-<section class="sec" style="padding-top:0"><div class="container">
-  <div class="band carousel">
-    <div class="band-intro"><h2>تجهیزات<br>لاپاراسکوپی</h2><p>ابزار یکبار مصرف و دائمی لاپاراسکوپی از برندهای معتبر</p><a class="btn accent" href="shop.html?cat=laparoscopy">مشاهده همه</a>
-      <div class="c-nav" style="margin-top:16px"><button class="c-prev">›</button><button class="c-next">‹</button></div></div>
-    <div class="track" id="lap"></div>
+<!-- Newest -->
+<section class="newest">
+  <div class="side-art" id="newest-art"></div>
+  <div class="container inner">
+    <div class="head"><div><h2>جدیدترین محصولات</h2><p>بهترین و با کیفیت ترین محصولات تجهیزات پزشکی را مشاهده و خریداری نمایید.</p></div><a class="more-link" href="shop.html">⊕ مشاهده همه محصولات</a></div>
+    <div class="carousel"><div class="track" id="newest"></div><button class="c-prev" aria-label="قبلی">›</button><button class="c-next" aria-label="بعدی">‹</button></div>
   </div>
+</section>
+
+<!-- Best sellers -->
+<section class="sec" style="padding-top:0"><div class="container best">
+  <a class="best-tag" href="shop.html"><b>محصولات<br>پر فروش</b><span>BEST</span></a>
+  <div class="carousel"><div class="track" id="best"></div><button class="c-prev" aria-label="قبلی">›</button><button class="c-next" aria-label="بعدی">‹</button></div>
 </div></section>
 
-<!-- Wide banners -->
-<section class="sec" style="padding-top:0"><div class="container banners">
-  <a class="wide w1" href="shop.html?cat=endoscopy"><div><h3>لوازم یکبار مصرف آندوسکوپی</h3><p>فورسپس بیوپسی، اسنیر پولیپکتومی و سوزن اسکلروتراپی</p><span class="btn white">خرید کنید</span></div><span class="art" data-icon="endo"></span></a>
-  <a class="wide w2" href="contact.html"><div><h3>فروش عمده به مراکز درمانی</h3><p>پیش‌فاکتور رسمی و شرایط ویژه برای بیمارستان‌ها و توزیع‌کنندگان</p><span class="btn white">درخواست پیش‌فاکتور</span></div><span class="art" data-icon="shield"></span></a>
-</div></section>
-
-<!-- New products -->
-<section class="sec" style="padding-top:0"><div class="container carousel">
-  <div class="sec-head"><div><h2>جدیدترین محصولات</h2><p>تازه‌ترین اقلام اضافه‌شده به فروشگاه</p></div><div class="c-nav"><button class="c-prev">›</button><button class="c-next">‹</button></div></div>
-  <div class="track" id="new"></div>
-</div></section>
-
-<!-- Stapler + mesh -->
-<section class="sec" style="padding-top:0"><div class="container carousel">
-  <div class="sec-head"><div><h2>استپلر و مش جراحی</h2><p>استپلر خطی، حلقوی، هموروئید، پوستی و مش پلی‌پروپیلن</p></div><div class="c-nav"><button class="c-prev">›</button><button class="c-next">‹</button></div></div>
-  <div class="track" id="stap"></div>
+<!-- About (wave) — ویدیو: assets/img/about.jpg (کاور) و assets/video/about.mp4 -->
+<section class="wave"><div class="container about-row">
+  <div><h2 class="js-name"></h2>
+    <p class="js-about1"></p>
+    <p>نظر به سال‌ها حسن اعتماد و حمایت مشتریان عزیز، این مجموعه با گسترش فعالیت خود و واردات و فروش گستره وسیعی از کالاهای مصرفی و جراحی، اقدام به سرمایه‌گذاری وسیع و تولید انواع لوازم یکبار مصرف لاپاراسکوپی با آخرین استانداردهای جهانی از جمله ISO 13485 و استاندارد مدیریت کیفیت نموده است.</p>
+    <p>در راستای نیل به اهداف استراتژیک و طولانی مدت شرکت با پیگیری مستمر و ایجاد ارتباط مؤثر و نظرسنجی از مشتریان، متعهد به ارائه محصولات با کیفیت و با نازل‌ترین قیمت می‌باشیم.</p>
+  </div>
+  <div class="video" id="video"><div class="av"></div><span class="dur">۰۰:۵۹</span><span class="play">▶</span><span class="lbl">معرفی مجموعه</span></div>
 </div></section>
 
 <!-- Brands -->
-<section class="sec" style="background:#fff"><div class="container">
-  <div class="sec-head"><div><h2>برندهای همکار</h2><p>نمایندگی و تأمین از برندهای معتبر جهانی</p></div></div>
-  <div class="brands" id="brands"></div>
-</div></section>
-
-<!-- About -->
-<section class="sec"><div class="container about-sec">
-  <div>
-    <h2 id="about-title"></h2>
-    <p>ما با هدف تأمین مطمئن لوازم مصرفی و یکبار مصرف جراحی برای بیمارستان‌ها، کلینیک‌ها و مراکز درمانی فعالیت می‌کنیم. تمرکز اصلی ما بر تجهیزات لاپاراسکوپی، استپلرهای جراحی، مش، لوازم جانبی الکتروکوتر و مانیتورینگ علائم حیاتی است.</p>
-    <p>تمامی محصولات تحت سیستم مدیریت کیفیت ISO 13485 تولید و با مجوز اداره کل تجهیزات پزشکی عرضه می‌شوند. فروش مستقیم و بدون واسطه، امکان ارائه بهترین قیمت را برای مشتریان فراهم کرده است.</p>
-    <ul class="checks"><li>ضمانت اصالت کالا</li><li>ارسال به سراسر کشور</li><li>پیش‌فاکتور رسمی</li><li>مشاوره رایگان</li><li>امکان مرجوعی کالای معیوب</li><li>شرایط ویژه فروش عمده</li></ul>
-    <a class="btn" href="about.html">بیشتر درباره ما</a>
-  </div>
-  <div class="stats">
-    <div class="stat"><b>+۱۲</b><span>سال تجربه</span></div>
-    <div class="stat"><b>+۳۵۰</b><span>مرکز درمانی طرف قرارداد</span></div>
-    <div class="stat"><b>+۲۰۰</b><span>قلم کالا</span></div>
-    <div class="stat"><b>۲۴</b><span>ساعت پاسخ‌گویی به استعلام</span></div>
-  </div>
+<section class="sec"><div class="container">
+  <h2 class="title-r">برند ها</h2>
+  <div class="carousel"><div class="track brand-track" id="brands"></div><div class="c-dots"></div></div>
 </div></section>
 
 <!-- Blog -->
-<section class="sec" style="padding-top:0"><div class="container">
-  <div class="sec-head"><div><h2>مقالات آموزشی</h2><p>راهنمای خرید و آشنایی با تجهیزات پزشکی</p></div><a class="more" href="blog.html">همه مقالات ←</a></div>
+<section class="sec" style="padding-top:10px"><div class="container">
+  <h2 class="title-r">جدیدترین مقالات</h2>
   <div class="posts" id="posts"></div>
 </div></section>
 
-<!-- FAQ -->
-<section class="sec" id="faq" style="padding-top:0"><div class="container">
-  <div class="sec-head" style="justify-content:center"><h2>سوالات متداول</h2></div>
-  <div class="faq" id="faq-list"></div>
+<!-- Order + clients (wave) -->
+<section class="wave"><div class="container order-row">
+  <div><h3>سفارش محصول</h3><p>برای موجودی و سفارش محصولات از طریق تماس روی دکمه زیر با کارشناسان ما در ارتباط باشید.</p>
+    <a class="btn js-call" href="#">تماس با ما</a><small>اطلاعات شما نزد ما <b>محفوظ</b> خواهد ماند.</small></div>
+  <div><h3>مشتریان ما</h3><div class="clients"><span>بیمارستان‌های دولتی</span><span>بیمارستان‌های خصوصی</span><span>مراکز جراحی محدود</span><span>کلینیک‌های تخصصی</span><span>توزیع‌کنندگان</span></div></div>
 </div></section>
 </main>
 <div id="site-footer"></div>
 <script>
-  $$("[data-icon]").forEach(el => el.innerHTML = icon(el.dataset.icon));
-  $("#cats").innerHTML = CATEGORIES.map(c => `<a class="cat" href="shop.html?cat=${c.id}"><div class="ci">${icon(c.icon)}</div><b>${c.title}</b><small>${fa(PRODUCTS.filter(p => p.parent === c.id).length)} محصول</small></a>`).join("");
-  $("#best").innerHTML = PRODUCTS.filter(p => p.best).map(card).join("");
-  $("#lap").innerHTML = PRODUCTS.filter(p => p.parent === "laparoscopy").map(card).join("");
-  $("#new").innerHTML = PRODUCTS.filter(p => p.isNew).concat(PRODUCTS.slice(-4)).map(card).join("");
-  $("#stap").innerHTML = PRODUCTS.filter(p => p.parent === "stapler" || p.parent === "mesh").map(card).join("");
-  $("#brands").innerHTML = BRANDS.map(b => `<a class="brand" href="shop.html?brand=${b.id}"><div><b>${b.en}</b><small>${b.title}</small></div></a>`).join("");
-  $("#posts").innerHTML = POSTS.map(p => `<a class="post" href="blog.html#post-${p.id}"><div class="pi">${icon(p.icon)}</div><div class="post-b"><div class="meta"><span>${p.cat}</span><span>${p.date}</span></div><h3>${p.title}</h3><p>${p.excerpt}</p></div></a>`).join("");
-  $("#faq-list").innerHTML = FAQ.map((f, i) => `<details ${i ? "" : "open"}><summary>${f.q}</summary><p>${f.a}</p></details>`).join("");
-  $("#about-title").textContent = `درباره ${SITE.name}`;
+  $$("[data-icons]").forEach(el => el.innerHTML = `<div style="display:flex;gap:4%;align-items:center;justify-content:center;width:min(520px,48vw)">${el.dataset.icons.split(",").map(i => `<div style="flex:1">${icon(i)}</div>`).join("")}</div>`);
+  $$(".js-hero-title").forEach(e => e.textContent = SITE.heroTitle);
+  $$(".js-hero-text").forEach(e => e.textContent = SITE.heroText);
+  $$(".js-catalog").forEach(e => e.href = SITE.catalog);
+  $$(".js-call").forEach(e => { e.href = "tel:" + SITE.phoneRaw; e.textContent = "تماس با " + SITE.name; });
+  $$(".js-name").forEach(e => e.textContent = SITE.name);
+  $$(".js-about1").forEach(e => e.textContent = `${SITE.name} در سال ${SITE.foundedYear} با هدف ارائه خدمات و محصولات باکیفیت به مراکز درمانی و بیمارستانی شروع به فعالیت نمود و با تلاش و کوشش متخصصان خود در حال حاضر مفتخر به ارائه خدمت به بیش از ۱۰۰۰ مرکز درمانی در سراسر کشور می‌باشد.`);
+  const byIds = ids => ids.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+  $("#cats").innerHTML = CATEGORIES.map(catCard).join("");
+  $("#newest").innerHTML = byIds(HOME.newest).map(card).join("");
+  $("#best").innerHTML = byIds(HOME.best).map(card).join("");
+  $("#brands").innerHTML = BRANDS.concat(BRANDS).map(brandCard).join("");
+  $("#posts").innerHTML = POSTS.map(p => `<a class="post" href="blog.html#post-${p.id}"><div class="pi">${imgOr(`assets/img/blog/${p.id}.jpg`, p.title, p.icon)}</div><div class="post-b"><div class="meta"><span>${p.cat}</span><span>${p.date}</span></div><h3>${p.title}</h3><p>${p.excerpt}</p></div></a>`).join("");
+  $("#newest-art").innerHTML = imgOr("assets/img/newest-side.jpg", "", "lungs");
+  const v = $("#video");
+  probe("assets/img/about.jpg", src => v.insertAdjacentHTML("afterbegin", `<img src="${src}" alt="">`));
+  v.onclick = () => { v.innerHTML = `<video src="assets/video/about.mp4" controls autoplay playsinline style="background:#000"></video>`; v.querySelector("video").onerror = () => alert("فایل ویدیو را در assets/video/about.mp4 قرار دهید."); };
 </script>
 </body>
 </html>

@@ -48,8 +48,9 @@
     const norm = s => s.toLowerCase().replace(/ي/g, "ی").replace(/ك/g, "ک");
     let list = PRODUCTS.filter(p => inCat(p, cat) && (!brand || p.brand === brand) && (!$("#f-stock").checked || p.stock)
       && (!q || norm(p.title + " " + p.en + " " + p.short).includes(norm(q))));
-    if (sort === "new") list = [...list].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) || b.id - a.id);
-    if (sort === "best") list = [...list].sort((a, b) => (b.best ? 1 : 0) - (a.best ? 1 : 0));
+    const rank = (ids, p) => { const i = ids.indexOf(p.id); return i < 0 ? 999 : i; };
+    if (sort === "new") list = [...list].sort((a, b) => rank(HOME.newest, a) - rank(HOME.newest, b) || b.id - a.id);
+    if (sort === "best") list = [...list].sort((a, b) => rank(HOME.best, a) - rank(HOME.best, b) || b.rating - a.rating);
     if (sort === "name") list = [...list].sort((a, b) => a.title.localeCompare(b.title, "fa"));
     $("#count").textContent = `${fa(list.length)} محصول`;
     $("#grid").innerHTML = list.length ? list.map(card).join("") : `<div class="empty" style="grid-column:1/-1">محصولی یافت نشد. <a href="shop.html" style="color:var(--primary)">مشاهده همه محصولات</a></div>`;

@@ -2,7 +2,7 @@
 (function () {
   const S = (inner, vb = "0 0 200 200") =>
     `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
-  const p = "var(--primary)", a = "var(--accent)", g = "#cfd8e3", d = "#5b6b7f";
+  const p = "var(--ill-main)", a = "var(--ill-accent)", g = "#cfd8e3", d = "#5b6b7f";
 
   const ICONS = {
     trocar: S(`<rect x="88" y="20" width="24" height="120" rx="6" fill="#eaf4ff" stroke="${p}" stroke-width="4"/>
@@ -67,6 +67,12 @@
     cover: S(`<path d="M60 30 L140 30 L150 180 L50 180 Z" fill="#eaf4ff" stroke="${p}" stroke-width="4" opacity=".9"/>
       <path d="M70 60 L130 60 M68 90 L132 90 M66 120 L134 120 M64 150 L136 150" stroke="${p}" stroke-width="2" opacity=".35"/>
       <rect x="80" y="20" width="40" height="18" rx="5" fill="${a}"/>`),
+    lungs: S(`<g stroke="#e8f6ff" stroke-width="2.2" opacity=".9">
+      <path d="M100 20 V80 M100 80 C90 90 80 92 72 100 M100 80 C110 90 120 92 128 100" />
+      <path d="M86 70 C60 60 34 90 28 130 C22 170 40 190 70 186 C88 184 92 170 92 150 C92 120 96 96 86 70 Z" fill="rgba(255,255,255,.18)"/>
+      <path d="M114 70 C140 60 166 90 172 130 C178 170 160 190 130 186 C112 184 108 170 108 150 C108 120 104 96 114 70 Z" fill="rgba(255,255,255,.18)"/>
+      <path d="M72 100 C62 116 54 130 50 150 M72 100 C74 124 70 150 64 170 M128 100 C138 116 146 130 150 150 M128 100 C126 124 130 150 136 170" opacity=".7"/>
+      <path d="M60 128 L46 136 M66 150 L52 162 M140 128 L154 136 M134 150 L148 162" opacity=".55"/></g>`),
     shield: S(`<path d="M100 20 L168 46 V100 C168 146 134 172 100 184 C66 172 32 146 32 100 V46 Z" fill="#eaf4ff" stroke="${p}" stroke-width="6"/>
       <path d="M70 102 L92 124 L134 80" stroke="${a}" stroke-width="10"/>`)
   };

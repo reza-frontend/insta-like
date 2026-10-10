@@ -15,9 +15,9 @@
 <div id="site-header"></div>
 <div class="page-head"><div class="container"><div class="crumb" id="crumb"></div></div></div>
 <main class="container" id="pd-root"></main>
-<section class="sec"><div class="container carousel">
-  <div class="sec-head"><div><h2>محصولات مرتبط</h2></div><div class="c-nav"><button class="c-prev">›</button><button class="c-next">‹</button></div></div>
-  <div class="track" id="related"></div>
+<section class="sec related"><div class="container carousel">
+  <h2 class="title-r">محصولات مرتبط</h2>
+  <div class="track" id="related"></div><button class="c-prev">›</button><button class="c-next">‹</button>
 </div></section>
 <div id="site-footer"></div>
 <script>
@@ -28,10 +28,10 @@
   const priceHtml = p.price ? `<div class="price">${p.oldPrice ? `<del>${money(p.oldPrice)}</del>` : ""}<b>${money(p.price)}</b></div>` : `<div><span class="inquiry">استعلام قیمت</span><div style="font-size:13px;color:var(--muted)">برای قیمت روز تماس بگیرید: <a style="color:var(--primary);direction:ltr;display:inline-block" href="tel:${SITE.phoneRaw}">${fa(SITE.phone)}</a></div></div>`;
   $("#pd-root").innerHTML = `
   <div class="pd">
-    <div class="pd-gal"><div class="main">${p.isNew ? '<span class="badge new">جدید</span>' : ""}<div id="main-img">${productImg(p)}</div></div>
+    <div class="pd-gal"><div class="main"><div id="main-img">${productImg(p)}</div></div>
       <div class="thumbs">${[p.icon, p.icon, "shield", "cover"].map((ic, i) => `<div class="${i ? "" : "on"}" data-ic="${ic}">${i ? icon(ic) : productImg(p)}</div>`).join("")}</div></div>
     <div class="pd-info">
-      <h1>${p.title}</h1><div class="en">${p.en}</div>
+      <h1>${p.title}</h1>${stars(p.rating || 4)}<div class="en">${p.en}</div>
       <div class="pd-meta"><span>برند: <b><a href="shop.html?brand=${p.brand}">${brandTitle(p.brand)}</a></b></span><span>دسته: <b><a href="shop.html?cat=${p.cat}">${catTitle(p.cat)}</a></b></span>
         <span>کد کالا: <b>${fa("MS-" + String(p.id).padStart(4, "0"))}</b></span><span>وضعیت: <b style="color:${p.stock ? "var(--accent)" : "#e04848"}">${p.stock ? "موجود در انبار" : "ناموجود"}</b></span></div>
       <p class="short">${p.short}</p>
@@ -55,7 +55,7 @@
   $$(".tab-btns button").forEach(b => b.onclick = () => { $$(".tab-btns button").forEach(x => x.classList.toggle("on", x === b)); $$(".tab").forEach(t => t.classList.toggle("on", t.id === b.dataset.t)); });
   $$(".thumbs div").forEach((t, i) => t.onclick = () => { $$(".thumbs div").forEach(x => x.classList.toggle("on", x === t)); $("#main-img").innerHTML = i ? icon(t.dataset.ic) : productImg(p); });
   const rel = PRODUCTS.filter(x => x.id !== p.id && x.parent === p.parent);
-  $("#related").innerHTML = (rel.length >= 4 ? rel : rel.concat(PRODUCTS.filter(x => x.best && x.id !== p.id))).slice(0, 10).map(card).join("");
+  $("#related").innerHTML = (rel.length >= 4 ? rel : rel.concat(HOME.best.map(id => PRODUCTS.find(x => x.id === id)).filter(x => x && x.id !== p.id && !rel.includes(x)))).slice(0, 10).map(card).join("");
 </script>
 </body>
 </html>
