@@ -150,3 +150,42 @@ def vtree(iso, x, y, z=0, s=1.0):
     iso.box(x + 6 * s, y + 6 * s, z, 4 * s, 4 * s, 12 * s, EARTH)
     iso.box(x, y, z + 12 * s, 16 * s, 16 * s, 14 * s, CANOPY)
     iso.box(x + 4 * s, y + 4 * s, z + 26 * s, 8 * s, 8 * s, 7 * s, CANOPY)
+
+SHEET = ("#EEF1F4", "#D5DBE0", "#B7C0C8")
+STONE = ("#E3DED5", "#C7BFB2", "#A89F92")
+WOOD = ("#C08A5A", "#9C6B42", "#7E5434")
+
+
+def shed(iso, x, y, W, D, H, R, cols=6):
+    """Industrial shed (سوله): sheet-metal walls, low gable roof along x, PV on the front slope, roller door."""
+    ym = y + D / 2
+    iso.box(x, y, 0, W, D, H, SHEET)
+    iso.poly([(x, y, H), (x + W, y, H), (x + W, ym, H + R), (x, ym, H + R)], "#8D98A3")
+    iso.poly([(x + W, y, H), (x + W, y + D, H), (x + W, ym, H + R)], "#C9D1D8")
+    o = 3
+    FA, FB = (x - o, ym, H + R), (x + W + o, ym, H + R)
+    FD, FC = (x - o, y + D + o, H - o * .6), (x + W + o, y + D + o, H - o * .6)
+    iso.poly([FA, FB, FC, FD], "#A9B3BC")
+    a, b = _lerp(FA, FD, .1), _lerp(FB, FC, .1)
+    c, d = _lerp(FB, FC, .9), _lerp(FA, FD, .9)
+    pv_quad(iso, _lerp(a, b, .04), _lerp(a, b, .96), _lerp(d, c, .96), _lerp(d, c, .04), cols, 2)
+    ribs = "".join(f'<line x1="{u}" y1="0" x2="{u}" y2="{H}" stroke="#C3CAD1" stroke-width="1"/>' for u in range(6, int(W), 8))
+    iso.front(x, y, 0, W, D, H,
+              ribs + f'<rect x="{W * .32:.0f}" y="{H * .28:.0f}" width="{W * .36:.0f}" height="{H * .72:.0f}" fill="#7F8B96"/>'
+              + "".join(f'<line x1="{W * .32:.0f}" y1="{H * .28 + k * 3:.1f}" x2="{W * .68:.0f}" y2="{H * .28 + k * 3:.1f}" stroke="#95A0AA" stroke-width="1"/>' for k in range(1, int(H * .72 / 3)))
+              + f'<rect x="{W * .08:.0f}" y="{H * .3:.0f}" width="{W * .14:.0f}" height="{H * .18:.0f}" fill="#BFE3FA" stroke="#5B6B60" stroke-width="1.4"/>')
+    iso.side(x, y, 0, W, D, H, f'<rect x="{D * .3:.0f}" y="{H * .3:.0f}" width="{D * .4:.0f}" height="{H * .18:.0f}" fill="#BFE3FA" stroke="#5B6B60" stroke-width="1.4"/>')
+
+
+def well(iso, x, y, s=26):
+    """Stone well with water inside and a small wooden canopy."""
+    iso.box(x, y, 0, s, s, 9, STONE)
+    i = 4
+    iso.poly([(x + i, y + i, 9.1), (x + s - i, y + i, 9.1), (x + s - i, y + s - i, 9.1), (x + i, y + s - i, 9.1)], "#4C9FD0")
+    iso.poly([(x + i, y + i, 9.1), (x + s - i, y + i, 9.1), (x + s - i, y + i + 3, 9.1), (x + i, y + i + 3, 9.1)], "#2E6F99")
+    for px in (x + 1, x + s - 4):
+        iso.box(px, y + s / 2 - 1.5, 9, 3, 3, 22, WOOD)
+    iso.box(x + 1, y + s / 2 - 1, 27, s - 2, 2, 2, WOOD)                     # crank beam
+    ym = y + s / 2
+    iso.poly([(x - 3, y - 2, 31), (x + s + 3, y - 2, 31), (x + s + 3, ym, 40), (x - 3, ym, 40)], "#9E5703")
+    iso.poly([(x - 3, ym, 40), (x + s + 3, ym, 40), (x + s + 3, y + s + 2, 31), (x - 3, y + s + 2, 31)], "#C96F05")

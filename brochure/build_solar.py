@@ -1,6 +1,6 @@
 """Builds fardis-energy-brochure.html (solar EPC brochure, airy nature theme)."""
 import pathlib
-from iso3d import CANOPY, DARK, EARTH, GRASS, ORANGE, STEEL, WALL, WATER, Iso, house, island, pv_ground, pv_quad, vtree
+from iso3d import CANOPY, DARK, EARTH, GRASS, ORANGE, STEEL, WALL, WATER, Iso, house, island, pv_ground, pv_quad, shed, vtree, well
 from nature import PHONE, SUN, brand, folio, ico, landscape, meadow, page_html, sky_deco, tel_qr
 
 LEG = ("#9aa3af", "#7d8592", "#646b77")
@@ -76,7 +76,7 @@ def diorama():
     """Isometric river valley: PV field on the far bank, floating PV on the river, farmhouse on the near bank, waterfall."""
     iso = Iso()
     TOPSOIL = ("#A6D98A", EARTH[1], EARTH[2])
-    L, H = 330, 30
+    L, H = 400, 30
 
     def bank(y, d):
         iso.box(0, y, 0, L, d, H - 4, EARTH)
@@ -85,9 +85,9 @@ def diorama():
     bank(0, 120)
     iso.dz = H
     for row in range(2):
-        for i in range(4):
+        for i in range(5):
             pv_ground(iso, 16 + i * 66, 14 + row * 46, 58, 30, 6, 24, 4, 2)
-    vtree(iso, 296, 8, 0, 1.1); vtree(iso, 300, 60, 0, .8)
+    vtree(iso, 362, 8, 0, 1.1); vtree(iso, 366, 62, 0, .8)
     iso.dz = 0
     iso.box(0, 120, 0, L, 66, 10, EARTH)                       # river bed
     iso.box(0, 120, 10, L, 66, 13, WATER)                      # water
@@ -104,8 +104,16 @@ def diorama():
         iso.parts.append(f'<path d="M{a[0]:.1f} {a[1]:.1f} Q{(a[0] + b[0]) / 2:.1f} {(a[1] + b[1]) / 2 - 3:.1f} {b[0]:.1f} {b[1]:.1f}" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" fill="none"/>')
     bank(186, 92)
     iso.dz = H
-    house(iso, 26, 206, 84, 56, 44, 24)
-    for (x, y, k) in ((140, 214, 1.0), (172, 240, .8), (232, 206, .9), (286, 236, 1.1)):
+    house(iso, 18, 206, 80, 54, 42, 22)
+    vtree(iso, 106, 248, 0, .7)
+    shed(iso, 128, 202, 112, 62, 34, 12)
+    # irrigation pipe: solar pump at the well -> shed
+    a, b = iso.p(286, 252, 2), iso.p(240, 252, 2)
+    iso.parts.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#5B6B60" stroke-width="3" stroke-linecap="round"/>')
+    well(iso, 266, 210, 26)
+    iso.box(298, 242, 0, 12, 10, 12, STEEL)                    # solar pump controller
+    iso.front(298, 242, 0, 12, 10, 12, '<rect x="2.5" y="3" width="7" height="4" rx="1" fill="#F28C0F"/>')
+    for (x, y, k) in ((330, 206, .9), (352, 244, 1.1), (318, 256, .6)):
         vtree(iso, x, y, 0, k)
     iso.dz = 0
     # waterfall over the near edge (+x face) into a pool
@@ -365,7 +373,7 @@ def solar():
   <div class="pad">
     <span class="eyebrow">{LEAF}هم‌نفس با طبیعت</span>
     <h2 class="sec-title">انرژی پاک، کنار <span>رود</span> و مزرعه</h2>
-    <p class="lead">خورشید بی‌صدا برق می‌سازد؛ نه دودی، نه صدایی و نه آبی که هدر برود. ما سامانه‌ها را طوری طراحی می‌کنیم که کنار زمین کشاورزی، باغ و آب، بخشی از طبیعت باشند — نه مزاحم آن.</p>
+    <p class="lead">خورشید بی‌صدا برق می‌سازد؛ نه دودی، نه صدایی و نه آبی که هدر برود. از پمپاژ خورشیدی چاه کشاورزی تا پنل روی سقف سوله و خانه؛ ما سامانه‌ها را طوری طراحی می‌کنیم که کنار مزرعه، باغ و آب، بخشی از طبیعت باشند — نه مزاحم آن.</p>
     <div class="dio-wrap">{diorama()}</div>
     <div class="eco">
       <div class="card">{ico("shield")}<h4>بدون دود و صدا</h4><p>پنل‌های خورشیدی هنگام تولید برق هیچ آلاینده و صدایی ایجاد نمی‌کنند.</p></div>
