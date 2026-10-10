@@ -65,7 +65,7 @@ def package(iso, ox=0, oy=0):
 def scene(fn, isl, seed, cls="r3d", **kw):
     iso = Iso()
     fn(iso, **kw)
-    island(iso, *isl, seed=seed, flowers=12)
+    island(iso, *isl, seed=seed, flowers=5)
     return iso.svg(cls=cls)
 
 
@@ -79,7 +79,7 @@ def cover_scene():
     iso = Iso()
     station(iso, 0, 0)
     bank(iso, 205, 40)
-    island(iso, 140, 60, 165, 22, seed=9, flowers=24)
+    island(iso, 140, 60, 165, 22, seed=9, flowers=8)
     return iso.svg(cls="hero3d")
 
 
@@ -221,7 +221,7 @@ def build():
     <p class="desc">محصولات قابل حمل و اضطراری برای خانه، محل کار، سفر و کمپینگ</p>
     <span class="calm">دیگه نگران قطع برق نباش؛ ما کنارتیم.</span>
   </div>
-  {landscape(seed=42, flowers=60, h=457)}
+  {landscape(seed=42, flowers=22, h=457)}
   <svg class="fl b1"><use href="#bolt3d"/></svg>
   <div class="hero-wrap">{cover_scene()}</div>
   <div class="badges">
@@ -343,7 +343,7 @@ def build():
 <!-- 8 BACK -->
 <section class="page sky back">
   {SUN}{sky_deco(47)}
-  {landscape(seed=48, flowers=60, h=533)}
+  {landscape(seed=48, flowers=22, h=533)}
   <svg class="fl b2"><use href="#bolt3d"/></svg>
   <div class="back-in">
     {brand()}

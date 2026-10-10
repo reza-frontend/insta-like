@@ -129,8 +129,8 @@ def island(iso, cx, cy, r, h=16, seed=1, flowers=14):
         a, d = rnd.uniform(0, 6.283), rnd.uniform(.72, .93)
         import math
         fx, fy = sx + math.cos(a) * rx * d, sy + math.sin(a) * ry * d
-        col = rnd.choice(["#F28C0F", "#FFC93C", "#FFFFFF", "#F7A6B9"])
-        dots.append(f'<circle cx="{fx:.1f}" cy="{fy:.1f}" r="{rx * .022 + 1.2:.1f}" fill="{col}"/>')
+        col = rnd.choice(["#FFFFFF", "#FFF3C9", "#FFFFFF"])
+        dots.append(f'<circle cx="{fx:.1f}" cy="{fy:.1f}" r="{rx * .012 + .8:.1f}" fill="{col}"/>')
     iso.parts.insert(0,
         f'<ellipse cx="{sx:.1f}" cy="{sy + h + 10:.1f}" rx="{rx * 1.02:.1f}" ry="{ry:.1f}" fill="#4C7A43" opacity=".16" filter="url(#blur)"/>'
         f'<path d="M{sx - rx:.1f},{sy:.1f} v{h} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0 v{-h} z" fill="url(#islSide)"/>'

@@ -21,14 +21,14 @@ def hero():
     iso.front(126, 64, 0, 16, 14, 36, '<rect x="3" y="5" width="10" height="7" rx="1.5" fill="#F28C0F"/>')
     pv_ground(iso, 150, 30, 74, 34, 8, 30)
     pv_ground(iso, 150, 80, 74, 34, 8, 30)
-    island(iso, 110, 50, 165, 22, seed=4, flowers=26)
+    island(iso, 110, 50, 165, 22, seed=4, flowers=8)
     return iso.svg(cls="hero3d")
 
 
 def mini(fn, isl, seed):
     iso = Iso()
     fn(iso)
-    island(iso, *isl, seed=seed, flowers=8)
+    island(iso, *isl, seed=seed, flowers=4)
     return iso.svg(6, "r3d")
 
 
@@ -203,7 +203,7 @@ def solar():
     <h1>پیشرو در<br><em>انرژی</em> پاک</h1>
     <p>از مطالعه و طراحی تا تأمین تجهیزات، نصب، راه‌اندازی و نگهداری؛ یک مسیر، یک مسئول — برای خانه، باغ، مغازه، کارخانه و نیروگاه.</p>
   </div>
-  {landscape(seed=21, flowers=60, h=457)}
+  {landscape(seed=21, flowers=22, h=457)}
   <div class="hero-wrap">{hero()}</div>
   <div class="cover-strip">
     <div>خانگی<span>۳ تا ۲۰ کیلووات</span></div>
@@ -295,7 +295,7 @@ def solar():
 <!-- 5 BACK -->
 <section class="page sky back">
   {SUN}{sky_deco(17)}
-  {landscape(seed=33, flowers=60, h=514)}
+  {landscape(seed=33, flowers=22, h=514)}
   <div class="back-in">
     {brand()}
     <h2>سقف شما،<br><em>نیروگاه شما.</em></h2>

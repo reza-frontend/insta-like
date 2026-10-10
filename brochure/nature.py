@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 CSS = (HERE / "nature.css").read_text()
 PHONE = "0915 550 3263"
 
-FLOWER_COLS = ["#F28C0F", "#FFC93C", "#FFFFFF", "#F7A6B9", "#FFB24D"]
+FLOWER_COLS = ["#FFFFFF", "#FFE9A8", "#F6C27A", "#FFFFFF"]
 
 
 def flower(x, y, s, col, center="#FFE08A"):
@@ -61,24 +61,83 @@ def landscape(seed=1, fields=True, trees=True, flowers=40, h=260, top_fade=False
             y = h * .66 + i * 7
             out.append(f'<path d="M{430 + i * 8} {y:.0f} H{800}" stroke="#8CC56E" stroke-width="3" opacity=".6"/>')
     out.append(f'<path d="M0 {h * .78:.0f} C160 {h * .70:.0f} 330 {h * .80:.0f} 480 {h * .74:.0f} S700 {h * .70:.0f} 800 {h * .76:.0f} V{h} H0Z" fill="#86C46A"/>')
+    out.append(river([(250, h * .56, 6), (300, h * .62, 14), (240, h * .70, 26), (330, h * .82, 46), (470, h * .93, 72), (560, h + 30, 110)],
+                     f"l{seed}", 6))
+    out.append(reeds(205, h * .86, 1.1) + reeds(420, h * .78, .9) + reeds(640, h * .96, 1.2))
     for _ in range(flowers):
         x, y = rnd.uniform(8, W - 8), rnd.uniform(h * .82, h - 6)
-        s = rnd.uniform(2.6, 4.6)
+        if 280 < x < 640 and y > h * .8:   # keep the river clear
+            continue
+        s = rnd.uniform(2.2, 3.6)
         out.append(stem(x, y, rnd.uniform(6, 12)) + flower(x, y, s, rnd.choice(FLOWER_COLS)))
     out.append("</svg>")
     return "".join(out)
 
 
-def meadow(seed=3, flowers=26):
-    """Thin flowery grass strip for page footers."""
-    rnd = random.Random(seed)
+def _catmull(pts, steps=14):
+    """Catmull-Rom through (x, y, w) points -> dense list of (x, y, w)."""
+    P = [pts[0]] + pts + [pts[-1]]
+    out = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = P[i - 1], P[i], P[i + 1], P[i + 2]
+        for k in range(steps):
+            t = k / steps
+            out.append(tuple(.5 * (2 * p1[j] + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t * t
+                                   + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t ** 3) for j in range(3)))
+    out.append(pts[-1])
+    return out
+
+
+def river(pts, uid, drop=4.0, ripples=True):
+    """Winding river from far (first point, narrow) to near (last point, wide) with a raised bank for depth."""
+    import math
+    d = _catmull(pts)
+    left, right = [], []
+    for i, (x, y, w) in enumerate(d):
+        a, b = d[max(i - 1, 0)], d[min(i + 1, len(d) - 1)]
+        tx, ty = b[0] - a[0], b[1] - a[1]
+        n = math.hypot(tx, ty) or 1
+        nx, ny = -ty / n, tx / n
+        left.append((x + nx * w / 2, y + ny * w / 2)); right.append((x - nx * w / 2, y - ny * w / 2))
+    poly = left + right[::-1]
+    pts_s = " ".join(f"{x:.1f},{y:.1f}" for x, y in poly)
+    (fx, fy, _), (lx, ly, _) = pts[0], pts[-1]
+    g = (f'<defs><linearGradient id="rv{uid}" gradientUnits="userSpaceOnUse" x1="{fx}" y1="{fy}" x2="{lx}" y2="{ly}">'
+         '<stop offset="0" stop-color="#D4EEF9"/><stop offset=".45" stop-color="#8FCDEB"/><stop offset="1" stop-color="#4C9FD0"/></linearGradient></defs>')
+    out = [g,
+           f'<polygon points="{pts_s}" fill="#6E9E58" transform="translate(0 {drop})"/>',          # bank side (depth)
+           f'<polygon points="{pts_s}" fill="#8A6A48" transform="translate(0 {drop * .45:.1f})"/>',  # wet earth edge
+           f'<polygon points="{pts_s}" fill="url(#rv{uid})"/>']
+    # light rim on the far bank
+    out.append('<polyline points="' + " ".join(f"{x:.1f},{y:.1f}" for x, y in left) + '" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.1"/>')
+    if ripples:
+        for i in range(6, len(d) - 3, 7):
+            x, y, w = d[i]
+            a, b = d[i - 2], d[i + 2]
+            tx, ty = b[0] - a[0], b[1] - a[1]
+            n = math.hypot(tx, ty) or 1
+            L = w * .32
+            for off in (-.18, .2):
+                cx = x + (-ty / n) * w * off
+                cy = y + (tx / n) * w * off
+                out.append(f'<path d="M{cx - tx / n * L:.1f} {cy - ty / n * L:.1f} q{tx / n * L:.1f} {-w * .06:.1f} {2 * tx / n * L:.1f} {2 * ty / n * L:.1f}" '
+                           f'fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="{max(.6, w * .03):.1f}" stroke-linecap="round"/>')
+    return "".join(out)
+
+
+def reeds(x, y, s=1.0):
+    return "".join(f'<path d="M{x + i * 2.4 * s:.1f} {y:.1f} q{(i - 1.5) * 1.5 * s:.1f} {-6 * s:.1f} {(i - 1.5) * 2.5 * s:.1f} {-(9 + (i % 2) * 4) * s:.1f}" '
+                   f'stroke="#5E9E4F" stroke-width="{1.3 * s:.1f}" fill="none" stroke-linecap="round"/>' for i in range(4))
+
+
+def meadow(seed=3):
+    """Footer strip: soft hills, a few trees and a small 3D river (no flowers)."""
     out = ['<svg class="meadow" viewBox="0 0 800 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true">',
            '<path d="M0 52 C140 34 300 56 420 44 S680 30 800 46 V100 H0Z" fill="#DDEFD2"/>',
            tree(60, 58, .75), tree(95, 62, .5), tree(745, 56, .7),
-           '<path d="M0 70 C180 58 330 74 500 64 S720 58 800 66 V100 H0Z" fill="#A9D88E"/>']
-    for _ in range(flowers):
-        x, y = rnd.uniform(6, 794), rnd.uniform(70, 94)
-        out.append(flower(x, y, rnd.uniform(2.2, 3.6), rnd.choice(FLOWER_COLS)))
+           '<path d="M0 70 C180 58 330 74 500 64 S720 58 800 66 V100 H0Z" fill="#A9D88E"/>',
+           river([(430, 54, 3), (480, 60, 6), (430, 67, 10), (340, 76, 17), (250, 88, 28), (190, 108, 50)], f"m{seed}", 4),
+           reeds(150, 96, .9), reeds(372, 74, .7), reeds(500, 60, .55)]
     out.append("</svg>")
     return "".join(out)
 
