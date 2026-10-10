@@ -104,16 +104,8 @@ def diorama():
         iso.parts.append(f'<path d="M{a[0]:.1f} {a[1]:.1f} Q{(a[0] + b[0]) / 2:.1f} {(a[1] + b[1]) / 2 - 3:.1f} {b[0]:.1f} {b[1]:.1f}" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" fill="none"/>')
     bank(186, 92)
     iso.dz = H
-    house(iso, 18, 206, 80, 54, 42, 22)
-    vtree(iso, 106, 248, 0, .7)
-    shed(iso, 128, 202, 112, 62, 34, 12)
-    # irrigation pipe: solar pump at the well -> shed
-    a, b = iso.p(286, 252, 2), iso.p(240, 252, 2)
-    iso.parts.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#5B6B60" stroke-width="3" stroke-linecap="round"/>')
-    well(iso, 266, 210, 26)
-    iso.box(298, 242, 0, 12, 10, 12, STEEL)                    # solar pump controller
-    iso.front(298, 242, 0, 12, 10, 12, '<rect x="2.5" y="3" width="7" height="4" rx="1" fill="#F28C0F"/>')
-    for (x, y, k) in ((330, 206, .9), (352, 244, 1.1), (318, 256, .6)):
+    house(iso, 26, 206, 84, 56, 44, 24)
+    for (x, y, k) in ((140, 214, 1.0), (172, 240, .8), (232, 206, .9), (286, 236, 1.1), (330, 210, .9), (360, 246, 1.0)):
         vtree(iso, x, y, 0, k)
     iso.dz = 0
     # waterfall over the near edge (+x face) into a pool
@@ -128,6 +120,48 @@ def diorama():
     for (y, r) in ((140, 8), (160, 10), (178, 7)):
         cx, cy = iso.p(L + 6, y, 2)
         iso.parts.append(f'<ellipse cx="{cx:.1f}" cy="{cy:.1f}" rx="{r}" ry="{r * .45:.1f}" fill="#fff" opacity=".85"/>')
+    return iso.svg(14, "dio")
+
+
+def farm_diorama():
+    """Farm plot: crop field + irrigation channel, solar array driving a well pump, water tank, PV-roofed shed."""
+    iso = Iso()
+    L, D, H = 400, 270, 26
+    iso.box(0, 0, 0, L, D, H - 4, EARTH)
+    iso.box(0, 0, H - 4, L, D, 4, ("#A6D98A", EARTH[1], EARTH[2]))
+    iso.dz = H
+    # ploughed field with crop rows
+    iso.poly([(8, 8, .2), (178, 8, .2), (178, 170, .2), (8, 170, .2)], "#C9A27A")
+    for k in range(11):
+        y = 16 + k * 14
+        iso.box(14, y, 0, 158, 6, 3.5, ("#8CCB6E", "#6FB25A", "#5E9E4F"))
+    # irrigation channel along the field
+    iso.poly([(8, 178, .25), (178, 178, .25), (178, 190, .25), (8, 190, .25)], "#4C9FD0")
+    iso.poly([(8, 178, .3), (178, 178, .3), (178, 181, .3), (8, 181, .3)], "#2E6F99")
+    for x in (40, 100, 150):
+        a, b = iso.p(x, 185, .4), iso.p(x + 16, 185, .4)
+        iso.parts.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#fff" stroke-opacity=".7" stroke-width="1.2" stroke-linecap="round"/>')
+    # solar array that drives the pump
+    for i in range(3):
+        pv_ground(iso, 206 + i * 62, 12, 54, 30, 6, 24, 4, 2)
+    for (p1, p2, col, w) in (((300, 48, .5), (238, 108, .5), "#F28C0F", 2), ((206, 122, .5), (178, 182, .5), "#5B6B60", 3)):
+        a, b = iso.p(*p1), iso.p(*p2)
+        iso.parts.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="{col}" stroke-width="{w}" stroke-linecap="round"/>')
+    well(iso, 194, 92, 30)
+    iso.box(232, 104, 0, 14, 12, 15, STEEL)                    # solar pump controller
+    iso.front(232, 104, 0, 14, 12, 15, '<rect x="3" y="3" width="8" height="5" rx="1" fill="#F28C0F"/>')
+    vtree(iso, 384, 92, 0, .9)
+    vtree(iso, 8, 200, 0, .9)
+    # elevated water tank, fed from the channel side
+    for (lx, ly) in ((64, 208), (92, 208), (64, 236), (92, 236)):
+        iso.box(lx, ly, 0, 4, 4, 30, STEEL)
+    iso.box(60, 204, 30, 40, 40, 26, ("#E8F4FA", "#BFDDEB", "#9CC6DA"))
+    iso.front(60, 204, 30, 40, 40, 26, '<rect x="6" y="6" width="28" height="4" rx="2" fill="#4C9FD0" opacity=".6"/>')
+    vtree(iso, 140, 232, 0, 1.0)
+    # shed (سوله) with PV roof
+    shed(iso, 236, 168, 150, 72, 36, 13, 8)
+    vtree(iso, 200, 250, 0, .7)
+    iso.dz = 0
     return iso.svg(14, "dio")
 
 
@@ -223,6 +257,9 @@ CSS = """
   .ico.w{background:#DFF1FA}.ico.w svg{stroke:#3E8FC4}
   .river-quote{margin-top:7mm;text-align:center;font-size:12pt;font-weight:800;color:#2F6F95}
   .river-quote em{font-style:normal;color:var(--primary)}
+
+  /* farm page */
+  .farm-page .eco .card::after{background:#EEF7E7}
 
   /* back */
   .back .sun{top:-18mm;left:-18mm;width:80mm;height:80mm}
@@ -364,7 +401,20 @@ def solar():
   </div>
 </div>{folio("۰۴", LABEL)}</section>
 
-<!-- 5 RIVER -->
+<!-- 5 FARM: well + shed -->
+<section class="page mint farm-page"><div class="pad">
+  <span class="eyebrow">{LEAF}کشاورزی و صنعت</span>
+  <h2 class="sec-title">از <span>چاه</span> تا <span>سوله</span>، با برق خورشید</h2>
+  <p class="lead">پمپ چاه کشاورزی را با پنل خورشیدی راه می‌اندازیم و سقف بلااستفاده سوله و انبار را به نیروگاه تبدیل می‌کنیم؛ بدون گازوئیل، بدون دغدغه قطعی برق.</p>
+  <div class="dio-wrap">{farm_diorama()}</div>
+  <div class="eco">
+    <div class="card">{ico("pulse", "w")}<h4>پمپ خورشیدی چاه</h4><p>آبیاری در ساعات آفتابی بدون گازوئیل و بدون نیاز به برق شبکه؛ مناسب چاه‌های دور از دسترس.</p></div>
+    <div class="card">{ico("home")}<h4>سقف سوله، نیروگاه شما</h4><p>سقف سوله‌ها و انبارها بهترین جا برای پنل است؛ برق کارگاه تأمین می‌شود یا مازاد آن به شبکه فروخته می‌شود.</p></div>
+    <div class="card">{ico("clock", "o")}<h4>ذخیره آب، ذخیره انرژی</h4><p>آب در روز به مخزن پمپ می‌شود تا در هر ساعتی از شبانه‌روز برای آبیاری در دسترس باشد.</p></div>
+  </div>
+</div>{folio("۰۵", LABEL)}</section>
+
+<!-- 6 RIVER -->
 <section class="page sky river-page">
   <svg class="ribbon" viewBox="0 0 210 297" preserveAspectRatio="none" aria-hidden="true">
     <defs><linearGradient id="rib" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE4F6" stop-opacity=".0"/><stop offset=".35" stop-color="#BFE4F6" stop-opacity=".55"/><stop offset="1" stop-color="#9DD3EE" stop-opacity=".7"/></linearGradient></defs>
@@ -373,7 +423,7 @@ def solar():
   <div class="pad">
     <span class="eyebrow">{LEAF}هم‌نفس با طبیعت</span>
     <h2 class="sec-title">انرژی پاک، کنار <span>رود</span> و مزرعه</h2>
-    <p class="lead">خورشید بی‌صدا برق می‌سازد؛ نه دودی، نه صدایی و نه آبی که هدر برود. از پمپاژ خورشیدی چاه کشاورزی تا پنل روی سقف سوله و خانه؛ ما سامانه‌ها را طوری طراحی می‌کنیم که کنار مزرعه، باغ و آب، بخشی از طبیعت باشند — نه مزاحم آن.</p>
+    <p class="lead">خورشید بی‌صدا برق می‌سازد؛ نه دودی، نه صدایی و نه آبی که هدر برود. ما سامانه‌ها را طوری طراحی می‌کنیم که کنار زمین کشاورزی، باغ و آب، بخشی از طبیعت باشند — نه مزاحم آن.</p>
     <div class="dio-wrap">{diorama()}</div>
     <div class="eco">
       <div class="card">{ico("shield")}<h4>بدون دود و صدا</h4><p>پنل‌های خورشیدی هنگام تولید برق هیچ آلاینده و صدایی ایجاد نمی‌کنند.</p></div>
@@ -381,10 +431,10 @@ def solar():
       <div class="card">{ico("web", "o")}<h4>خورشید روی آب</h4><p>سامانه‌های شناور روی کانال‌ها و مخازن، هم برق می‌سازند و هم تبخیر آب را کم می‌کنند.</p></div>
     </div>
     <p class="river-quote">هر کیلووات خورشیدی، یک قدم برای <em>آب و هوای پاک‌تر</em></p>
-  </div>{folio("۰۵", LABEL)}
+  </div>{folio("۰۶", LABEL)}
 </section>
 
-<!-- 6 BACK -->
+<!-- 7 BACK -->
 <section class="page sky back">
   {SUN}{sky_deco(17)}
   {landscape(seed=33, flowers=22, h=514)}
