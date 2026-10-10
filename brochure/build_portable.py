@@ -1,9 +1,9 @@
-"""Generates fardis-portable-power-brochure.html with isometric (pseudo-3D) product renders."""
+"""Builds fardis-portable-power-brochure.html (portable power line, airy nature theme)."""
 import pathlib
 
-from iso3d import C, S, DARK, ORANGE, STEEL, Iso
+from iso3d import DARK, ORANGE, STEEL, Iso, island
+from nature import PHONE, SUN, brand, folio, ico, landscape, page_html, sky_deco
 
-PHONE = "0915 550 3263"
 
 BOLT = '<path d="M{x} {y} l-9 15 h10 l-6 14 l17-20 h-10 l6-9z" fill="#F28C0F"/>'
 
@@ -60,232 +60,244 @@ def package(iso, ox=0, oy=0):
              '<text x="35" y="70" font-size="10" font-weight="900" fill="#F28C0F" text-anchor="middle" font-family="Vazirmatn">3.2kWh</text>')
 
 
-def scene(fn, podium, cls, **kw):
+
+
+def scene(fn, isl, seed, cls="r3d", **kw):
     iso = Iso()
     fn(iso, **kw)
-    if podium:
-        iso.podium(*podium)
+    island(iso, *isl, seed=seed, flowers=12)
     return iso.svg(cls=cls)
 
 
-STATION = scene(station, (85, 47, 120), "r3d")
-BANK = scene(bank, (28, 12, 52), "r3d")
-BANK_S = scene(lambda i: bank(i, h=92), (28, 12, 52), "r3d")
-PACK = scene(package, (80, 50, 128), "r3d")
+STATION = scene(station, (85, 47, 120), 1)
+BANK = scene(bank, (28, 12, 52), 2)
+BANK_S = scene(bank, (28, 12, 52), 3, h=92)
+PACK = scene(package, (80, 50, 128), 4)
 
 
 def cover_scene():
     iso = Iso()
     station(iso, 0, 0)
     bank(iso, 205, 40)
-    iso.podium(140, 60, 165, 20)
+    island(iso, 140, 60, 165, 22, seed=9, flowers=24)
     return iso.svg(cls="hero3d")
 
 
-COVER = cover_scene()
-
-
-def ico(path):
-    return f'<span class="ico"><svg viewBox="0 0 24 24">{path}</svg></span>'
-
-
-I_HOME = '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>'
-I_WORK = '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3"/>'
-I_CAR = '<path d="M3 16h18l-2-7H5z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>'
-I_TENT = '<path d="M12 3L2 21h20z"/><path d="M12 3v18M9 21l3-6 3 6"/>'
-I_SHIELD = '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/>'
-I_TRUCK = '<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>'
-I_PHONE = '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>'
-I_PIN = '<path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>'
-I_GEAR = '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>'
-I_FRIDGE = '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M6 9h12M9 5v2M9 12v3"/>'
-I_BULB = '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>'
-I_WIFI = '<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>'
-I_TV = '<rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8"/>'
-I_LAPTOP = '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>'
-I_MOBILE = '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>'
-I_POS = '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h2"/>'
-I_FAN = '<circle cx="12" cy="12" r="2"/><path d="M12 10c0-4 1-7 4-7s2 5-2 7M14 12c4 0 7 1 7 4s-5 2-7-2M12 14c0 4-1 7-4 7s-2-5 2-7M10 12c-4 0-7-1-7-4s5-2 7 2"/>'
+LEAF = '<svg><use href="#leaf"/></svg>'
+LABEL = "تجهیزات برق قابل‌حمل"
+BOLT_SYM = """<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="boltG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD27A"/><stop offset="1" stop-color="#F28C0F"/></linearGradient>
+  <symbol id="bolt3d" viewBox="0 0 110 150">
+    <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#D27407" transform="translate(8 6)"/>
+    <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="url(#boltG)"/>
+    <path d="M70 6 L18 84 h32" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+  </symbol></defs></svg>"""
 
 
 def chips(items):
-    return '<div class="chips">' + "".join(f'<div class="chip">{ico(p)}<span>{t}</span></div>' for p, t in items) + "</div>"
+    return '<div class="chips">' + "".join(f'<div class="chip">{ico(n, "o" if i % 2 else "")}<span>{t}</span></div>' for i, (n, t) in enumerate(items)) + "</div>"
 
 
-def folio(n):
-    return f'<div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>{n}</span></div>'
+def ask():
+    return (f'<div class="ask"><div><small>قیمت</small><b>استعلامی</b></div>'
+            f'<div class="call">{ico("phone")}<div><small>برای استعلام تماس بگیرید</small><b class="ltr">{PHONE}</b></div></div></div>')
 
 
-def ask(dark=False):
-    return (f'<div class="ask{" dark" if dark else ""}"><div><small>قیمت</small><b>استعلامی</b></div>'
-            f'<div class="call">{ico(I_PHONE)}<div><small>برای استعلام تماس بگیرید</small><b class="ltr">{PHONE}</b></div></div></div>')
+CSS = """
+  .cover .sun{top:-14mm;left:-14mm;width:88mm;height:88mm}
+  .cover .brand{position:absolute;top:16mm;right:17mm;z-index:2}
+  .sub-brand{position:absolute;top:20mm;left:62mm;font-size:9pt;font-weight:800;background:#fff;color:var(--leaf);padding:1.5mm 4mm;border-radius:30px;box-shadow:var(--shadow);z-index:2}
+  .cover-body{position:absolute;right:17mm;left:17mm;top:42mm;z-index:2}
+  .cover h1{font-size:40pt;font-weight:900;line-height:1.45;color:var(--leaf-deep)}
+  .cover h1 em{font-style:normal;color:var(--primary)}
+  .cover .desc{font-size:12.5pt;font-weight:500;margin-top:3mm;max-width:115mm;color:var(--ink-2)}
+  .cover .calm{display:inline-block;margin-top:3mm;font-size:11.5pt;font-weight:800;color:var(--leaf);border-right:4px solid var(--leaf-2);padding-right:4mm}
+  .cover .land{height:120mm}
+  .hero-wrap{position:absolute;left:8mm;right:8mm;bottom:36mm;height:100mm;display:grid;place-items:center;z-index:1}
+  .hero3d{height:100%;width:auto;filter:drop-shadow(0 20px 18px rgba(60,90,60,.18))}
+  .fl{position:absolute;z-index:1}
+  .fl.b1{width:20mm;height:28mm;left:24mm;top:96mm;transform:rotate(-12deg);filter:drop-shadow(0 10px 10px rgba(60,90,60,.2))}
+  .badges{position:absolute;bottom:10mm;right:17mm;left:17mm;display:grid;grid-template-columns:1fr 1fr;gap:5mm;z-index:2}
+  .badge{display:flex;gap:4mm;align-items:center;padding:3.5mm 5mm;background:rgba(255,255,255,.95)}
+  .badge b{display:block;font-size:11pt}
+  .badge span{font-size:8.8pt;color:var(--ink-2)}
+
+  .scen{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:8mm}
+  .sc{position:relative;padding:7mm 6mm 6mm;overflow:hidden}
+  .sc-n{position:absolute;left:5mm;top:2mm;font-size:34pt;font-weight:900;color:var(--leaf-soft);line-height:1.2}
+  .sc .ico{width:42px;height:42px;border-radius:12px}
+  .sc h3{font-size:14pt;font-weight:900;margin-top:4mm}
+  .sc p{font-size:9.4pt;color:var(--ink-2);line-height:1.8;margin:1.5mm 0 3mm;min-height:24mm}
+  .quote3d{margin-top:9mm;display:flex;align-items:center;gap:6mm;background:var(--primary-soft);border-radius:6mm;padding:7mm 8mm;border:1.5px solid #FFE0B0}
+  .quote3d .qb{width:18mm;height:25mm;flex:none}
+  .quote3d b{display:block;font-size:15pt;color:var(--primary-deep)}
+  .quote3d span{font-size:10pt;color:var(--ink-2)}
+
+  .stage{position:relative;height:108mm;margin-top:4mm;display:grid;place-items:center}
+  .stage svg{height:102mm;width:auto;position:relative;z-index:1}
+  .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:2mm}
+  .spec3d{padding:4mm 5mm;border-bottom:4px solid var(--leaf-2)}
+  .spec3d:nth-child(2){border-bottom-color:var(--primary)}
+  .spec3d small{display:block;font-size:8.5pt;color:var(--ink-2)}
+  .spec3d b{font-size:17pt;font-weight:900;color:var(--leaf-deep);display:block;text-align:right}
+  .mini{font-size:11pt;font-weight:800;margin:6mm 0 3mm}
+  .ask{margin-top:6mm;display:flex;align-items:center;justify-content:space-between;gap:6mm;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:5mm;padding:5mm 6mm;box-shadow:var(--shadow)}
+  .ask small{display:block;font-size:8.3pt;color:var(--ink-2)}
+  .ask > div > b{font-size:17pt;font-weight:900;color:var(--leaf-deep)}
+
+  .pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm}
+  .pb{padding:0 6mm 6mm;position:relative;overflow:hidden}
+  .pb.hot{border:2px solid #FFD9A3}
+  .pb-stage{height:96mm;margin:0 -6mm 3mm;background:linear-gradient(180deg,#E6F4FD 0 60%,#E3F2D8 60%);display:grid;place-items:center;padding:5mm 0}
+  .pb-stage svg{height:84mm;width:auto}
+  .pb.hot .pb-stage svg{height:72mm;margin-top:12mm}
+  .pb .tag{position:absolute;top:4mm;right:4mm;font-size:8pt;font-weight:800;background:#fff;color:var(--leaf);padding:.4mm 3mm;border-radius:20px}
+  .pb.hot .tag{background:var(--primary);color:#fff}
+  .pb h3{font-size:13pt;font-weight:900}
+  .pb .model{font-size:9pt;font-weight:800;color:var(--primary-deep);text-align:right;margin-bottom:2mm}
+  .kv{display:flex;justify-content:space-between;font-size:9.4pt;padding:1.5mm 0;border-bottom:1px dashed var(--line)}
+  .kv span{color:var(--ink-2)}
+  .pb p{font-size:9pt;color:var(--ink-2);line-height:1.75;margin-top:3mm}
+  .pb-common{margin-top:6mm}
+
+  .cmp{width:100%;border-collapse:separate;border-spacing:0;margin-top:7mm;font-size:9.2pt;background:#fff;border:1px solid var(--line);border-radius:5mm;overflow:hidden;box-shadow:var(--shadow)}
+  .cmp th{background:var(--leaf);color:#fff;font-size:9pt;font-weight:800;padding:3.5mm 2mm;text-align:center}
+  .cmp td{padding:3.2mm 2mm;border-bottom:1px solid var(--line);text-align:center}
+  .cmp tr:last-child td{border-bottom:none}
+  .cmp tr:nth-child(even) td{background:#FAFDF7}
+  .cmp td:first-child{text-align:right;font-weight:800;padding-right:4mm;background:var(--leaf-soft)}
+  .cmp .y{font-style:normal;color:var(--primary);font-weight:900}
+  .needs{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:8mm}
+  .nd{border-radius:4mm;padding:4.5mm 5mm;background:#fff;border-right:5px solid var(--leaf-2);box-shadow:var(--shadow)}
+  .nd:nth-child(even){border-right-color:var(--primary)}
+  .nd b{display:block;font-size:10.5pt}
+  .nd span{font-size:9.2pt;color:var(--primary-deep);font-weight:700}
+
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:7mm}
+  .f{display:flex;gap:4mm;padding:5mm}
+  .f .ico{width:42px;height:42px;border-radius:12px}
+  .f b{font-size:11pt;display:block}
+  .f span{font-size:9pt;color:var(--ink-2)}
+  .sub-h{font-size:16pt;font-weight:900;margin:12mm 0 2mm}
+  .iso-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;text-align:center}
+  .blk{width:30mm;height:30mm;margin:9mm auto 8mm;position:relative;transform:rotateX(55deg) rotateZ(45deg);background:var(--primary);border-radius:3mm;
+       box-shadow:1px 1px 0 #E58209,2px 2px 0 #E58209,3px 3px 0 #DC7C08,4px 4px 0 #DC7C08,5px 5px 0 #D27407,6px 6px 0 #D27407,7px 7px 0 #C86E06,8px 8px 0 #C86E06,14px 22px 22px rgba(60,90,60,.16)}
+  .blk.b2{background:var(--leaf-2);box-shadow:1px 1px 0 #7AB95F,2px 2px 0 #7AB95F,3px 3px 0 #70AE56,4px 4px 0 #70AE56,5px 5px 0 #66A44D,6px 6px 0 #66A44D,7px 7px 0 #5E9E4F,8px 8px 0 #5E9E4F,14px 22px 22px rgba(60,90,60,.16)}
+  .blk.b3{background:#7CC0EA;box-shadow:1px 1px 0 #6BB3E0,2px 2px 0 #6BB3E0,3px 3px 0 #5EA8D8,4px 4px 0 #5EA8D8,5px 5px 0 #519ECF,6px 6px 0 #519ECF,7px 7px 0 #4794C6,8px 8px 0 #4794C6,14px 22px 22px rgba(60,90,60,.16)}
+  .blk span{position:absolute;inset:0;display:grid;place-items:center;font-size:24pt;font-weight:900;color:#fff;transform:rotateZ(-45deg)}
+  .is b{display:block;font-size:12pt}
+  .is small{font-size:9pt;color:var(--ink-2)}
+  .cta{margin-top:12mm;background:var(--primary-soft);border:1.5px solid #FFE0B0;border-radius:5mm;padding:6mm 7mm;display:flex;align-items:center;justify-content:space-between;gap:6mm}
+  .cta b{font-size:13pt;color:var(--primary-deep);display:block}
+  .cta span{font-size:9.4pt;color:var(--ink-2)}
+  .cta .call b{color:#fff;display:inline;font-size:13pt}
+
+  .back .sun{top:-18mm;left:-18mm;width:80mm;height:80mm}
+  .back .land{height:140mm}
+  .back-in{position:absolute;inset:16mm 17mm 12mm;display:flex;flex-direction:column;z-index:2}
+  .back h2{font-size:38pt;font-weight:900;line-height:1.45;margin-top:26mm;color:var(--leaf-deep)}
+  .back h2 em{font-style:normal;color:var(--primary)}
+  .back .sub{font-size:12.5pt;margin-top:4mm;max-width:140mm;font-weight:500;color:var(--ink-2)}
+  .back .fl.b2{position:absolute;left:20mm;top:96mm;width:26mm;height:36mm;transform:rotate(-10deg);filter:drop-shadow(0 12px 12px rgba(60,90,60,.2))}
+  .contacts{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+  .c{padding:4.5mm 5mm;display:flex;gap:4mm;align-items:center;background:rgba(255,255,255,.95)}
+  .c.wide{grid-column:span 2}
+  .c small{display:block;font-size:8pt;color:var(--ink-2)}
+  .c b{font-size:10.5pt;font-weight:800}
+  .c.big b{font-size:20pt;font-weight:900;color:var(--leaf-deep)}
+  .c.big .ico{width:46px;height:46px;border-radius:14px}
+"""
 
 
-CSS = pathlib.Path(__file__).with_name("portable.css").read_text()
-
-html = f"""<!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>فردیس انرژی - برق قابل حمل</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-<style>
-{CSS}
-</style>
-</head>
-<body>
-
-<svg width="0" height="0" style="position:absolute">
-  <defs>
-    <linearGradient id="podTop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC676"/><stop offset="1" stop-color="#F28C0F"/></linearGradient>
-    <linearGradient id="podSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E07F08"/><stop offset=".6" stop-color="#C96F05"/><stop offset="1" stop-color="#9E5703"/></linearGradient>
-    <filter id="blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
-    <symbol id="logo" viewBox="0 0 48 48">
-      <circle cx="24" cy="20" r="9" style="fill:var(--sun,#F28C0F)"/>
-      <g style="stroke:var(--sun,#F28C0F)" stroke-width="3" stroke-linecap="round"><path d="M24 3v4M24 33v4M7 20h4M37 20h4M12 8l3 3M33 29l3 3M36 8l-3 3M15 29l-3 3"/></g>
-      <path d="M6 44 L14 34 H34 L42 44 Z" fill="currentColor"/>
-      <path d="M17.5 34 L15 44 M24 34 V44 M30.5 34 L33 44 M10 39 H38" style="stroke:var(--grid,#16181D)" stroke-width="1.4"/>
-    </symbol>
-    <symbol id="bolt3d" viewBox="0 0 110 150">
-      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#9E5703" transform="translate(10 6)"/>
-      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="url(#podTop)"/>
-      <path d="M70 6 L18 84 h32" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>
-    </symbol>
-    <symbol id="boltDark" viewBox="0 0 110 150">
-      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#000" opacity=".35" transform="translate(10 6)"/>
-      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#16181D"/>
-      <path d="M70 6 L18 84 h32" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="2"/>
-    </symbol>
-    <symbol id="cube" viewBox="0 0 40 46">
-      <path d="M20 0 L40 11.5 L20 23 L0 11.5Z" fill="#FFB24D"/><path d="M0 11.5 L20 23 V46 L0 34.5Z" fill="#F28C0F"/><path d="M40 11.5 L20 23 V46 L40 34.5Z" fill="#C96F05"/>
-    </symbol>
-  </defs>
-</svg>
-
+def build():
+    body = f"""{BOLT_SYM}
 <!-- 1 COVER -->
-<section class="page cover">
-  <div class="grid"></div>
-  <div class="brand">
-    <svg class="logo-mark" style="color:#16181D;--grid:#DDF0FC"><use href="#logo"/></svg>
-    <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
-  </div>
+<section class="page sky cover">
+  {SUN}{sky_deco(41)}
+  {brand()}
   <span class="sub-brand">تجهیزات برق قابل‌حمل</span>
   <div class="cover-body">
     <h1>برق مطمئن،<br><em>هرجا</em> که بهش<br>نیاز داری</h1>
     <p class="desc">محصولات قابل حمل و اضطراری برای خانه، محل کار، سفر و کمپینگ</p>
     <span class="calm">دیگه نگران قطع برق نباش؛ ما کنارتیم.</span>
   </div>
-  <svg class="fl c1"><use href="#cube"/></svg><svg class="fl c2"><use href="#cube"/></svg><svg class="fl c3"><use href="#cube"/></svg>
+  {landscape(seed=42, flowers=60, h=457)}
   <svg class="fl b1"><use href="#bolt3d"/></svg>
-  <div class="hero-wrap">{COVER}</div>
+  <div class="hero-wrap">{cover_scene()}</div>
   <div class="badges">
-    <div class="badge">{ico(I_SHIELD)}<div><b>ایمن و مطمئن</b><span>حفاظت باتری و اصالت کالا</span></div></div>
-    <div class="badge">{ico(I_TRUCK)}<div><b>ارسال سریع</b><span>به سراسر کشور</span></div></div>
+    <div class="badge card">{ico("shield")}<div><b>ایمن و مطمئن</b><span>حفاظت باتری و اصالت کالا</span></div></div>
+    <div class="badge card">{ico("truck", "o")}<div><b>ارسال سریع</b><span>به سراسر کشور</span></div></div>
   </div>
 </section>
 
 <!-- 2 SCENARIOS -->
 <section class="page"><div class="pad">
-  <span class="eyebrow">کجا به کارت میاد؟</span>
+  <span class="eyebrow">{LEAF}کجا به کارت میاد؟</span>
   <h2 class="sec-title">قطعی برق، دیگه <span>مسئله</span> نیست</h2>
   <p class="lead">چه توی خونه باشی، چه سر کار یا وسط جاده؛ یه منبع برق مطمئن همیشه همراهته.</p>
   <div class="scen">
-    <div class="sc">
-      <div class="sc-n">۰۱</div>{ico(I_HOME)}
-      <h3>خانه</h3><p>وقتی برق می‌ره، یخچال، روشنایی و مودم روشن می‌مونن و زندگی روال عادیش رو ادامه می‌ده.</p>
-      <span class="pick">پکیج برق اضطراری</span>
-    </div>
-    <div class="sc">
-      <div class="sc-n">۰۲</div>{ico(I_WORK)}
-      <h3>محل کار و مغازه</h3><p>کارتخوان، روشنایی و سیستم فروش قطع نمی‌شن؛ مشتری منتظر نمی‌مونه.</p>
-      <span class="pick">پکیج برق اضطراری</span>
-    </div>
-    <div class="sc">
-      <div class="sc-n">۰۳</div>{ico(I_CAR)}
-      <h3>سفر</h3><p>شارژ گوشی و لپ‌تاپ در طول مسیر، بدون نگرانی از پیدا کردن پریز.</p>
-      <span class="pick">پاوربانک‌ها و پاور استیشن</span>
-    </div>
-    <div class="sc">
-      <div class="sc-n">۰۴</div>{ico(I_TENT)}
-      <h3>کمپینگ</h3><p>روشنایی چادر، شارژ وسایل و یه شب آروم توی طبیعت، دور از شبکه برق.</p>
-      <span class="pick">پاور استیشن</span>
-    </div>
+    <div class="sc card"><div class="sc-n">۰۱</div>{ico("home", "o")}<h3>خانه</h3><p>وقتی برق می‌ره، یخچال، روشنایی و مودم روشن می‌مونن و زندگی روال عادیش رو ادامه می‌ده.</p><span class="tag-pill">پکیج برق اضطراری</span></div>
+    <div class="sc card"><div class="sc-n">۰۲</div>{ico("work")}<h3>محل کار و مغازه</h3><p>کارتخوان، روشنایی و سیستم فروش قطع نمی‌شن؛ مشتری منتظر نمی‌مونه.</p><span class="tag-pill g">پکیج برق اضطراری</span></div>
+    <div class="sc card"><div class="sc-n">۰۳</div>{ico("car")}<h3>سفر</h3><p>شارژ گوشی و لپ‌تاپ در طول مسیر، بدون نگرانی از پیدا کردن پریز.</p><span class="tag-pill g">پاوربانک‌ها و پاور استیشن</span></div>
+    <div class="sc card"><div class="sc-n">۰۴</div>{ico("tent", "o")}<h3>کمپینگ</h3><p>روشنایی چادر، شارژ وسایل و یه شب آروم توی طبیعت، دور از شبکه برق.</p><span class="tag-pill">پاور استیشن</span></div>
   </div>
-  <div class="quote3d">
-    <svg class="qb"><use href="#bolt3d"/></svg>
-    <div><b>برق، همون‌جایی که لازمش داری.</b><span>از یه پاوربانک توی کیف تا پکیجی که کل خونه رو سرپا نگه می‌داره.</span></div>
-  </div>
-  {folio("۰۲")}
-</div></section>
+  <div class="quote3d"><svg class="qb"><use href="#bolt3d"/></svg><div><b>برق، همون‌جایی که لازمش داری.</b><span>از یه پاوربانک توی کیف تا پکیجی که کل خونه رو سرپا نگه می‌داره.</span></div></div>
+</div>{folio("۰۲", LABEL)}</section>
 
 <!-- 3 PACKAGE -->
-<section class="page dark"><div class="pad">
-  <span class="eyebrow">پکیج</span>
+<section class="page mint"><div class="pad">
+  <span class="eyebrow">{LEAF}پکیج</span>
   <h2 class="sec-title">پکیج برق اضطراری <span>۳.۲ کیلووات</span></h2>
   <p class="lead">برای خونه و مغازه‌ای که قطعی برق اذیتش می‌کنه؛ یخچال، روشنایی و وسایل ضروری رو ساعت‌ها روشن نگه می‌داره.</p>
-  <div class="stage">{PACK}<div class="glow"></div></div>
+  <div class="stage">{PACK}</div>
   <div class="specs">
-    <div class="spec3d"><small>اینورتر</small><b class="ltr">2 kVA</b></div>
-    <div class="spec3d"><small>ظرفیت باتری</small><b class="ltr">3.2 kWh</b></div>
-    <div class="spec3d"><small>کاربرد</small><b>خانه و مغازه</b></div>
+    <div class="spec3d card"><small>اینورتر</small><b class="ltr">2 kVA</b></div>
+    <div class="spec3d card"><small>ظرفیت باتری</small><b class="ltr">3.2 kWh</b></div>
+    <div class="spec3d card"><small>کاربرد</small><b>خانه و مغازه</b></div>
   </div>
   <h4 class="mini">وسایلی که روشن نگه می‌داره</h4>
-  {chips([(I_FRIDGE, "یخچال"), (I_BULB, "روشنایی"), (I_WIFI, "مودم و اینترنت"), (I_TV, "تلویزیون"), (I_POS, "کارتخوان و صندوق")])}
-  {ask(True)}
-  {folio("۰۳")}
-</div></section>
+  {chips([("fridge", "یخچال"), ("bulb", "روشنایی"), ("wifi", "مودم و اینترنت"), ("tv", "تلویزیون"), ("pos", "کارتخوان و صندوق")])}
+  {ask()}
+</div>{folio("۰۳", LABEL)}</section>
 
 <!-- 4 STATION -->
-<section class="page"><div class="pad">
-  <span class="eyebrow">پاوراستیشن</span>
+<section class="page sky"><div class="pad">
+  <span class="eyebrow">{LEAF}پاوراستیشن</span>
   <h2 class="sec-title">پاور استیشن <span class="ltr">PS-OT600B</span></h2>
   <p class="lead">همراه سبک و قابل حمل برای سفر و کمپینگ؛ شارژ گوشی، لپ‌تاپ و روشنایی چادر رو تضمین می‌کنه.</p>
-  <div class="stage light">{STATION}<div class="glow"></div></div>
+  <div class="stage">{STATION}</div>
   <div class="specs">
-    <div class="spec3d"><small>اینورتر</small><b class="ltr">900 VA</b></div>
-    <div class="spec3d"><small>ظرفیت باتری</small><b class="ltr">1 kWh</b></div>
-    <div class="spec3d"><small>کاربرد</small><b>سفر و کمپینگ</b></div>
+    <div class="spec3d card"><small>اینورتر</small><b class="ltr">900 VA</b></div>
+    <div class="spec3d card"><small>ظرفیت باتری</small><b class="ltr">1 kWh</b></div>
+    <div class="spec3d card"><small>کاربرد</small><b>سفر و کمپینگ</b></div>
   </div>
   <h4 class="mini">وسایلی که روشن نگه می‌داره</h4>
-  {chips([(I_MOBILE, "گوشی"), (I_LAPTOP, "لپ‌تاپ"), (I_BULB, "روشنایی چادر"), (I_FAN, "پنکه کوچک"), (I_WIFI, "مودم")])}
+  {chips([("mobile", "گوشی"), ("laptop", "لپ‌تاپ"), ("bulb", "روشنایی چادر"), ("fan", "پنکه کوچک"), ("wifi", "مودم")])}
   {ask()}
-  {folio("۰۴")}
-</div></section>
+</div>{folio("۰۴", LABEL)}</section>
 
 <!-- 5 POWERBANKS -->
 <section class="page"><div class="pad">
-  <span class="eyebrow">پاوربانک</span>
+  <span class="eyebrow">{LEAF}پاوربانک</span>
   <h2 class="sec-title">پاوربانک‌های <span>۱۰۰ واتی</span></h2>
   <p class="lead">خروجی <span class="ltr">USB-C 100W</span> برای شارژ سریع گوشی و لپ‌تاپ؛ در دو ظرفیت، برای دو سبک زندگی.</p>
   <div class="pb-grid">
-    <div class="pb">
-      <div class="pb-stage">{BANK}</div>
-      <span class="tag">پاوربانک</span>
+    <div class="pb card"><div class="pb-stage">{BANK}</div><span class="tag">پاوربانک</span>
       <h3>پاوربانک ۶۰ آمپرساعت</h3><div class="model ltr">PB600-100W</div>
-      <div class="kv"><span>ظرفیت</span><b class="ltr">60Ah</b></div>
-      <div class="kv"><span>خروجی</span><b class="ltr">USB-C 100W</b></div>
-      <p>برای کسایی که یک روز کامل بیرون‌اند؛ چند بار شارژ کامل گوشی و لپ‌تاپ با یک بار شارژ خودش.</p>
-    </div>
-    <div class="pb hot">
-      <div class="pb-stage">{BANK_S}</div>
-      <span class="tag">★ پرفروش</span>
+      <div class="kv"><span>ظرفیت</span><b class="ltr">60Ah</b></div><div class="kv"><span>خروجی</span><b class="ltr">USB-C 100W</b></div>
+      <p>برای کسایی که یک روز کامل بیرون‌اند؛ چند بار شارژ کامل گوشی و لپ‌تاپ با یک بار شارژ خودش.</p></div>
+    <div class="pb card hot"><div class="pb-stage">{BANK_S}</div><span class="tag">★ پرفروش</span>
       <h3>پاوربانک ۴۰ آمپرساعت</h3><div class="model ltr">PB400-100W</div>
-      <div class="kv"><span>ظرفیت</span><b class="ltr">40Ah</b></div>
-      <div class="kv"><span>خروجی</span><b class="ltr">USB-C 100W</b></div>
-      <p>سبک‌ترین انتخاب برای مسافرت‌های روزمره؛ توی کیف جا می‌شه ولی برای شارژ سریع گوشی و لپ‌تاپ کم نمیاره.</p>
-    </div>
+      <div class="kv"><span>ظرفیت</span><b class="ltr">40Ah</b></div><div class="kv"><span>خروجی</span><b class="ltr">USB-C 100W</b></div>
+      <p>سبک‌ترین انتخاب برای مسافرت‌های روزمره؛ توی کیف جا می‌شه ولی برای شارژ سریع گوشی و لپ‌تاپ کم نمیاره.</p></div>
   </div>
-  <div class="pb-common">{chips([(I_MOBILE, "شارژ سریع گوشی"), (I_LAPTOP, "شارژ لپ‌تاپ با USB-C"), (I_CAR, "همراه سفر"), (I_SHIELD, "حفاظت باتری")])}</div>
+  <div class="pb-common">{chips([("mobile", "شارژ سریع گوشی"), ("laptop", "شارژ لپ‌تاپ با USB-C"), ("car", "همراه سفر"), ("shield", "حفاظت باتری")])}</div>
   {ask()}
-  {folio("۰۵")}
-</div></section>
+</div>{folio("۰۵", LABEL)}</section>
 
 <!-- 6 GUIDE -->
-<section class="page"><div class="pad">
-  <span class="eyebrow">راهنمای انتخاب</span>
+<section class="page mint"><div class="pad">
+  <span class="eyebrow">{LEAF}راهنمای انتخاب</span>
   <h2 class="sec-title">کدوم محصول <span>مناسب</span> شماست؟</h2>
   <p class="lead">اگه مطمئن نیستی کدوم محصول به کارت میاد، این جدول کمکت می‌کنه؛ برای راهنمایی دقیق‌تر هم کافیه تماس بگیری.</p>
   <table class="cmp">
@@ -306,18 +318,17 @@ html = f"""<!doctype html>
     <div class="nd"><b>یه روز کامل بیرون از خونه</b><span>← پاوربانک <span class="ltr">PB600-100W</span></span></div>
     <div class="nd"><b>همراه روزمره توی کیف</b><span>← پاوربانک <span class="ltr">PB400-100W</span></span></div>
   </div>
-  {folio("۰۶")}
-</div></section>
+</div>{folio("۰۶", LABEL)}</section>
 
 <!-- 7 WHY + STEPS -->
 <section class="page"><div class="pad">
-  <span class="eyebrow">چرا فردیس انرژی؟</span>
+  <span class="eyebrow">{LEAF}چرا فردیس انرژی؟</span>
   <h2 class="sec-title">خیالت از <span>برق</span> راحت</h2>
   <div class="feat">
-    <div class="f">{ico(I_HOME)}<div><b>ساخته شده برای ایران</b><span>سازگار با شرایط اقلیمی و نیاز کاربران ایرانی</span></div></div>
-    <div class="f">{ico(I_SHIELD)}<div><b>ضمانت و خدمات</b><span>گارانتی معتبر و خدمات پس از فروش</span></div></div>
-    <div class="f">{ico(I_PHONE)}<div><b>پشتیبانی تلفنی سریع</b><span>پاسخ‌گویی صمیمی و تخصصی</span></div></div>
-    <div class="f">{ico(I_GEAR)}<div><b>طراحی و توسعه داخلی</b><span>توسط یک تیم جوان و حرفه‌ای</span></div></div>
+    <div class="f card">{ico("home")}<div><b>ساخته شده برای ایران</b><span>سازگار با شرایط اقلیمی و نیاز کاربران ایرانی</span></div></div>
+    <div class="f card">{ico("shield", "o")}<div><b>ضمانت و خدمات</b><span>گارانتی معتبر و خدمات پس از فروش</span></div></div>
+    <div class="f card">{ico("phone", "o")}<div><b>پشتیبانی تلفنی سریع</b><span>پاسخ‌گویی صمیمی و تخصصی</span></div></div>
+    <div class="f card">{ico("gear")}<div><b>طراحی و توسعه داخلی</b><span>توسط یک تیم جوان و حرفه‌ای</span></div></div>
   </div>
   <h3 class="sub-h">خرید در ۳ قدم</h3>
   <div class="iso-steps">
@@ -325,33 +336,27 @@ html = f"""<!doctype html>
     <div class="is"><div class="blk b2"><span>۲</span></div><b>انتخاب کن</b><small>کمکت می‌کنیم بهترین گزینه رو برداری</small></div>
     <div class="is"><div class="blk b3"><span>۳</span></div><b>تحویل بگیر</b><small>ارسال سریع به سراسر کشور</small></div>
   </div>
-  <div class="cta">
-    <div><b>هنوز مطمئن نیستی؟</b><span>برای راهنمایی سریع و استعلام قیمت روز، همین الان تماس بگیر.</span></div>
-    <span class="btn ltr">{PHONE}</span>
-  </div>
-  {folio("۰۷")}
-</div></section>
+  <div class="cta"><div><b>هنوز مطمئن نیستی؟</b><span>برای راهنمایی سریع و استعلام قیمت روز، همین الان تماس بگیر.</span></div>
+    <div class="call">{ico("phone")}<div><small>تماس بگیرید</small><b class="ltr">{PHONE}</b></div></div></div>
+</div>{folio("۰۷", LABEL)}</section>
 
 <!-- 8 BACK -->
-<section class="page back">
-  <div class="ring"></div><div class="ring two"></div>
+<section class="page sky back">
+  {SUN}{sky_deco(47)}
+  {landscape(seed=48, flowers=60, h=533)}
+  <svg class="fl b2"><use href="#bolt3d"/></svg>
   <div class="back-in">
-    <div class="brand">
-      <svg class="logo-mark" style="color:#16181D;--sun:#16181D;--grid:#F28C0F"><use href="#logo"/></svg>
-      <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
-    </div>
-    <h2>قطعی برق؟<br><span>ما کنارتیم.</span></h2>
+    {brand()}
+    <h2>قطعی برق؟<br><em>ما کنارتیم.</em></h2>
     <p class="sub">تأمین و فروش تجهیزات برق قابل‌حمل با کیفیت و پشتیبانی مطمئن. برای مشاوره، استعلام قیمت و سفارش تماس بگیرید.</p>
-    <svg class="bolt-big"><use href="#boltDark"/></svg>
     <div class="contacts">
-      <div class="c wide big">{ico(I_PHONE)}<div><small>مشاوره، استعلام قیمت و سفارش</small><b class="ltr">{PHONE}</b></div></div>
-      <div class="c wide">{ico(I_PIN)}<div><small>آدرس</small><b>مشهد، بین چمران ۶ و ۸، پلاک ۷۸، طبقه ۱، واحد ۲</b></div></div>
+      <div class="c card wide big">{ico("phone", "solid")}<div><small>مشاوره، استعلام قیمت و سفارش</small><b class="ltr">{PHONE}</b></div></div>
+      <div class="c card wide">{ico("pin", "solid")}<div><small>آدرس</small><b>مشهد، بین چمران ۶ و ۸، پلاک ۷۸، طبقه ۱، واحد ۲</b></div></div>
     </div>
-    <div class="back-foot"><span>فردیس انرژی — تجهیزات برق قابل‌حمل</span><span>ارسال به سراسر کشور</span></div>
   </div>
 </section>
-
-</body>
-</html>
 """
-pathlib.Path(__file__).with_name("fardis-portable-power-brochure.html").write_text(html)
+    return page_html("فردیس انرژی - برق قابل حمل", body, CSS)
+
+
+pathlib.Path(__file__).with_name("fardis-portable-power-brochure.html").write_text(build())

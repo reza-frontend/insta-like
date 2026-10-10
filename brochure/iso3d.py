@@ -111,7 +111,29 @@ def house(iso, x, y, W, D, H, R, panels=True, door=True):
     if door:
         u = W
         iso.front(x, y, 0, W, D, H,
-                  f'<rect x="{u * .14:.0f}" y="{H * .3:.0f}" width="{u * .2:.0f}" height="{H * .28:.0f}" rx="2" fill="#BFE3FA" stroke="#16181D" stroke-width="2"/>'
-                  f'<rect x="{u * .62:.0f}" y="{H * .38:.0f}" width="{u * .16:.0f}" height="{H * .62:.0f}" rx="2" fill="#16181D"/>')
+                  f'<rect x="{u * .14:.0f}" y="{H * .3:.0f}" width="{u * .2:.0f}" height="{H * .28:.0f}" rx="2" fill="#BFE3FA" stroke="#5B6B60" stroke-width="2"/>'
+                  f'<rect x="{u * .62:.0f}" y="{H * .38:.0f}" width="{u * .16:.0f}" height="{H * .62:.0f}" rx="2" fill="#5E9E4F"/>')
         iso.side(x, y, 0, W, D, H,
-                 f'<rect x="{D * .3:.0f}" y="{H * .3:.0f}" width="{D * .4:.0f}" height="{H * .28:.0f}" rx="2" fill="#BFE3FA" stroke="#16181D" stroke-width="2"/>')
+                 f'<rect x="{D * .3:.0f}" y="{H * .3:.0f}" width="{D * .4:.0f}" height="{H * .28:.0f}" rx="2" fill="#BFE3FA" stroke="#5B6B60" stroke-width="2"/>')
+
+
+def island(iso, cx, cy, r, h=16, seed=1, flowers=14):
+    """Grass island (iso disc with earth side and a few flowers) under world point (cx, cy, 0)."""
+    import random
+    rnd = random.Random(seed)
+    sx, sy = (cx - cy) * C, (cx + cy) * S
+    rx, ry = r * 1.2247, r * 0.7071
+    iso.xs += [sx - rx, sx + rx]; iso.ys += [sy - ry, sy + ry + h + 18]
+    dots = []
+    for _ in range(flowers):
+        a, d = rnd.uniform(0, 6.283), rnd.uniform(.72, .93)
+        import math
+        fx, fy = sx + math.cos(a) * rx * d, sy + math.sin(a) * ry * d
+        col = rnd.choice(["#F28C0F", "#FFC93C", "#FFFFFF", "#F7A6B9"])
+        dots.append(f'<circle cx="{fx:.1f}" cy="{fy:.1f}" r="{rx * .022 + 1.2:.1f}" fill="{col}"/>')
+    iso.parts.insert(0,
+        f'<ellipse cx="{sx:.1f}" cy="{sy + h + 10:.1f}" rx="{rx * 1.02:.1f}" ry="{ry:.1f}" fill="#4C7A43" opacity=".16" filter="url(#blur)"/>'
+        f'<path d="M{sx - rx:.1f},{sy:.1f} v{h} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0 v{-h} z" fill="url(#islSide)"/>'
+        f'<path d="M{sx - rx:.1f},{sy:.1f} v{h * .28:.1f} a{rx:.1f},{ry:.1f} 0 0 0 {2 * rx:.1f},0 v{-h * .28:.1f} z" fill="#6FB25A"/>'
+        f'<ellipse cx="{sx:.1f}" cy="{sy:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="url(#islTop)"/>'
+        + "".join(dots))
