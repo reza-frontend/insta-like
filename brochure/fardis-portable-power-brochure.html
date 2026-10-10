@@ -9,33 +9,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --primary:#F28C0F;
-    --primary-soft:#FDF0DE;
-    --primary-deep:#C96F05;
-    --ink:#16181D;
-    --ink-2:#4A4F59;
-    --line:#E6E2DA;
-    --paper:#FBFAF7;
-    --white:#ffffff;
+    --primary:#F28C0F;--primary-soft:#FDF0DE;--primary-deep:#C96F05;
+    --ink:#16181D;--ink-2:#4A4F59;--line:#E6E2DA;--paper:#FBFAF7;--white:#fff;
     --sky-1:#BFE3FA;--sky-2:#DDF0FC;--sky-3:#F2F9FE;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   @page{size:A4;margin:0}
   html,body{background:#d9d6cf}
-  body{font-family:"Vazirmatn",Tahoma,sans-serif;color:var(--ink);line-height:1.85;
-       -webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .page{width:210mm;height:297mm;margin:10mm auto;background:var(--paper);position:relative;overflow:hidden;
-        box-shadow:0 10px 40px rgba(0,0,0,.15);break-after:page;page-break-after:always}
+  body{font-family:"Vazirmatn",Tahoma,sans-serif;color:var(--ink);line-height:1.85;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;height:297mm;margin:10mm auto;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.15);break-after:page;page-break-after:always}
   @media print{html,body{background:none}.page{margin:0;box-shadow:none}}
   .pad{padding:18mm 17mm}
   .ltr{direction:ltr;unicode-bidi:isolate}
   .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11pt;font-weight:700;color:var(--primary)}
   .eyebrow::before{content:"";width:26px;height:3px;background:var(--primary);border-radius:3px}
-  .sec-title{font-size:27pt;font-weight:900;margin:6px 0 8px;line-height:1.3}
+  .sec-title{font-size:26pt;font-weight:900;margin:6px 0 8px;line-height:1.35}
   .sec-title span{color:var(--primary)}
-  .lead{font-size:11pt;color:var(--ink-2);max-width:150mm}
-  .folio{position:absolute;bottom:10mm;left:17mm;right:17mm;display:flex;justify-content:space-between;
-         font-size:8.5pt;color:#9a9690;border-top:1px solid var(--line);padding-top:4mm}
+  .lead{font-size:11pt;color:var(--ink-2);max-width:160mm}
+  .folio{position:absolute;bottom:10mm;left:17mm;right:17mm;display:flex;justify-content:space-between;font-size:8.5pt;color:#9a9690;border-top:1px solid var(--line);padding-top:4mm}
   .folio b{color:var(--ink)}
   .ico{width:34px;height:34px;border-radius:10px;background:var(--primary-soft);display:grid;place-items:center;flex:none}
   .ico svg{width:20px;height:20px;stroke:var(--primary-deep);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -43,147 +34,183 @@
   .brand{display:flex;align-items:center;gap:10px}
   .brand-name{font-weight:900;font-size:16pt;line-height:1.3}
   .brand-name small{display:block;font-size:7.5pt;font-weight:500;letter-spacing:2.5px;color:#4A5A6A;direction:ltr;text-align:right}
+  .r3d{width:100%;height:100%;filter:drop-shadow(0 18px 18px rgba(22,24,29,.18))}
 
-  /* ---------- COVER ---------- */
+  /* COVER */
   .cover{background:linear-gradient(180deg,var(--sky-1) 0%,var(--sky-2) 55%,var(--sky-3) 100%)}
-  .cover .grid{position:absolute;inset:0;opacity:.05;
-     background-image:linear-gradient(var(--ink) 1px,transparent 1px),linear-gradient(90deg,var(--ink) 1px,transparent 1px);background-size:12mm 12mm}
+  .cover .grid{position:absolute;inset:0;opacity:.05;background-image:linear-gradient(var(--ink) 1px,transparent 1px),linear-gradient(90deg,var(--ink) 1px,transparent 1px);background-size:12mm 12mm}
   .cover .brand{position:absolute;top:18mm;right:17mm}
   .cover .sub-brand{position:absolute;top:21mm;left:17mm;font-size:9pt;font-weight:800;background:var(--ink);color:var(--primary);padding:1.5mm 4mm;border-radius:30px}
-  .cover-body{position:absolute;right:17mm;left:17mm;top:52mm}
-  .cover h1{font-size:44pt;font-weight:900;line-height:1.45;letter-spacing:-.5px}
-  .cover h1 em{font-style:normal;color:var(--primary);background:var(--ink);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3}
-  .cover .desc{font-size:13pt;font-weight:500;margin-top:5mm;max-width:120mm}
-  .cover .calm{display:inline-block;margin-top:5mm;font-size:12pt;font-weight:800;border-right:4px solid var(--primary);padding-right:4mm}
-  .hero{position:absolute;left:10mm;bottom:40mm;width:118mm}
-  .uses{position:absolute;right:17mm;bottom:58mm;display:flex;flex-direction:column;gap:3mm}
-  .use{display:flex;align-items:center;gap:3mm;background:rgba(255,255,255,.85);border-radius:30px;padding:1.5mm 4mm 1.5mm 2mm;font-size:10pt;font-weight:700;width:max-content}
-  .use .ico{width:28px;height:28px;border-radius:50%;background:var(--ink)}
-  .use .ico svg{stroke:var(--primary);width:16px;height:16px}
-  .badges{position:absolute;bottom:13mm;right:17mm;left:17mm;display:grid;grid-template-columns:1fr 1fr;gap:5mm}
-  .badge{display:flex;gap:4mm;align-items:center;background:var(--white);border-radius:4mm;padding:4mm 5mm;box-shadow:0 4px 18px rgba(30,70,110,.08)}
+  .cover-body{position:absolute;right:17mm;left:17mm;top:46mm}
+  .cover h1{font-size:42pt;font-weight:900;line-height:1.45}
+  .cover h1 em{font-style:normal;color:var(--primary);background:var(--ink);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3;box-shadow:6px 6px 0 var(--primary-deep)}
+  .cover .desc{font-size:12.5pt;font-weight:500;margin-top:4mm;max-width:115mm}
+  .cover .calm{display:inline-block;margin-top:4mm;font-size:12pt;font-weight:800;border-right:4px solid var(--primary);padding-right:4mm}
+  .hero-wrap{position:absolute;left:6mm;right:30mm;bottom:34mm;height:105mm;display:grid;place-items:center}
+  .hero3d{height:100%;filter:drop-shadow(0 24px 22px rgba(30,60,100,.22))}
+  .fl{position:absolute}
+  .fl.c1{width:14mm;height:16mm;right:24mm;bottom:118mm;transform:rotate(-8deg)}
+  .fl.c2{width:9mm;height:10mm;right:44mm;bottom:100mm;opacity:.85}
+  .fl.c3{width:7mm;height:8mm;left:22mm;bottom:150mm;opacity:.7}
+  .fl.b1{width:24mm;height:33mm;left:20mm;top:58mm;transform:rotate(-12deg);filter:drop-shadow(0 10px 10px rgba(30,60,100,.2))}
+  .badges{position:absolute;bottom:12mm;right:17mm;left:17mm;display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+  .badge{display:flex;gap:4mm;align-items:center;background:var(--white);border-radius:4mm;padding:4mm 5mm;box-shadow:0 8px 24px rgba(30,70,110,.12)}
   .badge b{display:block;font-size:11pt}
   .badge span{font-size:8.8pt;color:var(--ink-2)}
 
-  /* ---------- PRODUCTS ---------- */
-  .cats{display:flex;gap:2mm;margin-top:5mm}
-  .cats i{font-style:normal;font-size:8.8pt;font-weight:700;padding:1mm 4mm;border-radius:30px;border:1px solid var(--line);background:var(--white);color:var(--ink-2)}
-  .cats i:first-child{background:var(--ink);color:var(--primary);border-color:var(--ink)}
-  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:6mm}
-  .prod{background:var(--white);border:1px solid var(--line);border-radius:5mm;overflow:hidden;display:flex;flex-direction:column;position:relative}
-  .prod .art{height:40mm;background:var(--primary-soft);display:grid;place-items:center;position:relative}
-  .prod .art svg{height:30mm;width:auto}
-  .prod .cat{position:absolute;top:3mm;right:3mm;font-size:7.8pt;font-weight:800;background:var(--white);color:var(--primary-deep);padding:.4mm 3mm;border-radius:20px}
-  .prod .hot{position:absolute;top:3mm;left:3mm;font-size:7.8pt;font-weight:800;background:var(--ink);color:var(--primary);padding:.4mm 3mm;border-radius:20px}
-  .prod .body{padding:4.5mm 5mm 5mm;display:flex;flex-direction:column;flex:1}
-  .prod h3{font-size:12pt;font-weight:900;line-height:1.5}
-  .spec{font-size:8.6pt;font-weight:700;color:var(--primary-deep);margin:.5mm 0 1.5mm}
-  .prod p{font-size:8.9pt;color:var(--ink-2);line-height:1.75;flex:1}
-  .price{display:flex;align-items:flex-end;justify-content:space-between;margin-top:3mm;padding-top:3mm;border-top:1px dashed var(--line)}
-  .price s{display:block;font-size:9pt;color:#8a857e;text-decoration-thickness:1px}
-  .price b{font-size:14pt;font-weight:900}
-  .price b small{font-size:8pt;font-weight:600;color:var(--ink-2)}
-  .price small{display:block;font-size:8pt;color:var(--ink-2)}
-  .price .ask{background:var(--ink);color:var(--primary);font-weight:800;font-size:9pt;padding:1.2mm 3.5mm;border-radius:30px}
-  .off{background:var(--primary);color:var(--ink);font-weight:900;font-size:9pt;padding:1mm 3mm;border-radius:2.5mm}
-  .note{font-size:8pt;color:#9a9690;margin-top:4mm}
+  /* SCENARIOS */
+  .scen{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:9mm}
+  .sc{position:relative;background:var(--white);border-radius:5mm;padding:7mm 6mm 6mm;border:1px solid var(--line);box-shadow:0 2px 0 var(--line),6px 8px 0 var(--primary-soft);overflow:hidden}
+  .sc-n{position:absolute;left:5mm;top:2mm;font-size:34pt;font-weight:900;color:var(--primary-soft);line-height:1.2}
+  .sc .ico{width:42px;height:42px;border-radius:12px;background:var(--ink);box-shadow:4px 4px 0 var(--primary)}
+  .sc .ico svg{stroke:var(--primary);width:22px;height:22px}
+  .sc h3{font-size:14pt;font-weight:900;margin-top:4mm}
+  .sc p{font-size:9.4pt;color:var(--ink-2);line-height:1.8;margin:1.5mm 0 3mm;min-height:24mm}
+  .sc .pick{display:inline-block;font-size:8.5pt;font-weight:800;color:var(--primary-deep);background:var(--primary-soft);padding:.6mm 3mm;border-radius:20px}
+  .quote3d{margin-top:12mm;display:flex;align-items:center;gap:6mm;background:var(--ink);color:#fff;border-radius:6mm;padding:7mm 8mm;box-shadow:8px 10px 0 var(--primary)}
+  .quote3d .qb{width:18mm;height:25mm;flex:none}
+  .quote3d b{display:block;font-size:15pt;color:var(--primary)}
+  .quote3d span{font-size:10pt;color:#cfcac2}
 
-  /* ---------- WHY + GUIDE ---------- */
+  /* PRODUCT HERO PAGES */
+  .dark{background:radial-gradient(120% 80% at 30% 40%,#2a2e36 0%,#16181D 60%);color:#fff}
+  .dark .lead{color:#bdb8b0}
+  .dark .folio{border-color:#2b2e35;color:#77736c}.dark .folio b{color:#fff}
+  .stage{position:relative;height:112mm;margin-top:6mm;display:grid;place-items:center}
+  .stage svg{height:106mm;width:auto;position:relative;z-index:1}
+  .stage .glow{position:absolute;width:120mm;height:60mm;border-radius:50%;background:radial-gradient(closest-side,rgba(242,140,15,.35),transparent);bottom:4mm;left:50%;transform:translateX(-50%)}
+  .stage.light .glow{background:radial-gradient(closest-side,rgba(242,140,15,.22),transparent)}
+  .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:4mm}
+  .spec3d{border-radius:4mm;padding:4mm 5mm;background:var(--white);border:1px solid var(--line);box-shadow:5px 5px 0 var(--primary)}
+  .dark .spec3d{background:#22262d;border-color:#353941}
+  .spec3d small{display:block;font-size:8.5pt;color:var(--ink-2)}
+  .dark .spec3d small{color:#9a958d}
+  .spec3d b{font-size:17pt;font-weight:900;color:var(--primary);display:block;text-align:right}
+  .mini{font-size:11pt;font-weight:800;margin:7mm 0 3mm}
+  .chips{display:flex;flex-wrap:wrap;gap:3mm}
+  .chip{display:flex;align-items:center;gap:2.5mm;background:var(--white);border:1px solid var(--line);border-radius:30px;padding:1.2mm 4mm 1.2mm 1.5mm;font-size:9.4pt;font-weight:700}
+  .chip .ico{width:28px;height:28px;border-radius:50%}
+  .chip .ico svg{width:16px;height:16px}
+  .dark .chip{background:#22262d;border-color:#353941;color:#fff}
+  .dark .chip .ico{background:#F28C0F}.dark .chip .ico svg{stroke:#16181D}
+  .ask{margin-top:7mm;display:flex;align-items:center;justify-content:space-between;gap:6mm;background:var(--primary-soft);border-radius:5mm;padding:5mm 6mm}
+  .ask.dark{background:#22262d}
+  .ask small{display:block;font-size:8.3pt;color:var(--ink-2)}
+  .ask.dark small{color:#9a958d}
+  .ask > div > b{font-size:17pt;font-weight:900}
+  .call{display:flex;align-items:center;gap:3mm;background:var(--ink);color:#fff;padding:2.5mm 5mm 2.5mm 3mm;border-radius:40px;box-shadow:0 6px 0 var(--primary-deep)}
+  .ask.dark .call{background:var(--primary);color:var(--ink);box-shadow:0 6px 0 #9E5703}
+  .call .ico{background:var(--primary);border-radius:50%}
+  .call .ico svg{stroke:var(--ink)}
+  .ask.dark .call .ico{background:var(--ink)}.ask.dark .call .ico svg{stroke:var(--primary)}
+  .call small{color:#bdb8b0!important;font-size:7.8pt!important}
+  .ask.dark .call small{color:#4a3008!important}
+  .call b{font-size:13pt;font-weight:900}
+
+  /* POWERBANKS */
+  .pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:7mm}
+  .pb{background:var(--white);border:1px solid var(--line);border-radius:6mm;padding:0 6mm 6mm;position:relative;box-shadow:8px 10px 0 var(--primary-soft)}
+  .pb.hot{box-shadow:8px 10px 0 var(--primary)}
+  .pb-stage{height:100mm;margin:0 -6mm 3mm;border-radius:6mm 6mm 0 0;background:linear-gradient(180deg,var(--sky-2),var(--sky-3));display:grid;place-items:center;padding:5mm 0}
+  .pb-stage svg{height:88mm;width:auto}
+  .pb.hot .pb-stage svg{height:76mm;margin-top:12mm}
+  .pb-common{margin-top:8mm}
+  .pb .tag{position:absolute;top:4mm;right:4mm;font-size:8pt;font-weight:800;background:var(--white);color:var(--primary-deep);padding:.4mm 3mm;border-radius:20px}
+  .pb.hot .tag{background:var(--ink);color:var(--primary)}
+  .pb h3{font-size:13pt;font-weight:900}
+  .pb .model{font-size:9pt;font-weight:800;color:var(--primary-deep);text-align:right;margin-bottom:2mm}
+  .kv{display:flex;justify-content:space-between;font-size:9.4pt;padding:1.5mm 0;border-bottom:1px dashed var(--line)}
+  .kv span{color:var(--ink-2)}
+  .pb p{font-size:9pt;color:var(--ink-2);line-height:1.75;margin-top:3mm}
+
+  /* GUIDE */
+  .cmp{width:100%;border-collapse:separate;border-spacing:0;margin-top:8mm;font-size:9.2pt;background:var(--white);border:1px solid var(--line);border-radius:5mm;overflow:hidden;box-shadow:8px 10px 0 var(--primary-soft)}
+  .cmp th{background:var(--ink);color:#fff;font-size:9pt;font-weight:800;padding:3.5mm 2mm;text-align:center}
+  .cmp th:first-child{background:var(--ink)}
+  .cmp td{padding:3.2mm 2mm;border-bottom:1px solid var(--line);text-align:center}
+  .cmp tr:last-child td{border-bottom:none}
+  .cmp td:first-child{text-align:right;font-weight:800;padding-right:4mm;background:#faf7f2}
+  .cmp .y{font-style:normal;color:var(--primary);font-weight:900}
+  .needs{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:9mm}
+  .nd{border-radius:4mm;padding:4.5mm 5mm;background:var(--primary-soft);border-right:5px solid var(--primary)}
+  .nd b{display:block;font-size:10.5pt}
+  .nd span{font-size:9.2pt;color:var(--primary-deep);font-weight:700}
+
+  /* WHY */
   .feat{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:7mm}
-  .f{display:flex;gap:4mm;background:var(--white);border:1px solid var(--line);border-radius:4mm;padding:5mm}
-  .f .ico{width:40px;height:40px;border-radius:12px;background:var(--ink)}
+  .f{display:flex;gap:4mm;background:var(--white);border:1px solid var(--line);border-radius:4mm;padding:5mm;box-shadow:5px 6px 0 var(--primary-soft)}
+  .f .ico{width:42px;height:42px;border-radius:12px;background:var(--ink);box-shadow:3px 3px 0 var(--primary)}
   .f .ico svg{stroke:var(--primary);width:22px;height:22px}
   .f b{font-size:11pt;display:block}
   .f span{font-size:9pt;color:var(--ink-2)}
-  .guide{margin-top:9mm}
-  .guide h3{font-size:17pt;font-weight:900}
-  .guide > p{font-size:10pt;color:var(--ink-2)}
-  .g-table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:9.4pt}
-  .g-table th{text-align:right;font-size:8.5pt;color:var(--ink-2);font-weight:800;padding:2.5mm 3mm;border-bottom:2px solid var(--ink)}
-  .g-table td{padding:3.2mm 3mm;border-bottom:1px solid var(--line);vertical-align:middle}
-  .g-table td:first-child{font-weight:800}
-  .g-table .pick{font-weight:900;color:var(--primary-deep)}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:8mm}
-  .st{border:1.5px dashed var(--primary);border-radius:4mm;padding:4mm 5mm;background:var(--white)}
-  .st i{font-style:normal;display:inline-grid;place-items:center;width:8mm;height:8mm;border-radius:50%;background:var(--primary);font-weight:900;font-size:10pt;margin-bottom:1.5mm}
-  .st b{display:block;font-size:10.5pt}
-  .st span{font-size:8.8pt;color:var(--ink-2)}
-  .cta{margin-top:7mm;background:var(--ink);color:#fff;border-radius:5mm;padding:6mm 7mm;display:flex;align-items:center;justify-content:space-between;gap:6mm}
+  .sub-h{font-size:16pt;font-weight:900;margin:15mm 0 4mm}
+  .iso-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;text-align:center}
+  .blk{width:34mm;height:34mm;margin:10mm auto 9mm;position:relative;transform:rotateX(55deg) rotateZ(45deg);transform-style:preserve-3d;background:var(--primary);border-radius:3mm;
+       box-shadow:1px 1px 0 #E07F08,2px 2px 0 #E07F08,3px 3px 0 #D57805,4px 4px 0 #D57805,5px 5px 0 #C96F05,6px 6px 0 #C96F05,7px 7px 0 #B86504,8px 8px 0 #B86504,9px 9px 0 #A85C04,10px 10px 0 #A85C04,14px 22px 22px rgba(0,0,0,.18)}
+  .blk.b2{background:#FFA533}.blk.b3{background:var(--ink);box-shadow:1px 1px 0 #2a2e36,2px 2px 0 #2a2e36,3px 3px 0 #2a2e36,4px 4px 0 #24272e,5px 5px 0 #24272e,6px 6px 0 #1f2228,7px 7px 0 #1f2228,8px 8px 0 #1a1c21,9px 9px 0 #1a1c21,10px 10px 0 #15171b,14px 22px 22px rgba(0,0,0,.2)}
+  .blk span{position:absolute;inset:0;display:grid;place-items:center;font-size:24pt;font-weight:900;color:var(--ink);transform:rotateZ(-45deg)}
+  .blk.b3 span{color:var(--primary)}
+  .is b{display:block;font-size:12pt}
+  .is small{font-size:9pt;color:var(--ink-2)}
+  .cta{margin-top:16mm;background:var(--ink);color:#fff;border-radius:5mm;padding:6mm 7mm;display:flex;align-items:center;justify-content:space-between;gap:6mm;box-shadow:8px 10px 0 var(--primary)}
   .cta b{font-size:13pt;color:var(--primary);display:block}
   .cta span{font-size:9.4pt;color:#cfcac2}
-  .cta .btn{flex:none;background:var(--primary);color:var(--ink);font-weight:900;font-size:10pt;padding:3mm 6mm;border-radius:30px}
+  .cta .btn{flex:none;background:var(--primary);color:var(--ink);font-weight:900;font-size:12pt;padding:3mm 6mm;border-radius:30px;box-shadow:0 5px 0 #9E5703}
 
-  /* ---------- BACK ---------- */
+  /* BACK */
   .back{background:var(--primary)}
   .back .ring{position:absolute;width:260mm;height:260mm;border-radius:50%;border:30mm solid rgba(255,255,255,.12);top:-90mm;right:-110mm}
   .back .ring.two{width:160mm;height:160mm;border-width:18mm;top:auto;bottom:-60mm;right:auto;left:-50mm;border-color:rgba(0,0,0,.06)}
   .back-in{position:absolute;inset:18mm 17mm;display:flex;flex-direction:column}
   .back .brand-name small{color:#5b4320}
   .back h2{font-size:38pt;font-weight:900;line-height:1.45;margin-top:30mm}
-  .back h2 span{background:var(--ink);color:var(--primary);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3}
+  .back h2 span{background:var(--ink);color:var(--primary);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3;box-shadow:6px 6px 0 #9E5703}
   .back .sub{font-size:12.5pt;margin-top:5mm;max-width:140mm;font-weight:500}
-  .bolt{position:absolute;left:20mm;top:128mm;width:44mm;opacity:.95}
+  .bolt-big{position:absolute;left:8mm;top:118mm;width:52mm;height:72mm;transform:rotate(-10deg);filter:drop-shadow(0 16px 16px rgba(0,0,0,.25))}
+  .bolt-big use{--x:0}
   .contacts{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:4mm}
-  .c{background:rgba(255,255,255,.9);border-radius:4mm;padding:4.5mm 5mm;display:flex;gap:4mm;align-items:center}
+  .c{background:rgba(255,255,255,.92);border-radius:4mm;padding:4.5mm 5mm;display:flex;gap:4mm;align-items:center;box-shadow:0 6px 0 rgba(0,0,0,.08)}
   .c.wide{grid-column:span 2}
   .c .ico{background:var(--ink)}
   .c .ico svg{stroke:var(--primary)}
   .c small{display:block;font-size:8pt;color:var(--ink-2)}
   .c b{font-size:10.5pt;font-weight:800}
+  .c.big b{font-size:20pt;font-weight:900}
+  .c.big .ico{width:46px;height:46px;border-radius:14px}
   .back-foot{margin-top:6mm;display:flex;justify-content:space-between;font-size:8.5pt;font-weight:700}
+
 </style>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
+    <linearGradient id="podTop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC676"/><stop offset="1" stop-color="#F28C0F"/></linearGradient>
+    <linearGradient id="podSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E07F08"/><stop offset=".6" stop-color="#C96F05"/><stop offset="1" stop-color="#9E5703"/></linearGradient>
+    <filter id="blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
     <symbol id="logo" viewBox="0 0 48 48">
       <circle cx="24" cy="20" r="9" style="fill:var(--sun,#F28C0F)"/>
-      <g style="stroke:var(--sun,#F28C0F)" stroke-width="3" stroke-linecap="round">
-        <path d="M24 3v4M24 33v4M7 20h4M37 20h4M12 8l3 3M33 29l3 3M36 8l-3 3M15 29l-3 3"/>
-      </g>
+      <g style="stroke:var(--sun,#F28C0F)" stroke-width="3" stroke-linecap="round"><path d="M24 3v4M24 33v4M7 20h4M37 20h4M12 8l3 3M33 29l3 3M36 8l-3 3M15 29l-3 3"/></g>
       <path d="M6 44 L14 34 H34 L42 44 Z" fill="currentColor"/>
       <path d="M17.5 34 L15 44 M24 34 V44 M30.5 34 L33 44 M10 39 H38" style="stroke:var(--grid,#16181D)" stroke-width="1.4"/>
     </symbol>
-    <!-- power station -->
-    <symbol id="station" viewBox="0 0 160 120">
-      <rect x="10" y="30" width="140" height="84" rx="12" fill="#16181D"/>
-      <path d="M45 30 V14 a6 6 0 0 1 6-6 h58 a6 6 0 0 1 6 6 V30" fill="none" stroke="#16181D" stroke-width="8"/>
-      <rect x="22" y="44" width="54" height="30" rx="4" fill="#2a2e36"/>
-      <path d="M44 50 l-6 10 h7 l-4 9 l11-13 h-7 l4-6z" fill="#F28C0F"/>
-      <rect x="56" y="54" width="14" height="10" rx="1.5" fill="none" stroke="#F28C0F" stroke-width="1.6"/>
-      <rect x="58" y="56" width="7" height="6" fill="#F28C0F"/>
-      <g fill="#3a3f48"><circle cx="96" cy="58" r="7"/><circle cx="120" cy="58" r="7"/></g>
-      <g fill="#F28C0F"><rect x="92" y="56" width="2" height="4"/><rect x="98" y="56" width="2" height="4"/><rect x="116" y="56" width="2" height="4"/><rect x="122" y="56" width="2" height="4"/></g>
-      <g fill="#3a3f48"><rect x="22" y="86" width="12" height="7" rx="2"/><rect x="38" y="86" width="12" height="7" rx="2"/><rect x="54" y="86" width="12" height="7" rx="2"/></g>
-      <rect x="88" y="84" width="48" height="12" rx="6" fill="#F28C0F"/>
-      <rect x="10" y="104" width="140" height="10" rx="0" fill="#F28C0F" opacity=".9"/>
-      <rect x="10" y="104" width="140" height="10" rx="5" fill="none"/>
+    <symbol id="bolt3d" viewBox="0 0 110 150">
+      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#9E5703" transform="translate(10 6)"/>
+      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="url(#podTop)"/>
+      <path d="M70 6 L18 84 h32" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>
     </symbol>
-    <!-- power bank -->
-    <symbol id="bank" viewBox="0 0 120 120">
-      <rect x="30" y="10" width="60" height="100" rx="12" fill="#16181D"/>
-      <rect x="38" y="22" width="44" height="22" rx="4" fill="#2a2e36"/>
-      <text x="60" y="38" font-family="Vazirmatn,sans-serif" font-size="12" font-weight="900" fill="#F28C0F" text-anchor="middle">100%</text>
-      <g fill="#F28C0F"><rect x="40" y="56" width="40" height="5" rx="2.5"/><rect x="40" y="65" width="40" height="5" rx="2.5"/><rect x="40" y="74" width="40" height="5" rx="2.5"/><rect x="40" y="83" width="26" height="5" rx="2.5" opacity=".45"/></g>
-      <rect x="50" y="98" width="20" height="5" rx="2.5" fill="#3a3f48"/>
+    <symbol id="boltDark" viewBox="0 0 110 150">
+      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#000" opacity=".35" transform="translate(10 6)"/>
+      <path d="M70 6 L18 84 h32 l-10 60 L96 60 H62 Z" fill="#16181D"/>
+      <path d="M70 6 L18 84 h32" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="2"/>
     </symbol>
-    <!-- backup package -->
-    <symbol id="pack" viewBox="0 0 170 120">
-      <rect x="6" y="20" width="70" height="94" rx="8" fill="#16181D"/>
-      <rect x="16" y="32" width="50" height="22" rx="3" fill="#2a2e36"/>
-      <text x="41" y="47" font-family="Vazirmatn,sans-serif" font-size="10" font-weight="900" fill="#F28C0F" text-anchor="middle">2kVA</text>
-      <g fill="#3a3f48"><circle cx="26" cy="70" r="5"/><circle cx="41" cy="70" r="5"/><circle cx="56" cy="70" r="5"/></g>
-      <g stroke="#3a3f48" stroke-width="3"><path d="M18 88 h46 M18 96 h46 M18 104 h46"/></g>
-      <rect x="88" y="8" width="76" height="106" rx="8" fill="#2a2e36"/>
-      <rect x="88" y="8" width="76" height="16" rx="8" fill="#16181D"/>
-      <g fill="#F28C0F"><rect x="100" y="34" width="52" height="14" rx="3"/><rect x="100" y="54" width="52" height="14" rx="3"/><rect x="100" y="74" width="52" height="14" rx="3"/><rect x="100" y="94" width="52" height="12" rx="3" opacity=".45"/></g>
-      <path d="M76 60 C82 60 82 40 88 40" fill="none" stroke="#F28C0F" stroke-width="3"/>
+    <symbol id="cube" viewBox="0 0 40 46">
+      <path d="M20 0 L40 11.5 L20 23 L0 11.5Z" fill="#FFB24D"/><path d="M0 11.5 L20 23 V46 L0 34.5Z" fill="#F28C0F"/><path d="M40 11.5 L20 23 V46 L40 34.5Z" fill="#C96F05"/>
     </symbol>
   </defs>
 </svg>
 
-<!-- ================= PAGE 1 : COVER ================= -->
+<!-- 1 COVER -->
 <section class="page cover">
   <div class="grid"></div>
   <div class="brand">
@@ -191,127 +218,166 @@
     <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
   </div>
   <span class="sub-brand">تجهیزات برق قابل‌حمل</span>
-
   <div class="cover-body">
     <h1>برق مطمئن،<br><em>هرجا</em> که بهش<br>نیاز داری</h1>
     <p class="desc">محصولات قابل حمل و اضطراری برای خانه، محل کار، سفر و کمپینگ</p>
     <span class="calm">دیگه نگران قطع برق نباش؛ ما کنارتیم.</span>
   </div>
-
-  <svg class="hero" viewBox="0 0 300 200" aria-hidden="true">
-    <defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
-    <ellipse cx="150" cy="105" rx="150" ry="95" fill="url(#glow)" opacity=".9"/>
-    <ellipse cx="135" cy="188" rx="110" ry="8" fill="#16181D" opacity=".12"/>
-    <use href="#station" x="40" y="40" width="190" height="145"/>
-    <use href="#bank" x="200" y="88" width="98" height="98"/>
-    <g fill="#F28C0F"><path d="M58 22 l-10 18 h12 l-7 16 l19-23 h-12 l7-11z"/></g>
-    <g stroke="#F28C0F" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M250 50 l12-6 M256 66 l14 0 M246 34 l8-10"/></g>
-  </svg>
-
-  <div class="uses">
-    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span>خانه</div>
-    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3"/></svg></span>محل کار</div>
-    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 16h18l-2-7H5z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>سفر</div>
-    <div class="use"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3L2 21h20z"/><path d="M12 3v18M9 21l3-6 3 6"/></svg></span>کمپینگ</div>
-  </div>
-
+  <svg class="fl c1"><use href="#cube"/></svg><svg class="fl c2"><use href="#cube"/></svg><svg class="fl c3"><use href="#cube"/></svg>
+  <svg class="fl b1"><use href="#bolt3d"/></svg>
+  <div class="hero-wrap"><svg class="hero3d" viewBox="-143 -115 424 380" aria-hidden="true"><ellipse cx="69.3" cy="130.0" rx="212.2" ry="122.5" fill="#16181D" opacity=".18" filter="url(#blur)"/><path d="M-132.8,100.0 v20 a202.1,116.7 0 0 0 404.2,0 v-20 z" fill="url(#podSide)"/><ellipse cx="69.3" cy="100.0" rx="202.1" ry="116.7" fill="url(#podTop)"/><ellipse cx="69.3" cy="100.0" rx="165.7" ry="95.7" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/><polygon points="0.0,-14.0 147.2,71.0 65.0,118.5 -82.3,33.5" fill="#FFB24D" /><polygon points="-82.3,47.5 65.0,132.5 65.0,118.5 -82.3,33.5" fill="#F28C0F" /><polygon points="147.2,85.0 65.0,132.5 65.0,118.5 147.2,71.0" fill="#C96F05" /><polygon points="0.0,-105.0 147.2,-20.0 65.0,27.5 -82.3,-57.5" fill="#3d424c" /><polygon points="-82.3,33.5 65.0,118.5 65.0,27.5 -82.3,-57.5" fill="#262a31" /><polygon points="147.2,71.0 65.0,118.5 65.0,27.5 147.2,-20.0" fill="#16181D" /><polygon points="-4.3,-91.5 4.3,-86.5 -8.7,-79.0 -17.3,-84.0" fill="#5a606b" /><polygon points="-17.3,-60.0 -8.7,-55.0 -8.7,-79.0 -17.3,-84.0" fill="#3a3f48" /><polygon points="4.3,-62.5 -8.7,-55.0 -8.7,-79.0 4.3,-86.5" fill="#2a2e36" /><polygon points="73.6,-46.5 82.3,-41.5 69.3,-34.0 60.6,-39.0" fill="#5a606b" /><polygon points="60.6,-15.0 69.3,-10.0 69.3,-34.0 60.6,-39.0" fill="#3a3f48" /><polygon points="82.3,-17.5 69.3,-10.0 69.3,-34.0 82.3,-41.5" fill="#2a2e36" /><polygon points="-4.3,-101.5 82.3,-51.5 69.3,-44.0 -17.3,-94.0" fill="#5a606b" /><polygon points="-17.3,-84.0 69.3,-34.0 69.3,-44.0 -17.3,-94.0" fill="#3a3f48" /><polygon points="82.3,-41.5 69.3,-34.0 69.3,-44.0 82.3,-51.5" fill="#2a2e36" /><g transform="matrix(0.8660 0.5 0 1 -82.3 -57.5)"><rect x="12" y="14" width="72" height="38" rx="5" fill="#2f343c"/><path d="M32 19 l-9 15 h10 l-6 14 l17-20 h-10 l6-9z" fill="#F28C0F"/><rect x="50" y="25" width="22" height="14" rx="2" fill="none" stroke="#F28C0F" stroke-width="2"/><rect x="53" y="28" width="13" height="8" fill="#F28C0F"/><g fill="#3a3f48"><circle cx="108" cy="32" r="10"/><circle cx="142" cy="32" r="10"/></g><g fill="#F28C0F"><rect x="103" y="29" width="3" height="6"/><rect x="110" y="29" width="3" height="6"/><rect x="137" y="29" width="3" height="6"/><rect x="144" y="29" width="3" height="6"/></g><g fill="#3a3f48"><rect x="14" y="62" width="14" height="8" rx="2"/><rect x="33" y="62" width="14" height="8" rx="2"/><rect x="52" y="62" width="14" height="8" rx="2"/></g><rect x="98" y="58" width="56" height="15" rx="7.5" fill="#F28C0F"/></g><g transform="matrix(0.8660 -0.5 0 1 65.0 27.5)"><g stroke="#2f343c" stroke-width="4" stroke-linecap="round"><path d="M18 22 H77"/><path d="M18 33 H77"/><path d="M18 44 H77"/><path d="M18 55 H77"/><path d="M18 66 H77"/><path d="M18 77 H77"/></g></g><polygon points="142.9,12.5 191.4,40.5 170.6,52.5 122.1,24.5" fill="#3d424c" /><polygon points="122.1,134.5 170.6,162.5 170.6,52.5 122.1,24.5" fill="#262a31" /><polygon points="191.4,150.5 170.6,162.5 170.6,52.5 191.4,40.5" fill="#16181D" /><g transform="matrix(0.8660 0.5 0 1 122.1 24.5)"><rect x="8" y="10" width="40" height="22" rx="4" fill="#2f343c"/><text x="28" y="26" font-size="11" font-weight="900" fill="#F28C0F" text-anchor="middle" font-family="Vazirmatn">100%</text><rect x="10" y="40" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="51" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="62" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="73" width="36" height="6" rx="3" fill="#F28C0F" opacity=.4/><rect x="18" y="96" width="20" height="5" rx="2.5" fill="#3a3f48"/></g><g transform="matrix(0.8660 -0.5 0 1 170.6 52.5)"><rect x="9" y="8" width="6" height="94" rx="3" fill="#F28C0F"/></g></svg></div>
   <div class="badges">
     <div class="badge"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>ایمن و مطمئن</b><span>حفاظت باتری و اصالت کالا</span></div></div>
     <div class="badge"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><div><b>ارسال سریع</b><span>به سراسر کشور</span></div></div>
   </div>
 </section>
 
-<!-- ================= PAGE 2 : PRODUCTS ================= -->
+<!-- 2 SCENARIOS -->
 <section class="page"><div class="pad">
-  <span class="eyebrow">محصولات ما</span>
-  <h2 class="sec-title">برای هر <span>نیاز</span>، یک منبع برق</h2>
-  <p class="lead">از پکیج برق اضطراری خانه و مغازه تا پاوربانکی که توی کیف جا می‌شه.</p>
-  <div class="cats"><i>همه</i><i>پاوراستیشن</i><i>پاوربانک</i><i>پکیج</i></div>
-
-  <div class="prod-grid">
-    <div class="prod">
-      <div class="art"><span class="cat">پکیج</span><svg viewBox="0 0 170 120"><use href="#pack"/></svg></div>
-      <div class="body">
-        <h3>پکیج برق اضطراری ۳.۲ کیلووات</h3>
-        <div class="spec ltr" style="text-align:right">Inverter 2kVA · Battery 3.2kWh</div>
-        <p>برای خونه و مغازه‌ای که قطعی برق اذیتش می‌کنه؛ یخچال، روشنایی و وسایل ضروری رو ساعت‌ها روشن نگه می‌داره.</p>
-        <div class="price"><div><small>قیمت</small><b>استعلامی</b></div><span class="ask">استعلام در دایرکت ‹</span></div>
-      </div>
+  <span class="eyebrow">کجا به کارت میاد؟</span>
+  <h2 class="sec-title">قطعی برق، دیگه <span>مسئله</span> نیست</h2>
+  <p class="lead">چه توی خونه باشی، چه سر کار یا وسط جاده؛ یه منبع برق مطمئن همیشه همراهته.</p>
+  <div class="scen">
+    <div class="sc">
+      <div class="sc-n">۰۱</div><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span>
+      <h3>خانه</h3><p>وقتی برق می‌ره، یخچال، روشنایی و مودم روشن می‌مونن و زندگی روال عادیش رو ادامه می‌ده.</p>
+      <span class="pick">پکیج برق اضطراری</span>
     </div>
-    <div class="prod">
-      <div class="art"><span class="cat">پاوراستیشن</span><svg viewBox="0 0 160 120"><use href="#station"/></svg></div>
-      <div class="body">
-        <h3>پاور استیشن <span class="ltr">PS-OT600B</span></h3>
-        <div class="spec ltr" style="text-align:right">Inverter 900VA · Battery 1kWh</div>
-        <p>همراه سبک و قابل حمل برای سفر و کمپینگ؛ شارژ گوشی، لپ‌تاپ و روشنایی چادر رو تضمین می‌کنه.</p>
-        <div class="price"><div><small>قیمت</small><b>استعلامی</b></div><span class="ask">استعلام در دایرکت ‹</span></div>
-      </div>
+    <div class="sc">
+      <div class="sc-n">۰۲</div><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3"/></svg></span>
+      <h3>محل کار و مغازه</h3><p>کارتخوان، روشنایی و سیستم فروش قطع نمی‌شن؛ مشتری منتظر نمی‌مونه.</p>
+      <span class="pick">پکیج برق اضطراری</span>
     </div>
-    <div class="prod">
-      <div class="art"><span class="cat">پاوربانک</span><svg viewBox="0 0 120 120"><use href="#bank"/></svg></div>
-      <div class="body">
-        <h3>پاوربانک ۶۰ آمپرساعت <span class="ltr">PB600-100W</span></h3>
-        <div class="spec ltr" style="text-align:right">60Ah · USB-C 100W</div>
-        <p>برای کسایی که یک روز کامل بیرون‌اند؛ چند بار شارژ کامل گوشی و لپ‌تاپ با یک بار شارژ خودش.</p>
-        <div class="price"><div><small>قیمت</small><b>استعلامی</b></div><span class="ask">استعلام در دایرکت ‹</span></div>
-      </div>
+    <div class="sc">
+      <div class="sc-n">۰۳</div><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 16h18l-2-7H5z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
+      <h3>سفر</h3><p>شارژ گوشی و لپ‌تاپ در طول مسیر، بدون نگرانی از پیدا کردن پریز.</p>
+      <span class="pick">پاوربانک‌ها و پاور استیشن</span>
     </div>
-    <div class="prod">
-      <div class="art"><span class="cat">پاوربانک</span><span class="hot">★ پرفروش</span><svg viewBox="0 0 120 120"><use href="#bank" transform="translate(60 60) scale(.85) translate(-60 -60)"/></svg></div>
-      <div class="body">
-        <h3>پاوربانک ۴۰ آمپرساعت <span class="ltr">PB400-100W</span></h3>
-        <div class="spec ltr" style="text-align:right">40Ah · USB-C 100W</div>
-        <p>سبک‌ترین انتخاب برای مسافرت‌های روزمره؛ توی کیف جا می‌شه ولی برای شارژ سریع گوشی و لپ‌تاپ کم نمیاره.</p>
-        <div class="price"><div><small>قیمت</small><b>استعلامی</b></div><span class="ask">استعلام در دایرکت ‹</span></div>
-      </div>
+    <div class="sc">
+      <div class="sc-n">۰۴</div><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3L2 21h20z"/><path d="M12 3v18M9 21l3-6 3 6"/></svg></span>
+      <h3>کمپینگ</h3><p>روشنایی چادر، شارژ وسایل و یه شب آروم توی طبیعت، دور از شبکه برق.</p>
+      <span class="pick">پاور استیشن</span>
     </div>
   </div>
-  <p class="note">* برای استعلام قیمت روز و موجودی، در دایرکت یا با شماره <span class="ltr">0915 550 3263</span> تماس بگیرید.</p>
-
+  <div class="quote3d">
+    <svg class="qb"><use href="#bolt3d"/></svg>
+    <div><b>برق، همون‌جایی که لازمش داری.</b><span>از یه پاوربانک توی کیف تا پکیجی که کل خونه رو سرپا نگه می‌داره.</span></div>
+  </div>
   <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۲</span></div>
 </div></section>
 
-<!-- ================= PAGE 3 : WHY + GUIDE ================= -->
-<section class="page"><div class="pad">
-  <span class="eyebrow">چرا فردیس انرژی؟</span>
-  <h2 class="sec-title">خیالت از <span>برق</span> راحت</h2>
-
-  <div class="feat">
-    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span><div><b>ساخته شده برای ایران</b><span>سازگار با شرایط اقلیمی و نیاز کاربران ایرانی</span></div></div>
-    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>ضمانت و خدمات</b><span>گارانتی معتبر و خدمات پس از فروش</span></div></div>
-    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><div><b>پشتیبانی سریع در دایرکت</b><span>پاسخ‌گویی صمیمی و تخصصی</span></div></div>
-    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span><div><b>طراحی و توسعه داخلی</b><span>توسط یک تیم جوان و حرفه‌ای</span></div></div>
+<!-- 3 PACKAGE -->
+<section class="page dark"><div class="pad">
+  <span class="eyebrow">پکیج</span>
+  <h2 class="sec-title">پکیج برق اضطراری <span>۳.۲ کیلووات</span></h2>
+  <p class="lead">برای خونه و مغازه‌ای که قطعی برق اذیتش می‌کنه؛ یخچال، روشنایی و وسایل ضروری رو ساعت‌ها روشن نگه می‌داره.</p>
+  <div class="stage"><svg class="r3d" viewBox="-141 -104 334 304" aria-hidden="true"><ellipse cx="26.0" cy="91.0" rx="164.6" ry="95.0" fill="#16181D" opacity=".18" filter="url(#blur)"/><path d="M-130.8,65.0 v16 a156.8,90.5 0 0 0 313.5,0 v-16 z" fill="url(#podSide)"/><ellipse cx="26.0" cy="65.0" rx="156.8" ry="90.5" fill="url(#podTop)"/><ellipse cx="26.0" cy="65.0" rx="128.5" ry="74.2" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/><polygon points="-26.0,-83.0 29.4,-51.0 -18.2,-23.5 -73.6,-55.5" fill="#3d424c" /><polygon points="-73.6,42.5 -18.2,74.5 -18.2,-23.5 -73.6,-55.5" fill="#262a31" /><polygon points="29.4,47.0 -18.2,74.5 -18.2,-23.5 29.4,-51.0" fill="#16181D" /><g transform="matrix(0.8660 0.5 0 1 -73.6 -55.5)"><rect x="9" y="12" width="46" height="24" rx="4" fill="#2f343c"/><text x="32" y="29" font-size="12" font-weight="900" fill="#F28C0F" text-anchor="middle" font-family="Vazirmatn">2kVA</text><g fill="#3a3f48"><circle cx="18" cy="50" r="5"/><circle cx="32" cy="50" r="5"/><circle cx="46" cy="50" r="5"/></g><g stroke="#2f343c" stroke-width="3"><path d="M10 66 H54 M10 74 H54 M10 82 H54"/></g></g><g transform="matrix(0.8660 -0.5 0 1 -18.2 -23.5)"><rect x="8" y="10" width="5" height="78" rx="2.5" fill="#F28C0F"/></g><polygon points="72.7,-86.0 138.6,-48.0 77.9,-13.0 12.1,-51.0" fill="#5a606b" /><polygon points="12.1,77.0 77.9,115.0 77.9,-13.0 12.1,-51.0" fill="#3a3f48" /><polygon points="138.6,80.0 77.9,115.0 77.9,-13.0 138.6,-48.0" fill="#2a2e36" /><polygon points="72.7,-94.0 138.6,-56.0 77.9,-21.0 12.1,-59.0" fill="#3d424c" /><polygon points="12.1,-51.0 77.9,-13.0 77.9,-21.0 12.1,-59.0" fill="#262a31" /><polygon points="138.6,-48.0 77.9,-13.0 77.9,-21.0 138.6,-56.0" fill="#16181D" /><g transform="matrix(0.8660 0.5 0 1 12.1 -51.0)"><rect x="10" y="14" width="56" height="17" rx="3" fill="#F28C0F"/><rect x="10" y="38" width="56" height="17" rx="3" fill="#F28C0F"/><rect x="10" y="62" width="56" height="17" rx="3" fill="#F28C0F"/><rect x="10" y="86" width="56" height="17" rx="3" fill="#F28C0F"/><rect x="10" y="110" width="56" height="17" rx="3" fill="#F28C0F" opacity=.45/></g><g transform="matrix(0.8660 -0.5 0 1 77.9 -13.0)"><text x="35" y="70" font-size="10" font-weight="900" fill="#F28C0F" text-anchor="middle" font-family="Vazirmatn">3.2kWh</text></g></svg><div class="glow"></div></div>
+  <div class="specs">
+    <div class="spec3d"><small>اینورتر</small><b class="ltr">2 kVA</b></div>
+    <div class="spec3d"><small>ظرفیت باتری</small><b class="ltr">3.2 kWh</b></div>
+    <div class="spec3d"><small>کاربرد</small><b>خانه و مغازه</b></div>
   </div>
-
-  <div class="guide">
-    <h3>کدوم محصول مناسب شماست؟</h3>
-    <p>یه نگاه به نیازت بنداز و انتخابت رو راحت کن.</p>
-    <table class="g-table">
-      <thead><tr><th>نیاز شما</th><th>کجا به کارتون میاد</th><th>پیشنهاد ما</th></tr></thead>
-      <tbody>
-        <tr><td>قطعی برق خونه یا مغازه</td><td>یخچال، روشنایی، مودم، وسایل ضروری</td><td class="pick">پکیج برق اضطراری ۳.۲ کیلووات</td></tr>
-        <tr><td>سفر جاده‌ای و کمپینگ</td><td>روشنایی چادر، لپ‌تاپ، گوشی، وسایل کوچک</td><td class="pick">پاور استیشن <span class="ltr">PS-OT600B</span></td></tr>
-        <tr><td>یه روز کامل بیرون از خونه</td><td>چند بار شارژ کامل گوشی و لپ‌تاپ</td><td class="pick">پاوربانک <span class="ltr">PB600-100W</span></td></tr>
-        <tr><td>همراه روزمره توی کیف</td><td>شارژ سریع گوشی و لپ‌تاپ در مسیر</td><td class="pick">پاوربانک <span class="ltr">PB400-100W</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="steps">
-    <div class="st"><i>۱</i><b>پیام بده</b><span>نیازت رو در دایرکت یا تلفنی بگو</span></div>
-    <div class="st"><i>۲</i><b>انتخاب کن</b><span>کمکت می‌کنیم بهترین گزینه رو برداری</span></div>
-    <div class="st"><i>۳</i><b>تحویل بگیر</b><span>ارسال سریع به سراسر کشور</span></div>
-  </div>
-
-  <div class="cta">
-    <div><b>هنوز مطمئن نیستی؟</b><span>اگه مطمئن نیستی کدوم محصول به کارت میاد، برای راهنمایی سریع پیام بده.</span></div>
-    <span class="btn">پشتیبانی در دایرکت</span>
-  </div>
-
+  <h4 class="mini">وسایلی که روشن نگه می‌داره</h4>
+  <div class="chips"><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M6 9h12M9 5v2M9 12v3"/></svg></span><span>یخچال</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></span><span>روشنایی</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg></span><span>مودم و اینترنت</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></span><span>تلویزیون</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h2"/></svg></span><span>کارتخوان و صندوق</span></div></div>
+  <div class="ask dark"><div><small>قیمت</small><b>استعلامی</b></div><div class="call"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><small>برای استعلام تماس بگیرید</small><b class="ltr">0915 550 3263</b></div></div></div>
   <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۳</span></div>
 </div></section>
 
-<!-- ================= PAGE 4 : BACK ================= -->
+<!-- 4 STATION -->
+<section class="page"><div class="pad">
+  <span class="eyebrow">پاوراستیشن</span>
+  <h2 class="sec-title">پاور استیشن <span class="ltr">PS-OT600B</span></h2>
+  <p class="lead">همراه سبک و قابل حمل برای سفر و کمپینگ؛ شارژ گوشی، لپ‌تاپ و روشنایی چادر رو تضمین می‌کنه.</p>
+  <div class="stage light"><svg class="r3d" viewBox="-124 -115 314 310" aria-hidden="true"><ellipse cx="32.9" cy="92.0" rx="154.3" ry="89.1" fill="#16181D" opacity=".18" filter="url(#blur)"/><path d="M-114.1,66.0 v16 a147.0,84.9 0 0 0 293.9,0 v-16 z" fill="url(#podSide)"/><ellipse cx="32.9" cy="66.0" rx="147.0" ry="84.9" fill="url(#podTop)"/><ellipse cx="32.9" cy="66.0" rx="120.5" ry="69.6" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/><polygon points="0.0,-14.0 147.2,71.0 65.0,118.5 -82.3,33.5" fill="#FFB24D" /><polygon points="-82.3,47.5 65.0,132.5 65.0,118.5 -82.3,33.5" fill="#F28C0F" /><polygon points="147.2,85.0 65.0,132.5 65.0,118.5 147.2,71.0" fill="#C96F05" /><polygon points="0.0,-105.0 147.2,-20.0 65.0,27.5 -82.3,-57.5" fill="#3d424c" /><polygon points="-82.3,33.5 65.0,118.5 65.0,27.5 -82.3,-57.5" fill="#262a31" /><polygon points="147.2,71.0 65.0,118.5 65.0,27.5 147.2,-20.0" fill="#16181D" /><polygon points="-4.3,-91.5 4.3,-86.5 -8.7,-79.0 -17.3,-84.0" fill="#5a606b" /><polygon points="-17.3,-60.0 -8.7,-55.0 -8.7,-79.0 -17.3,-84.0" fill="#3a3f48" /><polygon points="4.3,-62.5 -8.7,-55.0 -8.7,-79.0 4.3,-86.5" fill="#2a2e36" /><polygon points="73.6,-46.5 82.3,-41.5 69.3,-34.0 60.6,-39.0" fill="#5a606b" /><polygon points="60.6,-15.0 69.3,-10.0 69.3,-34.0 60.6,-39.0" fill="#3a3f48" /><polygon points="82.3,-17.5 69.3,-10.0 69.3,-34.0 82.3,-41.5" fill="#2a2e36" /><polygon points="-4.3,-101.5 82.3,-51.5 69.3,-44.0 -17.3,-94.0" fill="#5a606b" /><polygon points="-17.3,-84.0 69.3,-34.0 69.3,-44.0 -17.3,-94.0" fill="#3a3f48" /><polygon points="82.3,-41.5 69.3,-34.0 69.3,-44.0 82.3,-51.5" fill="#2a2e36" /><g transform="matrix(0.8660 0.5 0 1 -82.3 -57.5)"><rect x="12" y="14" width="72" height="38" rx="5" fill="#2f343c"/><path d="M32 19 l-9 15 h10 l-6 14 l17-20 h-10 l6-9z" fill="#F28C0F"/><rect x="50" y="25" width="22" height="14" rx="2" fill="none" stroke="#F28C0F" stroke-width="2"/><rect x="53" y="28" width="13" height="8" fill="#F28C0F"/><g fill="#3a3f48"><circle cx="108" cy="32" r="10"/><circle cx="142" cy="32" r="10"/></g><g fill="#F28C0F"><rect x="103" y="29" width="3" height="6"/><rect x="110" y="29" width="3" height="6"/><rect x="137" y="29" width="3" height="6"/><rect x="144" y="29" width="3" height="6"/></g><g fill="#3a3f48"><rect x="14" y="62" width="14" height="8" rx="2"/><rect x="33" y="62" width="14" height="8" rx="2"/><rect x="52" y="62" width="14" height="8" rx="2"/></g><rect x="98" y="58" width="56" height="15" rx="7.5" fill="#F28C0F"/></g><g transform="matrix(0.8660 -0.5 0 1 65.0 27.5)"><g stroke="#2f343c" stroke-width="4" stroke-linecap="round"><path d="M18 22 H77"/><path d="M18 33 H77"/><path d="M18 44 H77"/><path d="M18 55 H77"/><path d="M18 66 H77"/><path d="M18 77 H77"/></g></g></svg><div class="glow"></div></div>
+  <div class="specs">
+    <div class="spec3d"><small>اینورتر</small><b class="ltr">900 VA</b></div>
+    <div class="spec3d"><small>ظرفیت باتری</small><b class="ltr">1 kWh</b></div>
+    <div class="spec3d"><small>کاربرد</small><b>سفر و کمپینگ</b></div>
+  </div>
+  <h4 class="mini">وسایلی که روشن نگه می‌داره</h4>
+  <div class="chips"><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span>گوشی</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg></span><span>لپ‌تاپ</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></span><span>روشنایی چادر</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 10c0-4 1-7 4-7s2 5-2 7M14 12c4 0 7 1 7 4s-5 2-7-2M12 14c0 4-1 7-4 7s-2-5 2-7M10 12c-4 0-7-1-7-4s5-2 7 2"/></svg></span><span>پنکه کوچک</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg></span><span>مودم</span></div></div>
+  <div class="ask"><div><small>قیمت</small><b>استعلامی</b></div><div class="call"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><small>برای استعلام تماس بگیرید</small><b class="ltr">0915 550 3263</b></div></div></div>
+  <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۴</span></div>
+</div></section>
+
+<!-- 5 POWERBANKS -->
+<section class="page"><div class="pad">
+  <span class="eyebrow">پاوربانک</span>
+  <h2 class="sec-title">پاوربانک‌های <span>۱۰۰ واتی</span></h2>
+  <p class="lead">خروجی <span class="ltr">USB-C 100W</span> برای شارژ سریع گوشی و لپ‌تاپ؛ در دو ظرفیت، برای دو سبک زندگی.</p>
+  <div class="pb-grid">
+    <div class="pb">
+      <div class="pb-stage"><svg class="r3d" viewBox="-60 -120 147 221" aria-hidden="true"><ellipse cx="13.9" cy="46.0" rx="66.9" ry="38.6" fill="#16181D" opacity=".18" filter="url(#blur)"/><path d="M-49.8,20.0 v16 a63.7,36.8 0 0 0 127.4,0 v-16 z" fill="url(#podSide)"/><ellipse cx="13.9" cy="20.0" rx="63.7" ry="36.8" fill="url(#podTop)"/><ellipse cx="13.9" cy="20.0" rx="52.2" ry="30.2" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/><polygon points="0.0,-110.0 48.5,-82.0 27.7,-70.0 -20.8,-98.0" fill="#3d424c" /><polygon points="-20.8,12.0 27.7,40.0 27.7,-70.0 -20.8,-98.0" fill="#262a31" /><polygon points="48.5,28.0 27.7,40.0 27.7,-70.0 48.5,-82.0" fill="#16181D" /><g transform="matrix(0.8660 0.5 0 1 -20.8 -98.0)"><rect x="8" y="10" width="40" height="22" rx="4" fill="#2f343c"/><text x="28" y="26" font-size="11" font-weight="900" fill="#F28C0F" text-anchor="middle" font-family="Vazirmatn">100%</text><rect x="10" y="40" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="51" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="62" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="73" width="36" height="6" rx="3" fill="#F28C0F" opacity=.4/><rect x="18" y="96" width="20" height="5" rx="2.5" fill="#3a3f48"/></g><g transform="matrix(0.8660 -0.5 0 1 27.7 -70.0)"><rect x="9" y="8" width="6" height="94" rx="3" fill="#F28C0F"/></g></svg></div>
+      <span class="tag">پاوربانک</span>
+      <h3>پاوربانک ۶۰ آمپرساعت</h3><div class="model ltr">PB600-100W</div>
+      <div class="kv"><span>ظرفیت</span><b class="ltr">60Ah</b></div>
+      <div class="kv"><span>خروجی</span><b class="ltr">USB-C 100W</b></div>
+      <p>برای کسایی که یک روز کامل بیرون‌اند؛ چند بار شارژ کامل گوشی و لپ‌تاپ با یک بار شارژ خودش.</p>
+    </div>
+    <div class="pb hot">
+      <div class="pb-stage"><svg class="r3d" viewBox="-60 -102 147 203" aria-hidden="true"><ellipse cx="13.9" cy="46.0" rx="66.9" ry="38.6" fill="#16181D" opacity=".18" filter="url(#blur)"/><path d="M-49.8,20.0 v16 a63.7,36.8 0 0 0 127.4,0 v-16 z" fill="url(#podSide)"/><ellipse cx="13.9" cy="20.0" rx="63.7" ry="36.8" fill="url(#podTop)"/><ellipse cx="13.9" cy="20.0" rx="52.2" ry="30.2" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/><polygon points="0.0,-92.0 48.5,-64.0 27.7,-52.0 -20.8,-80.0" fill="#3d424c" /><polygon points="-20.8,12.0 27.7,40.0 27.7,-52.0 -20.8,-80.0" fill="#262a31" /><polygon points="48.5,28.0 27.7,40.0 27.7,-52.0 48.5,-64.0" fill="#16181D" /><g transform="matrix(0.8660 0.5 0 1 -20.8 -80.0)"><rect x="8" y="10" width="40" height="22" rx="4" fill="#2f343c"/><text x="28" y="26" font-size="11" font-weight="900" fill="#F28C0F" text-anchor="middle" font-family="Vazirmatn">100%</text><rect x="10" y="40" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="51" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="62" width="36" height="6" rx="3" fill="#F28C0F"/><rect x="10" y="73" width="36" height="6" rx="3" fill="#F28C0F" opacity=.4/><rect x="18" y="78" width="20" height="5" rx="2.5" fill="#3a3f48"/></g><g transform="matrix(0.8660 -0.5 0 1 27.7 -52.0)"><rect x="9" y="8" width="6" height="76" rx="3" fill="#F28C0F"/></g></svg></div>
+      <span class="tag">★ پرفروش</span>
+      <h3>پاوربانک ۴۰ آمپرساعت</h3><div class="model ltr">PB400-100W</div>
+      <div class="kv"><span>ظرفیت</span><b class="ltr">40Ah</b></div>
+      <div class="kv"><span>خروجی</span><b class="ltr">USB-C 100W</b></div>
+      <p>سبک‌ترین انتخاب برای مسافرت‌های روزمره؛ توی کیف جا می‌شه ولی برای شارژ سریع گوشی و لپ‌تاپ کم نمیاره.</p>
+    </div>
+  </div>
+  <div class="pb-common"><div class="chips"><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span>شارژ سریع گوشی</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg></span><span>شارژ لپ‌تاپ با USB-C</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 16h18l-2-7H5z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><span>همراه سفر</span></div><div class="chip"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><span>حفاظت باتری</span></div></div></div>
+  <div class="ask"><div><small>قیمت</small><b>استعلامی</b></div><div class="call"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><small>برای استعلام تماس بگیرید</small><b class="ltr">0915 550 3263</b></div></div></div>
+  <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۵</span></div>
+</div></section>
+
+<!-- 6 GUIDE -->
+<section class="page"><div class="pad">
+  <span class="eyebrow">راهنمای انتخاب</span>
+  <h2 class="sec-title">کدوم محصول <span>مناسب</span> شماست؟</h2>
+  <p class="lead">اگه مطمئن نیستی کدوم محصول به کارت میاد، این جدول کمکت می‌کنه؛ برای راهنمایی دقیق‌تر هم کافیه تماس بگیری.</p>
+  <table class="cmp">
+    <thead><tr><th></th><th>پکیج اضطراری</th><th>پاور استیشن</th><th>پاوربانک ۶۰Ah</th><th>پاوربانک ۴۰Ah</th></tr></thead>
+    <tbody>
+      <tr><td>مدل</td><td class="ltr">2kVA / 3.2kWh</td><td class="ltr">PS-OT600B</td><td class="ltr">PB600-100W</td><td class="ltr">PB400-100W</td></tr>
+      <tr><td>توان / ظرفیت</td><td class="ltr">2kVA · 3.2kWh</td><td class="ltr">900VA · 1kWh</td><td class="ltr">60Ah · 100W</td><td class="ltr">40Ah · 100W</td></tr>
+      <tr><td>قابل حمل</td><td>ثابت</td><td><i class="y">●</i> دسته‌دار</td><td><i class="y">●</i> کیف و کوله</td><td><i class="y">●</i> جیب و کیف</td></tr>
+      <tr><td>یخچال و روشنایی خانه</td><td><i class="y">✓</i></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>مغازه و کارتخوان</td><td><i class="y">✓</i></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>سفر و کمپینگ</td><td>—</td><td><i class="y">✓</i></td><td><i class="y">✓</i></td><td><i class="y">✓</i></td></tr>
+      <tr><td>شارژ گوشی و لپ‌تاپ</td><td><i class="y">✓</i></td><td><i class="y">✓</i></td><td><i class="y">✓</i></td><td><i class="y">✓</i></td></tr>
+    </tbody>
+  </table>
+  <div class="needs">
+    <div class="nd"><b>قطعی برق خونه یا مغازه</b><span>← پکیج برق اضطراری ۳.۲ کیلووات</span></div>
+    <div class="nd"><b>سفر جاده‌ای و کمپینگ</b><span>← پاور استیشن <span class="ltr">PS-OT600B</span></span></div>
+    <div class="nd"><b>یه روز کامل بیرون از خونه</b><span>← پاوربانک <span class="ltr">PB600-100W</span></span></div>
+    <div class="nd"><b>همراه روزمره توی کیف</b><span>← پاوربانک <span class="ltr">PB400-100W</span></span></div>
+  </div>
+  <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۶</span></div>
+</div></section>
+
+<!-- 7 WHY + STEPS -->
+<section class="page"><div class="pad">
+  <span class="eyebrow">چرا فردیس انرژی؟</span>
+  <h2 class="sec-title">خیالت از <span>برق</span> راحت</h2>
+  <div class="feat">
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><div><b>ساخته شده برای ایران</b><span>سازگار با شرایط اقلیمی و نیاز کاربران ایرانی</span></div></div>
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>ضمانت و خدمات</b><span>گارانتی معتبر و خدمات پس از فروش</span></div></div>
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><b>پشتیبانی تلفنی سریع</b><span>پاسخ‌گویی صمیمی و تخصصی</span></div></div>
+    <div class="f"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span><div><b>طراحی و توسعه داخلی</b><span>توسط یک تیم جوان و حرفه‌ای</span></div></div>
+  </div>
+  <h3 class="sub-h">خرید در ۳ قدم</h3>
+  <div class="iso-steps">
+    <div class="is"><div class="blk"><span>۱</span></div><b>تماس بگیر</b><small>نیازت رو تلفنی بگو</small></div>
+    <div class="is"><div class="blk b2"><span>۲</span></div><b>انتخاب کن</b><small>کمکت می‌کنیم بهترین گزینه رو برداری</small></div>
+    <div class="is"><div class="blk b3"><span>۳</span></div><b>تحویل بگیر</b><small>ارسال سریع به سراسر کشور</small></div>
+  </div>
+  <div class="cta">
+    <div><b>هنوز مطمئن نیستی؟</b><span>برای راهنمایی سریع و استعلام قیمت روز، همین الان تماس بگیر.</span></div>
+    <span class="btn ltr">0915 550 3263</span>
+  </div>
+  <div class="folio"><span><b>فردیس انرژی</b> — تجهیزات برق قابل‌حمل</span><span>۰۷</span></div>
+</div></section>
+
+<!-- 8 BACK -->
 <section class="page back">
   <div class="ring"></div><div class="ring two"></div>
   <div class="back-in">
@@ -320,14 +386,11 @@
       <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
     </div>
     <h2>قطعی برق؟<br><span>ما کنارتیم.</span></h2>
-    <p class="sub">تأمین و فروش تجهیزات برق قابل‌حمل با کیفیت و پشتیبانی مطمئن. برای مشاوره و سفارش با ما در تماس باش.</p>
-
-    <svg class="bolt" viewBox="0 0 100 140" aria-hidden="true"><path d="M62 4 L14 78 h30 l-10 58 L86 56 H54 Z" fill="#16181D"/></svg>
-
+    <p class="sub">تأمین و فروش تجهیزات برق قابل‌حمل با کیفیت و پشتیبانی مطمئن. برای مشاوره، استعلام قیمت و سفارش تماس بگیرید.</p>
+    <svg class="bolt-big"><use href="#boltDark"/></svg>
     <div class="contacts">
-      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div><div><small>تلفن تماس</small><b class="ltr">0915 550 3263</b></div></div>
-      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div><div><small>پشتیبانی و سفارش</small><b>دایرکت اینستاگرام</b></div></div>
-      <div class="c wide"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><small>آدرس</small><b>مشهد، بین چمران ۶ و ۸، پلاک ۷۸، طبقه ۱، واحد ۲</b></div></div>
+      <div class="c wide big"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><small>مشاوره، استعلام قیمت و سفارش</small><b class="ltr">0915 550 3263</b></div></div>
+      <div class="c wide"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><small>آدرس</small><b>مشهد، بین چمران ۶ و ۸، پلاک ۷۸، طبقه ۱، واحد ۲</b></div></div>
     </div>
     <div class="back-foot"><span>فردیس انرژی — تجهیزات برق قابل‌حمل</span><span>ارسال به سراسر کشور</span></div>
   </div>
