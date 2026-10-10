@@ -40,25 +40,26 @@
   .folio b{color:var(--ink)}
 
   /* ---------- COVER ---------- */
-  .cover{background:var(--ink);color:var(--white)}
+  .cover{background:var(--primary);color:var(--ink)}
+  .cover .logo-mark{--sun:#16181D;--grid:#F28C0F}
   .cover .sun{position:absolute;top:-55mm;left:-55mm;width:190mm;height:190mm}
-  .cover .grid{position:absolute;inset:0;opacity:.07;
-     background-image:linear-gradient(var(--white) 1px,transparent 1px),linear-gradient(90deg,var(--white) 1px,transparent 1px);
+  .cover .grid{position:absolute;inset:0;opacity:.08;
+     background-image:linear-gradient(var(--ink) 1px,transparent 1px),linear-gradient(90deg,var(--ink) 1px,transparent 1px);
      background-size:12mm 12mm}
   .cover .brand{position:absolute;top:18mm;right:17mm;display:flex;align-items:center;gap:10px}
   .logo-mark{width:44px;height:44px}
   .brand-name{font-weight:900;font-size:16pt;letter-spacing:-.3px}
   .brand-name small{display:block;font-size:7.5pt;font-weight:500;letter-spacing:2.5px;color:#b9b5ad;direction:ltr;text-align:right}
   .cover-body{position:absolute;right:17mm;left:17mm;bottom:84mm}
-  .cover-tag{display:inline-block;background:var(--primary);color:var(--ink);font-weight:800;font-size:10pt;
+  .cover-tag{display:inline-block;background:var(--ink);color:var(--primary);font-weight:800;font-size:10pt;
              padding:5px 14px;border-radius:40px;margin-bottom:8mm}
-  .cover h1{font-size:50pt;font-weight:900;line-height:1.12;letter-spacing:-1px}
-  .cover h1 em{font-style:normal;color:var(--primary)}
-  .cover p{font-size:13pt;color:#cfcac2;margin-top:6mm;max-width:130mm}
+  .cover h1{font-size:50pt;font-weight:900;line-height:1.5;letter-spacing:-1px}
+  .cover h1 em{font-style:normal;color:var(--primary);background:var(--ink);padding:0 4mm;border-radius:3mm;display:inline-block;line-height:1.3}
+  .cover p{font-size:13pt;color:var(--ink);font-weight:500;margin-top:6mm;max-width:130mm}
   .panels{position:absolute;bottom:30mm;opacity:.9;left:0;right:0;height:46mm}
-  .cover-strip{position:absolute;bottom:12mm;right:17mm;left:17mm;display:flex;gap:6mm;font-size:9.5pt;color:#fff}
-  .cover-strip div{flex:1;border-top:2px solid var(--primary);padding-top:3mm;font-weight:700}
-  .cover-strip span{display:block;font-weight:400;color:#b9b5ad;font-size:8.5pt}
+  .cover-strip{position:absolute;bottom:12mm;right:17mm;left:17mm;display:flex;gap:6mm;font-size:9.5pt;color:var(--ink)}
+  .cover-strip div{flex:1;border-top:2px solid var(--ink);padding-top:3mm;font-weight:700}
+  .cover-strip span{display:block;font-weight:500;color:#5b4320;font-size:8.5pt}
 
   /* ---------- ABOUT ---------- */
   .about-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:10mm;align-items:start;margin-top:8mm}
@@ -194,22 +195,22 @@
   <svg class="sun" viewBox="0 0 200 200" aria-hidden="true">
     <defs>
       <radialGradient id="g1" cx="50%" cy="50%" r="50%">
-        <stop offset="0" stop-color="#F28C0F" stop-opacity="1"/>
-        <stop offset=".45" stop-color="#F28C0F" stop-opacity=".9"/>
-        <stop offset="1" stop-color="#F28C0F" stop-opacity="0"/>
+        <stop offset="0" stop-color="#FFF4E2" stop-opacity="1"/>
+        <stop offset=".45" stop-color="#FFF4E2" stop-opacity=".7"/>
+        <stop offset="1" stop-color="#FFF4E2" stop-opacity="0"/>
       </radialGradient>
     </defs>
     <circle cx="100" cy="100" r="100" fill="url(#g1)" opacity=".35"/>
-    <circle cx="100" cy="100" r="46" fill="#F28C0F"/>
-    <g stroke="#F28C0F" stroke-width="2" opacity=".55">
+    <circle cx="100" cy="100" r="46" fill="#FFF4E2"/>
+    <g stroke="#16181D" stroke-width="2" opacity=".5">
       <circle cx="100" cy="100" r="62" fill="none" stroke-dasharray="2 6"/>
       <circle cx="100" cy="100" r="78" fill="none" stroke-dasharray="1 9"/>
     </g>
   </svg>
 
   <div class="brand">
-    <svg class="logo-mark" style="color:#fff"><use href="#logo"/></svg>
-    <div class="brand-name">فردیس انرژی<small>FARDIS ENERGY</small></div>
+    <svg class="logo-mark" style="color:#16181D"><use href="#logo"/></svg>
+    <div class="brand-name">فردیس انرژی<small style="color:#5b4320">FARDIS ENERGY</small></div>
   </div>
 
   <div class="cover-body">
@@ -224,7 +225,7 @@
         <stop offset="0" stop-color="#2a2e36"/><stop offset="1" stop-color="#1c1f25"/>
       </linearGradient>
     </defs>
-    <g fill="url(#pv)" stroke="#3a3f48" stroke-width="1.2">
+    <g fill="url(#pv)" stroke="#16181D" stroke-width="1.2">
       <path d="M20 90 L140 60 L190 100 L60 135 Z"/>
       <path d="M210 95 L330 65 L380 105 L250 140 Z"/>
       <path d="M400 100 L520 70 L570 110 L440 145 Z"/>
@@ -424,42 +425,7 @@
   <div class="folio"><span><b>فردیس انرژی</b> — پیشرو در انرژی</span><span class="num">۰۴</span></div>
 </div></section>
 
-<!-- ================= PAGE 5 : PROJECTS ================= -->
-<section class="page"><div class="pad">
-  <span class="eyebrow">سوابق</span>
-  <h2 class="sec-title">نمونه <span>پروژه‌ها</span></h2>
-  <p class="lead">گزیده‌ای از پروژه‌های اجراشده در بخش‌های مختلف. به‌دلیل محرمانگی قراردادها، نام کارفرمایان درج نشده است.</p>
-
-  <table class="proj-table">
-    <thead><tr><th>پروژه</th><th>موقعیت</th><th>ظرفیت</th><th>نوع</th><th>دامنه کار</th></tr></thead>
-    <tbody>
-      <tr><td>نیروگاه زمینی متصل به شبکه</td><td>کرمان</td><td class="kw">۲ MW</td><td><span class="pill">نیروگاه</span></td><td>EPC کامل + O&amp;M</td></tr>
-      <tr><td>سامانه سقفی کارخانه صنایع غذایی</td><td>قزوین</td><td class="kw">۴۰۰ kW</td><td><span class="pill">صنعتی</span></td><td>EPC کامل</td></tr>
-      <tr><td>نیروگاه مشارکتی</td><td>یزد</td><td class="kw">۱ MW</td><td><span class="pill">نیروگاه</span></td><td>مهندسی و اجرا</td></tr>
-      <tr><td>سوله انبار و مرکز توزیع</td><td>اصفهان</td><td class="kw">۲۵۰ kW</td><td><span class="pill">صنعتی</span></td><td>EPC کامل</td></tr>
-      <tr><td>پمپ خورشیدی چاه باغ پسته</td><td>رفسنجان</td><td class="kw">۴۵ kW</td><td><span class="pill">کشاورزی</span></td><td>طراحی، تأمین و نصب</td></tr>
-      <tr><td>مجتمع تجاری و پارکینگ خورشیدی</td><td>تهران</td><td class="kw">۱۲۰ kW</td><td><span class="pill">تجاری</span></td><td>EPC کامل</td></tr>
-      <tr><td>گلخانه هیبرید با ذخیره‌ساز</td><td>البرز</td><td class="kw">۶۰ kW</td><td><span class="pill">کشاورزی</span></td><td>EPC + باتری</td></tr>
-      <tr><td>ویلای مسکونی هیبرید</td><td>مازندران</td><td class="kw">۱۰ kW</td><td><span class="pill">خانگی</span></td><td>کلید‌در‌دست</td></tr>
-    </tbody>
-  </table>
-
-  <div class="why">
-    <div class="why-item"><div class="n">۱</div><div><b>تحویل کلید‌در‌دست</b><p>یک قرارداد برای تمام مراحل؛ بدون سردرگمی بین چند پیمانکار.</p></div></div>
-    <div class="why-item"><div class="n">۲</div><div><b>بازگشت سرمایه شفاف</b><p>پیش از شروع، تولید سالانه و دوره بازگشت سرمایه را مکتوب ارائه می‌کنیم.</p></div></div>
-    <div class="why-item"><div class="n">۳</div><div><b>تجهیزات اصل و گارانتی‌دار</b><p>ضمانت ۱۰ ساله محصول و ۲۵ ساله عملکرد پنل‌ها.</p></div></div>
-    <div class="why-item"><div class="n">۴</div><div><b>پایش و پشتیبانی</b><p>مانیتورینگ آنلاین تولید و سرویس دوره‌ای پس از بهره‌برداری.</p></div></div>
-  </div>
-
-  <div class="partners">
-    <b>برندهای تجهیزات مورد استفاده (بسته به پروژه)</b>
-    <div class="ltr"><span>Jinko</span><span>LONGi</span><span>Trina</span><span>Huawei</span><span>Growatt</span><span>SMA</span><span>Victron</span><span>Lorentz</span></div>
-  </div>
-
-  <div class="folio"><span><b>فردیس انرژی</b> — پیشرو در انرژی</span><span class="num">۰۵</span></div>
-</div></section>
-
-<!-- ================= PAGE 6 : BACK ================= -->
+<!-- ================= PAGE 5 : BACK ================= -->
 <section class="page back">
   <div class="ring"></div><div class="ring two"></div>
   <div class="back-in">
@@ -494,13 +460,13 @@
     </div>
 
     <div class="contacts">
-      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div><div><small>تلفن تماس</small><b class="ltr">021 - XXXX XXXX</b></div></div>
-      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div><div><small>واتساپ / تلگرام</small><b class="ltr">09XX XXX XXXX</b></div></div>
+      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div><div><small>تلفن تماس</small><b class="ltr">0915 550 3263</b></div></div>
+      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div><div><small>واتساپ / تلگرام</small><b class="ltr">0915 550 3263</b></div></div>
       <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><div><small>وب‌سایت</small><b class="ltr">www.fardisenergy.ir</b></div></div>
-      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><small>دفتر مرکزی</small><b>تهران — آدرس دفتر</b></div></div>
+      <div class="c"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><small>دفتر مرکزی</small><b>مشهد، خیابان چمران ۱۳</b></div></div>
     </div>
 
-    <div class="back-foot"><span>فردیس انرژی — پیشرو در انرژی</span><span class="ltr">@fardis.energy</span></div>
+    <div class="back-foot"><span>فردیس انرژی — پیشرو در انرژی</span><span>مشهد</span></div>
   </div>
 </section>
 
