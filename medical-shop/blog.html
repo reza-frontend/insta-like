@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مقالات | {name}</title>
+<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، مش و لوازم جانبی الکتروکوتر">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="data/site.js"></script><script src="data/products.js"></script>
+<script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-head"><div class="container"><h1>مقالات آموزشی</h1><div class="crumb"><a href="index.html">خانه</a> / مقالات</div></div></div>
+<main class="container"><div class="posts" id="posts"></div></main>
+<div id="site-footer"></div>
+<script>
+  $("#posts").innerHTML = POSTS.map(p => `<article class="post" id="post-${p.id}"><div class="pi">${icon(p.icon)}</div><div class="post-b"><div class="meta"><span>${p.cat}</span><span>${p.date}</span></div><h3>${p.title}</h3><p>${p.excerpt}</p></div></article>`).join("");
+</script>
+</body>
+</html>

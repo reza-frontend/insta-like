@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تماس با ما | {name}</title>
+<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، مش و لوازم جانبی الکتروکوتر">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="data/site.js"></script><script src="data/products.js"></script>
+<script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-head"><div class="container"><h1>تماس با ما</h1><div class="crumb"><a href="index.html">خانه</a> / تماس با ما</div></div></div>
+<main class="container contact-grid">
+  <div id="c-cards"></div>
+  <div class="box"><h4>ارسال پیام / درخواست پیش‌فاکتور</h4>
+    <form class="form" onsubmit="event.preventDefault();window.open('mailto:'+SITE.email+'?subject='+encodeURIComponent('درخواست از سایت')+'&body='+encodeURIComponent(new FormData(this).get('msg')));this.reset()">
+      <div class="two"><input required placeholder="نام و نام خانوادگی"><input required placeholder="شماره تماس" inputmode="tel"></div>
+      <div class="two"><input placeholder="نام مرکز درمانی / شرکت"><select><option>موضوع: درخواست پیش‌فاکتور</option><option>استعلام قیمت</option><option>پیگیری سفارش</option><option>همکاری / نمایندگی</option><option>سایر</option></select></div>
+      <textarea name="msg" required rows="6" placeholder="متن پیام (نام کالا، تعداد، سایز...)"></textarea>
+      <button class="btn" style="justify-content:center">ارسال پیام</button>
+    </form>
+  </div>
+</main>
+<section class="sec" style="padding-bottom:0"><div class="container"><div class="map">محل قرارگیری نقشه (کد iframe گوگل‌مپ یا نشان را اینجا قرار دهید)</div></div></section>
+<div id="site-footer"></div>
+<script>
+  $("#c-cards").innerHTML = [["📞", "تلفن ثابت", `<a href="tel:${SITE.phoneRaw}" style="direction:ltr;display:inline-block">${fa(SITE.phone)}</a>`], ["📱", "موبایل / واتساپ", fa(SITE.mobile)], ["✉️", "ایمیل", SITE.email], ["🕘", "ساعات کاری", SITE.hours], ["📍", "آدرس", SITE.address]]
+    .map(([i, t, v]) => `<div class="c-card"><span class="fi">${i}</span><div><small>${t}</small><b>${v}</b></div></div>`).join("");
+</script>
+</body>
+</html>
