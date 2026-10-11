@@ -7,6 +7,7 @@
 <!--
   Put ronaldo.mp4 next to this file (or drag & drop the video onto the page).
   Open in Chrome → INITIALIZE → show LEFT hand 5 + RIGHT hand 2 side by side.
+  During the clip: open hand (5) = pause · fist = play.
   Keys: T = run the show without camera · R = reset · H = hide panels
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +26,7 @@
   #cam { position: fixed; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   #clip { position: fixed; z-index: 6; opacity: 0; transform: scale(.82); transition: opacity .7s, transform .7s; border-radius: 6px; object-fit: cover; pointer-events: none; background: #000; }
   #clip.show { opacity: 1; transform: scale(1); }
+  #clip.paused { filter: grayscale(.85) brightness(.55); }
 
   .panel { position: fixed; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; backdrop-filter: blur(6px);
     box-shadow: 0 0 28px rgba(57,255,20,.1), inset 0 0 20px rgba(57,255,20,.04); overflow: hidden; }
@@ -79,7 +81,6 @@
 
 <div id="start"><div>
   <button id="go">▶ INITIALIZE</button>
-  <p>LEFT hand ✋ 5 &nbsp;+&nbsp; RIGHT hand ✌️ 2<br>T = run without camera · R = reset · H = hide panels</p>
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js" crossorigin="anonymous"></script>
@@ -92,7 +93,6 @@ const CFG = {
   stagger: 650,            // left→right wave delay (ms)
   siuuuMs: 3800,           // how long the particle Ronaldo stays before the clip
   outroMs: 9000,           // how long the final text stays
-  idleText: '✋ ✌️\n5 + 2',
   finalText: 'CR7\nTHE GOAT',
 };
 const PALETTES = {
@@ -224,7 +224,6 @@ function frameDraw(g) {
 }
 
 const SCENES = {
-  idle:  { draw: () => textDraw(CFG.idleText, centered(0.55)), color: 'rainbow' },
   siuuu: { draw: () => siuuuDraw, color: 'image' },
   frame: { draw: () => frameDraw, color: 'neon' },
   final: { draw: () => textDraw(CFG.finalText, centered(0.8)), color: 'gold' },
@@ -235,9 +234,14 @@ function paletteBuckets(name) {
   return p.hues.map((hue, k) => ({ hue, spin: p.spin, idx: Array.from({ length: Math.ceil((N - k) / p.hues.length) }, (_, j) => k + j * p.hues.length) }));
 }
 
-// name = null → explode
+// name = 'idle' → free-floating cloud, null → explode
 function applyScene(name, instant = false) {
   scene = name;
+  if (name === 'idle') {
+    hasTarget.fill(0);
+    buckets = paletteBuckets('neon'); blend = 'lighter';
+    return;
+  }
   const def = SCENES[name];
   if (!def) {
     hasTarget.fill(0);
@@ -292,11 +296,13 @@ function frame(now) {
   }
 
   ctx.globalCompositeOperation = blend;
+  ctx.globalAlpha = scene === 'idle' ? 0.3 : 1; // quiet cloud while waiting
   const spin = (now * 0.02) % 360;
   for (const b of buckets) {
     ctx.fillStyle = b.style || `hsl(${(b.hue + (b.spin ? spin : 0)) % 360} 100% 58%)`;
     for (const i of b.idx) ctx.fillRect(px[i], py[i], size[i], size[i]);
   }
+  ctx.globalAlpha = 1;
   if (flash > 0.01) {
     ctx.globalCompositeOperation = 'lighter';
     ctx.fillStyle = `rgba(255,220,140,${flash * 0.35})`;
@@ -490,6 +496,7 @@ function onResults(res) {
   hold = ok ? hold + 1 : 0;
   if (!ok && state === 'idle') armed = true;
   if (ok && hold >= CFG.holdFrames && state === 'idle' && armed) { armed = false; runShow(); }
+  clipControl(hs);
 
   $('hudL').textContent = `L ${L ? L.count : '—'}`; $('hudL').className = lOk ? 'ok' : '';
   $('hudR').textContent = `R ${R ? R.count : '—'}`; $('hudR').className = rOk ? 'ok' : '';
@@ -510,7 +517,23 @@ function runShow() {
   later(CFG.siuuuMs, playClip);
 }
 
-let clipOk = true;
+let clipOk = true, clipGuard = 0, ctrlWant = null, ctrlFrames = 0;
+// during the clip: any open hand (5) pauses, fists resume
+function clipControl(hs) {
+  if (state !== 'video' || performance.now() < clipGuard) return;
+  const want = hs.some(h => h.count === 5) ? 'pause' : hs.length && hs.every(h => h.count <= 1) ? 'play' : null;
+  ctrlFrames = want === ctrlWant ? ctrlFrames + 1 : 1;
+  ctrlWant = want;
+  if (ctrlFrames !== 4 || !want) return;
+  setPaused(want === 'pause');
+}
+function setPaused(p) {
+  if (p === clip.paused || state !== 'video') return;
+  if (p) clip.pause(); else clip.play().catch(() => {});
+  clip.classList.toggle('paused', p);
+  $('hudState').textContent = p ? 'PAUSED' : 'VIDEO';
+  sfx.blip(p ? 220 : 660); flash = 0.25;
+}
 function playClip() {
   if (!clipOk || clip.error) { status('ronaldo.mp4 not found — drag & drop the video onto the page'); return outro(); }
   setState('video');
@@ -518,7 +541,9 @@ function playClip() {
   const r = clipRect();
   Object.assign(clip.style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` });
   clip.currentTime = 0; clip.muted = false; clip.volume = 1;
+  clip.classList.remove('paused');
   clip.classList.add('show');
+  clipGuard = performance.now() + 1200; // ignore the trigger hands still in frame
   clip.play().catch(e => { status(`video: ${e.message}`); later(1500, outro); });
   later(450, () => applyScene('frame'));
 }
@@ -527,7 +552,7 @@ clip.addEventListener('error', () => { clipOk = false; });
 
 function outro() {
   setState('outro');
-  clip.classList.remove('show');
+  clip.classList.remove('show', 'paused');
   applyScene(null);
   later(600, () => { applyScene('final'); sfx.boom(); flash = 0.6; });
   later(CFG.outroMs, () => { applyScene(null); later(800, () => { setState('idle'); applyScene('idle'); }); });
@@ -535,13 +560,20 @@ function outro() {
 
 function reset() {
   timers.forEach(clearTimeout); timers = [];
-  clip.pause(); clip.classList.remove('show');
+  clip.pause(); clip.classList.remove('show', 'paused');
   setState('idle'); applyScene('idle');
 }
 
 // ===== sound fx (synthesized) =====
 let ac = null;
 const sfx = {
+  blip(freq) {
+    if (!ac) return;
+    const t = ac.currentTime, o = ac.createOscillator(), gn = ac.createGain();
+    o.type = 'square'; o.frequency.setValueAtTime(freq, t);
+    gn.gain.setValueAtTime(0.12, t); gn.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+    o.connect(gn).connect(ac.destination); o.start(t); o.stop(t + 0.2);
+  },
   whoosh() {
     if (!ac) return;
     const t = ac.currentTime, len = 1.3;
@@ -571,7 +603,7 @@ async function startCamera() {
   hands.onResults(onResults);
   cam.srcObject = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720, facingMode: 'user' } });
   await cam.play();
-  status('show LEFT ✋ 5 + RIGHT ✌️ 2');
+  status('');
   let busy = false;
   const loop = async () => {
     if (!busy && cam.readyState >= 2) {
@@ -636,7 +668,7 @@ setInterval(() => {
     `> gesture.right  ${R ? R.count : '-'}  ${R && R.count === CFG.rightCount ? '✓' : '·'}`,
     `> lock           [${'█'.repeat(bar)}${'░'.repeat(12 - bar)}]`,
     `> particles      ${N}  scene=${scene || 'burst'}`,
-    `> state          ${state.toUpperCase()}`,
+    `> state          ${state === 'video' && clip.paused ? 'PAUSED' : state.toUpperCase()}`,
     row(8), row(12),
   ].join('\n');
 }, 250);
@@ -658,6 +690,7 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   if (k === 't') runShow();
   if (k === 'r') reset();
+  if (k === ' ') setPaused(!clip.paused);
   if (k === 'h') { $('codePanel').classList.toggle('hide'); $('camPanel').classList.toggle('hide'); if (scene) applyScene(scene); }
 });
 addEventListener('dragover', e => e.preventDefault());
@@ -672,7 +705,7 @@ $('go').onclick = async () => {
   ac = new (window.AudioContext || window.webkitAudioContext)();
   try { clip.muted = true; await clip.play(); clip.pause(); clip.currentTime = 0; } catch (e) { /* missing file is handled in playClip */ }
   clip.muted = false;
-  startCamera().catch(err => status(`camera: ${err.message} — press T to run the show`));
+  startCamera().catch(err => status(`camera: ${err.message}`));
 };
 
 resize();
