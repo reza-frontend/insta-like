@@ -1,0 +1,7 @@
+# داده‌های خصوصی و فایل‌های بارگذاری‌شده روی سرور
+admin/storage/*.json.php
+admin/storage/*.lock
+uploads/*
+!uploads/.htaccess
+!uploads/.gitkeep
+sitemap.xml

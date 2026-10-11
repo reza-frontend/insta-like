@@ -4,43 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{name} | تجهیزات تخصصی پزشکی</title>
-<meta name="description" content="تولید و فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:type" content="website">
+<meta property="og:title" content=" | تجهیزات تخصصی پزشکی">
+<meta property="og:description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:locale" content="fa_IR">
+<meta name="theme-color" content="#262626">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="data/site.js"></script><script src="data/products.js"></script>
-<script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
+<script src="data/content.js" defer></script>
+<script src="assets/js/icons.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+<script src="assets/js/pages/home.js" defer></script>
 </head>
 <body class="home">
+<a class="skip" href="#main">رفتن به محتوا</a>
 <div id="site-header"></div>
-<main>
-<!-- Hero: عکس‌ها را با نام assets/img/hero-1.jpg ، hero-2.jpg ، hero-3.jpg بگذارید -->
-<section class="hero slider">
-  <div class="slide" data-img="assets/img/hero-1.jpg" style="background:radial-gradient(circle at 30% 50%,#4d7fc4,#14325e 55%,#0a1a33)">
-    <div class="fallback" data-icons="trocar,trocar,trocar"></div>
-    <div class="container"><div class="slide-txt"><span class="kicker">تجهیزات تخصصی پزشکی</span><h1 class="js-hero-title"></h1><p class="js-hero-text"></p>
-      <div class="hero-btns"><a href="shop.html"><i>✚</i> محصولات</a><a href="about.html">درباره ما</a></div></div></div>
-  </div>
-  <div class="slide" data-img="assets/img/hero-2.jpg" style="background:radial-gradient(circle at 30% 50%,#3fb7a6,#0d5a55 55%,#062b29)">
-    <div class="fallback" data-icons="stapler,cartridge"></div>
-    <div class="container"><div class="slide-txt"><span class="kicker">استپلرهای جراحی</span><h2>انواع استپلر خطی برشی، حلقوی، هموروئید و پوستی</h2><p>کارتریج در تمامی رنگ‌ها و ارتفاع منگنه با ضمانت اصالت کالا و ارسال سریع به سراسر کشور.</p>
-      <div class="hero-btns"><a href="shop.html?cat=stapler"><i>✚</i> مشاهده استپلرها</a><a href="contact.html">تماس با ما</a></div></div></div>
-  </div>
-  <div class="slide" data-img="assets/img/hero-3.jpg" style="background:radial-gradient(circle at 30% 50%,#6a6f78,#2a2d33 55%,#141518)">
-    <div class="fallback" data-icons="grasper,scalpel"></div>
-    <div class="container"><div class="slide-txt"><span class="kicker">لوازم یکبار مصرف لاپاراسکوپی</span><h2>گرسپر، دایسکتور، قیچی و هندپیس انسداد عروق</h2><p>تولید شده تحت سیستم مدیریت کیفیت ISO 13485، مستقیم از تولیدکننده و بدون واسطه.</p>
-      <div class="hero-btns"><a href="shop.html?cat=laparoscopy"><i>✚</i> محصولات</a><a href="${SITE.catalog}" class="js-catalog">دانلود کاتالوگ</a></div></div></div>
-  </div>
+<main id="main">
+<section class="hero slider" aria-label="اسلایدر"><div id="slides"></div>
   <button class="s-prev" aria-label="قبلی">›</button><button class="s-next" aria-label="بعدی">‹</button><div class="dots"></div>
 </section>
 
-<!-- Categories -->
 <section class="sec"><div class="container">
   <h2 class="title-c">دسته بندی محصولات</h2>
   <div class="cat-grid" id="cats"></div>
 </div></section>
 
-<!-- Newest -->
 <section class="newest">
   <div class="side-art" id="newest-art"></div>
   <div class="container inner">
@@ -49,60 +39,37 @@
   </div>
 </section>
 
-<!-- Best sellers -->
-<section class="sec" style="padding-top:0"><div class="container best">
-  <a class="best-tag" href="shop.html"><b>محصولات<br>پر فروش</b><span>BEST</span></a>
+<section class="sec sec-tight"><div class="container best">
+  <a class="best-tag" href="shop.html?sort=best"><b>محصولات<br>پر فروش</b><span>BEST</span></a>
   <div class="carousel"><div class="track" id="best"></div><button class="c-prev" aria-label="قبلی">›</button><button class="c-next" aria-label="بعدی">‹</button></div>
 </div></section>
 
-<!-- About (wave) — ویدیو: assets/img/about.jpg (کاور) و assets/video/about.mp4 -->
 <section class="wave"><div class="container about-row">
-  <div><h2 class="js-name"></h2>
-    <p class="js-about1"></p>
-    <p>نظر به سال‌ها حسن اعتماد و حمایت مشتریان عزیز، این مجموعه با گسترش فعالیت خود و واردات و فروش گستره وسیعی از کالاهای مصرفی و جراحی، اقدام به سرمایه‌گذاری وسیع و تولید انواع لوازم یکبار مصرف لاپاراسکوپی با آخرین استانداردهای جهانی از جمله ISO 13485 و استاندارد مدیریت کیفیت نموده است.</p>
-    <p>در راستای نیل به اهداف استراتژیک و طولانی مدت شرکت با پیگیری مستمر و ایجاد ارتباط مؤثر و نظرسنجی از مشتریان، متعهد به ارائه محصولات با کیفیت و با نازل‌ترین قیمت می‌باشیم.</p>
-  </div>
-  <div class="video" id="video"><div class="av"></div><span class="dur">۰۰:۵۹</span><span class="play">▶</span><span class="lbl">معرفی مجموعه</span></div>
+  <div><h2 id="about-title"></h2><div id="about-text"></div><a class="btn" href="about.html">بیشتر درباره ما</a></div>
+  <div class="video" id="video" role="button" tabindex="0" aria-label="پخش ویدیوی معرفی"><span class="play">▶</span><span class="lbl">معرفی مجموعه</span></div>
 </div></section>
 
-<!-- Brands -->
 <section class="sec"><div class="container">
   <h2 class="title-r">برند ها</h2>
   <div class="carousel"><div class="track brand-track" id="brands"></div><div class="c-dots"></div></div>
 </div></section>
 
-<!-- Blog -->
-<section class="sec" style="padding-top:10px"><div class="container">
-  <h2 class="title-r">جدیدترین مقالات</h2>
+<section class="sec sec-tight"><div class="container">
+  <div class="title-row"><h2 class="title-r">جدیدترین مقالات</h2><a class="more-link" href="blog.html">همه مقالات</a></div>
   <div class="posts" id="posts"></div>
 </div></section>
 
-<!-- Order + clients (wave) -->
+<section class="sec sec-tight" id="faq"><div class="container">
+  <h2 class="title-c">سوالات متداول</h2>
+  <div class="faq" id="faq-list"></div>
+</div></section>
+
 <section class="wave"><div class="container order-row">
   <div><h3>سفارش محصول</h3><p>برای موجودی و سفارش محصولات از طریق تماس روی دکمه زیر با کارشناسان ما در ارتباط باشید.</p>
-    <a class="btn js-call" href="#">تماس با ما</a><small>اطلاعات شما نزد ما <b>محفوظ</b> خواهد ماند.</small></div>
-  <div><h3>مشتریان ما</h3><div class="clients"><span>بیمارستان‌های دولتی</span><span>بیمارستان‌های خصوصی</span><span>مراکز جراحی محدود</span><span>کلینیک‌های تخصصی</span><span>توزیع‌کنندگان</span></div></div>
+    <a class="btn" id="call-btn" href="contact.html">تماس با ما</a><small>اطلاعات شما نزد ما <b>محفوظ</b> خواهد ماند.</small></div>
+  <div><h3>مشتریان ما</h3><div class="clients" id="clients"></div></div>
 </div></section>
 </main>
 <div id="site-footer"></div>
-<script>
-  $$("[data-icons]").forEach(el => el.innerHTML = `<div style="display:flex;gap:4%;align-items:center;justify-content:center;width:min(520px,48vw)">${el.dataset.icons.split(",").map(i => `<div style="flex:1">${icon(i)}</div>`).join("")}</div>`);
-  $$(".js-hero-title").forEach(e => e.textContent = SITE.heroTitle);
-  $$(".js-hero-text").forEach(e => e.textContent = SITE.heroText);
-  $$(".js-catalog").forEach(e => e.href = SITE.catalog);
-  $$(".js-call").forEach(e => { e.href = "tel:" + SITE.phoneRaw; e.textContent = "تماس با " + SITE.name; });
-  $$(".js-name").forEach(e => e.textContent = SITE.name);
-  $$(".js-about1").forEach(e => e.textContent = `${SITE.name} در سال ${SITE.foundedYear} با هدف ارائه خدمات و محصولات باکیفیت به مراکز درمانی و بیمارستانی شروع به فعالیت نمود و با تلاش و کوشش متخصصان خود در حال حاضر مفتخر به ارائه خدمت به بیش از ۱۰۰۰ مرکز درمانی در سراسر کشور می‌باشد.`);
-  const byIds = ids => ids.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
-  $("#cats").innerHTML = CATEGORIES.map(catCard).join("");
-  $("#newest").innerHTML = byIds(HOME.newest).map(card).join("");
-  $("#best").innerHTML = byIds(HOME.best).map(card).join("");
-  $("#brands").innerHTML = BRANDS.concat(BRANDS).map(brandCard).join("");
-  $("#posts").innerHTML = POSTS.map(p => `<a class="post" href="blog.html#post-${p.id}"><div class="pi">${imgOr(`assets/img/blog/${p.id}.jpg`, p.title, p.icon)}</div><div class="post-b"><div class="meta"><span>${p.cat}</span><span>${p.date}</span></div><h3>${p.title}</h3><p>${p.excerpt}</p></div></a>`).join("");
-  $("#newest-art").innerHTML = imgOr("assets/img/newest-side.jpg", "", "lungs");
-  const v = $("#video");
-  probe("assets/img/about.jpg", src => v.insertAdjacentHTML("afterbegin", `<img src="${src}" alt="">`));
-  v.onclick = () => { v.innerHTML = `<video src="assets/video/about.mp4" controls autoplay playsinline style="background:#000"></video>`; v.querySelector("video").onerror = () => alert("فایل ویدیو را در assets/video/about.mp4 قرار دهید."); };
-</script>
 </body>
 </html>

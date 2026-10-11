@@ -3,61 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>فروشگاه | {name}</title>
-<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، مش و لوازم جانبی الکتروکوتر">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<title>محصولات | {name}</title>
+<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:type" content="website">
+<meta property="og:title" content="محصولات | ">
+<meta property="og:description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:locale" content="fa_IR">
+<meta name="theme-color" content="#262626">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="data/site.js"></script><script src="data/products.js"></script>
-<script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
+<script src="data/content.js" defer></script>
+<script src="assets/js/icons.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+<script src="assets/js/pages/shop.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">رفتن به محتوا</a>
 <div id="site-header"></div>
-<div class="page-head"><div class="container"><h1 id="ph-title">فروشگاه</h1><div class="crumb"><a href="index.html">خانه</a> / <a href="shop.html">فروشگاه</a><span id="ph-crumb"></span></div></div></div>
-<main class="container shop">
-  <aside class="side" id="side">
-    <div class="box"><h4>دسته‌بندی محصولات</h4><div id="f-cat"></div></div>
-    <div class="box"><h4>برندها</h4><div id="f-brand"></div></div>
-    <div class="box"><h4>وضعیت</h4><label><span><input type="checkbox" id="f-stock"> فقط کالاهای موجود</span></label></div>
-  </aside>
-  <section>
-    <div class="toolbar">
-      <div class="sorts"><button class="btn filter-toggle" onclick="$('#side').classList.toggle('open')">فیلترها</button>
-        <span>مرتب‌سازی:</span><button data-s="default" class="on">پیش‌فرض</button><button data-s="new">جدیدترین</button><button data-s="best">پرفروش‌ترین</button><button data-s="name">الفبایی</button></div>
-      <span id="count" style="color:var(--muted);font-size:14px"></span>
+<div class="shop-head"><div class="container">
+  <h1 id="ph-title">فروشگاه</h1>
+  <nav class="shop-cats" id="shop-cats" aria-label="دسته‌بندی‌ها"></nav>
+</div></div>
+<main id="main" class="container">
+  <div class="shop-bar">
+    <nav class="crumb" aria-label="مسیر"><a href="index.html">خانه</a> / <b id="crumb-cur">فروشگاه</b></nav>
+    <div class="shop-tools">
+      <div class="cols" role="group" aria-label="تعداد ستون"><button data-cols="2" aria-label="۲ ستون"><i></i><i></i><i></i><i></i></button><button data-cols="3" aria-label="۳ ستون"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></button><button data-cols="4" aria-label="۴ ستون"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></button></div>
+      <button class="filter-btn" id="filter-open"><span id="filter-ic"></span> فیلتر ها <em id="filter-n"></em></button>
     </div>
-    <div class="grid" id="grid"></div>
-  </section>
+  </div>
+  <p class="result-count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <div class="pager" id="pager"></div>
 </main>
+<aside class="drawer" id="drawer" aria-label="فیلترها"><div class="drawer-in">
+  <div class="drawer-head"><b>فیلتر محصولات</b><button id="filter-close" aria-label="بستن">✕</button></div>
+  <div class="box"><h4>مرتب‌سازی</h4><select id="f-sort"><option value="">پیش‌فرض</option><option value="new">جدیدترین</option><option value="best">پرفروش‌ترین</option><option value="rating">بیشترین امتیاز</option><option value="name">الفبایی</option></select></div>
+  <div class="box"><h4>دسته‌بندی</h4><div id="f-cat"></div></div>
+  <div class="box"><h4>برند</h4><div id="f-brand"></div></div>
+  <div class="box"><label class="check"><input type="checkbox" id="f-stock"> فقط کالاهای موجود</label></div>
+  <a class="btn btn-block" href="shop.html">حذف همه فیلترها</a>
+</div><div class="drawer-bg" id="filter-bg"></div></aside>
 <div id="site-footer"></div>
-<script>
-  const cat = qs("cat"), brand = qs("brand"), q = (qs("q") || "").trim();
-  let sort = "default";
-  const inCat = (p, id) => !id || p.cat === id || p.parent === id;
-  const link = (k, v) => { const u = new URLSearchParams(location.search); v ? u.set(k, v) : u.delete(k); return "shop.html" + (u.toString() ? "?" + u : ""); };
-  $("#f-cat").innerHTML = `<a href="${link("cat")}" class="${cat ? "" : "on"}">همه محصولات <em>${fa(PRODUCTS.length)}</em></a>` +
-    CATEGORIES.map(c => `<a href="${link("cat", c.id)}" class="${cat === c.id ? "on" : ""}">${c.title} <em>${fa(PRODUCTS.filter(p => inCat(p, c.id)).length)}</em></a>` +
-      (c.children || []).map(ch => `<a class="child ${cat === ch.id ? "on" : ""}" href="${link("cat", ch.id)}">— ${ch.title} <em>${fa(PRODUCTS.filter(p => p.cat === ch.id).length)}</em></a>`).join("")).join("");
-  $("#f-brand").innerHTML = `<a href="${link("brand")}" class="${brand ? "" : "on"}">همه برندها</a>` +
-    BRANDS.map(b => `<a href="${link("brand", b.id)}" class="${brand === b.id ? "on" : ""}">${b.title} <em>${fa(PRODUCTS.filter(p => p.brand === b.id).length)}</em></a>`).join("");
-  const title = q ? `نتایج جستجو: «${q}»` : cat ? catTitle(cat) : brand ? `برند ${brandTitle(brand)}` : "فروشگاه";
-  $("#ph-title").textContent = title; if (cat || brand || q) $("#ph-crumb").textContent = " / " + title;
-  document.title = title + " | " + SITE.name;
-
-  function render() {
-    const norm = s => s.toLowerCase().replace(/ي/g, "ی").replace(/ك/g, "ک");
-    let list = PRODUCTS.filter(p => inCat(p, cat) && (!brand || p.brand === brand) && (!$("#f-stock").checked || p.stock)
-      && (!q || norm(p.title + " " + p.en + " " + p.short).includes(norm(q))));
-    const rank = (ids, p) => { const i = ids.indexOf(p.id); return i < 0 ? 999 : i; };
-    if (sort === "new") list = [...list].sort((a, b) => rank(HOME.newest, a) - rank(HOME.newest, b) || b.id - a.id);
-    if (sort === "best") list = [...list].sort((a, b) => rank(HOME.best, a) - rank(HOME.best, b) || b.rating - a.rating);
-    if (sort === "name") list = [...list].sort((a, b) => a.title.localeCompare(b.title, "fa"));
-    $("#count").textContent = `${fa(list.length)} محصول`;
-    $("#grid").innerHTML = list.length ? list.map(card).join("") : `<div class="empty" style="grid-column:1/-1">محصولی یافت نشد. <a href="shop.html" style="color:var(--primary)">مشاهده همه محصولات</a></div>`;
-  }
-  $$(".sorts [data-s]").forEach(b => b.onclick = () => { sort = b.dataset.s; $$(".sorts [data-s]").forEach(x => x.classList.toggle("on", x === b)); render(); });
-  $("#f-stock").onchange = render;
-  render();
-</script>
 </body>
 </html>

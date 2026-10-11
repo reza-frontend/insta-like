@@ -4,36 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>درباره ما | {name}</title>
-<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، مش و لوازم جانبی الکتروکوتر">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:type" content="website">
+<meta property="og:title" content="درباره ما | ">
+<meta property="og:description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:locale" content="fa_IR">
+<meta name="theme-color" content="#262626">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="data/site.js"></script><script src="data/products.js"></script>
-<script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
+<script src="data/content.js" defer></script>
+<script src="assets/js/icons.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+<script src="assets/js/pages/about.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">رفتن به محتوا</a>
 <div id="site-header"></div>
-<div class="page-head"><div class="container"><h1>درباره ما</h1><div class="crumb"><a href="index.html">خانه</a> / درباره ما</div></div></div>
-<main>
-<section class="sec" style="padding-top:10px"><div class="container about-row">
-  <div><h2 class="js-name"></h2>
-    <p>مجموعه ما با سال‌ها تجربه در حوزه تأمین و توزیع تجهیزات پزشکی، فعالیت خود را بر تولید و عرضه انواع لوازم مصرفی و یکبار مصرف جراحی متمرکز کرده است. سبد محصولات ما شامل تجهیزات لاپاراسکوپی، استپلرهای جراحی، مش، لوازم جانبی الکتروکوتر، کاورهای استریل، کلیپ‌های پلیمری عروقی و لوازم جانبی مانیتورینگ علائم حیاتی است.</p>
-    <p>کلیه محصولات بر اساس استاندارد ISO 13485 تولید و کنترل کیفی شده و دارای مجوزهای لازم از اداره کل تجهیزات پزشکی وزارت بهداشت هستند. حذف واسطه‌ها در زنجیره تأمین به ما امکان می‌دهد کالای باکیفیت را با قیمتی منصفانه در اختیار مراکز درمانی قرار دهیم.</p>
-    <ul class="checks"><li>ماموریت: دسترسی آسان به تجهیزات باکیفیت</li><li>چشم‌انداز: برند مرجع لوازم جراحی</li><li>ارزش: صداقت و پاسخ‌گویی</li><li>تعهد: ایمنی بیمار</li></ul>
-  </div>
-  <div class="stats"><div class="stat"><b>+۱۲</b><span>سال تجربه</span></div><div class="stat"><b>+۳۵۰</b><span>مرکز درمانی</span></div><div class="stat"><b>+۲۰۰</b><span>قلم کالا</span></div><div class="stat"><b>۳۱</b><span>استان تحت پوشش</span></div></div>
+<div class="page-head"><div class="container"><h1 id="ph-title">درباره ما</h1><nav class="crumb" aria-label="مسیر"><a href="index.html">خانه</a> / درباره ما</nav></div></div>
+<main id="main">
+<section class="sec sec-top"><div class="container about-row">
+  <div><h2 id="about-title"></h2><div id="about-text"></div>
+    <ul class="checks"><li>ضمانت اصالت کالا</li><li>ارسال به سراسر کشور</li><li>پیش‌فاکتور رسمی</li><li>مشاوره رایگان</li><li>امکان مرجوعی کالای معیوب</li><li>شرایط ویژه فروش عمده</li></ul></div>
+  <div class="stats"><div class="stat"><b id="st-years"></b><span>سال تجربه</span></div><div class="stat"><b>+۱۰۰۰</b><span>مرکز درمانی</span></div><div class="stat"><b id="st-products"></b><span>محصول</span></div><div class="stat"><b id="st-brands"></b><span>برند همکار</span></div></div>
 </div></section>
-<section class="sec" id="rules"><div class="container">
+<section class="sec sec-tight" id="rules"><div class="container">
   <h2 class="title-r">قوانین و مقررات خرید</h2>
-  <div class="faq" style="max-width:none">
+  <div class="faq faq-wide">
     <details open><summary>شرایط ارسال</summary><p>سفارش‌ها پس از تأیید و تسویه، ظرف ۲ تا ۳ روز کاری از طریق پست پیشتاز یا باربری به سراسر کشور ارسال می‌شوند. ارسال در تهران با پیک انجام می‌گیرد.</p></details>
     <details><summary>شرایط مرجوعی</summary><p>در صورت معیوب بودن کالا یا مغایرت با سفارش، تا ۷ روز پس از تحویل و با حفظ بسته‌بندی استریل امکان مرجوعی یا تعویض وجود دارد.</p></details>
-    <details><summary>قیمت‌گذاری</summary><p>به دلیل نوسانات ارزی، قیمت برخی اقلام به‌صورت استعلامی اعلام و پیش‌فاکتور رسمی با اعتبار مشخص صادر می‌شود.</p></details>
+    <details><summary>قیمت‌گذاری</summary><p>به دلیل نوسانات بازار، قیمت برخی اقلام به‌صورت استعلامی اعلام و پیش‌فاکتور رسمی با اعتبار مشخص صادر می‌شود.</p></details>
     <details><summary>حریم خصوصی</summary><p>اطلاعات تماس مشتریان صرفاً جهت پردازش سفارش استفاده شده و در اختیار شخص ثالث قرار نمی‌گیرد.</p></details>
   </div>
 </div></section>
 </main>
 <div id="site-footer"></div>
-<script>$$(".js-name").forEach(e => e.textContent = `درباره ${SITE.name}`);</script>
 </body>
 </html>

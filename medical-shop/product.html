@@ -4,58 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{name}</title>
-<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، مش و لوازم جانبی الکتروکوتر">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:type" content="website">
+<meta property="og:title" content="">
+<meta property="og:description" content="فروش لوازم مصرفی و یکبار مصرف پزشکی، تجهیزات لاپاراسکوپی، استپلر جراحی، تروکار، مش و لوازم جانبی الکتروکوتر">
+<meta property="og:locale" content="fa_IR">
+<meta name="theme-color" content="#262626">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="data/site.js"></script><script src="data/products.js"></script>
-<script src="assets/js/icons.js"></script><script src="assets/js/app.js"></script>
+<script src="data/content.js" defer></script>
+<script src="assets/js/icons.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+<script src="assets/js/pages/product.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">رفتن به محتوا</a>
 <div id="site-header"></div>
-<div class="page-head"><div class="container"><div class="crumb" id="crumb"></div></div></div>
-<main class="container" id="pd-root"></main>
-<section class="sec related"><div class="container carousel">
-  <h2 class="title-r">محصولات مرتبط</h2>
-  <div class="track" id="related"></div><button class="c-prev">›</button><button class="c-next">‹</button>
-</div></section>
+<main id="main" class="container product-page">
+  <nav class="crumb crumb-dark" id="crumb" aria-label="مسیر"></nav>
+  <div id="pd-root"></div>
+  <section class="sec related"><h2 class="title-r">محصولات مرتبط</h2>
+    <div class="carousel"><div class="track" id="related"></div><button class="c-prev" aria-label="قبلی">›</button><button class="c-next" aria-label="بعدی">‹</button></div>
+  </section>
+</main>
 <div id="site-footer"></div>
-<script>
-  const p = PRODUCTS.find(x => x.id == qs("id")) || PRODUCTS[0];
-  document.title = `${p.title} | ${SITE.name}`;
-  $("#crumb").innerHTML = `<a href="index.html">خانه</a> / <a href="shop.html?cat=${p.parent}">${catTitle(p.parent)}</a> / <a href="shop.html?cat=${p.cat}">${catTitle(p.cat)}</a> / ${p.title}`;
-  const specs = Object.entries(p.specs || {});
-  const priceHtml = p.price ? `<div class="price">${p.oldPrice ? `<del>${money(p.oldPrice)}</del>` : ""}<b>${money(p.price)}</b></div>` : `<div><span class="inquiry">استعلام قیمت</span><div style="font-size:13px;color:var(--muted)">برای قیمت روز تماس بگیرید: <a style="color:var(--primary);direction:ltr;display:inline-block" href="tel:${SITE.phoneRaw}">${fa(SITE.phone)}</a></div></div>`;
-  $("#pd-root").innerHTML = `
-  <div class="pd">
-    <div class="pd-gal"><div class="main"><div id="main-img">${productImg(p)}</div></div>
-      <div class="thumbs">${[p.icon, p.icon, "shield", "cover"].map((ic, i) => `<div class="${i ? "" : "on"}" data-ic="${ic}">${i ? icon(ic) : productImg(p)}</div>`).join("")}</div></div>
-    <div class="pd-info">
-      <h1>${p.title}</h1>${stars(p.rating || 4)}<div class="en">${p.en}</div>
-      <div class="pd-meta"><span>برند: <b><a href="shop.html?brand=${p.brand}">${brandTitle(p.brand)}</a></b></span><span>دسته: <b><a href="shop.html?cat=${p.cat}">${catTitle(p.cat)}</a></b></span>
-        <span>کد کالا: <b>${fa("MS-" + String(p.id).padStart(4, "0"))}</b></span><span>وضعیت: <b style="color:${p.stock ? "var(--accent)" : "#e04848"}">${p.stock ? "موجود در انبار" : "ناموجود"}</b></span></div>
-      <p class="short">${p.short}</p>
-      <ul class="spec-mini">${specs.slice(0, 4).map(([k, v]) => `<li>${k}: <b>${v}</b></li>`).join("")}</ul>
-      <div class="buy">${priceHtml}
-        <div class="buy-row"><div class="qty"><button onclick="q.value=Math.max(1,+q.value+1)">+</button><input id="q" value="1" inputmode="numeric"><button onclick="q.value=Math.max(1,+q.value-1)">−</button></div>
-        <button class="btn" ${p.stock ? "" : "disabled style='opacity:.5'"} onclick="Cart.add(${p.id}, Math.max(1, parseInt(q.value) || 1))">${p.price ? "افزودن به سبد خرید" : "افزودن به لیست استعلام"}</button></div>
-      </div>
-      <div class="guar"><div><b>ضمانت اصالت</b>کالای اورجینال</div><div><b>ارسال سریع</b>۲ تا ۳ روز کاری</div><div><b>استاندارد</b>ISO 13485 / CE</div></div>
-    </div>
-  </div>
-  <div class="tabs">
-    <div class="tab-btns"><button class="on" data-t="t1">توضیحات</button><button data-t="t2">مشخصات فنی</button><button data-t="t3">سوالات متداول</button></div>
-    <div class="tab on" id="t1"><h3>معرفی ${p.title}</h3><p>${p.short}</p>
-      <p>این محصول با رعایت کامل الزامات سیستم مدیریت کیفیت تجهیزات پزشکی (ISO 13485) تولید شده و دارای کد IRC از اداره کل تجهیزات پزشکی است. بسته‌بندی استریل و تکی آن، ایمنی بیمار و کادر درمان را تضمین می‌کند.</p>
-      <h3>کاربرد</h3><p>مورد استفاده در اتاق‌های عمل بیمارستان‌ها، مراکز جراحی محدود و کلینیک‌های تخصصی. برای اطلاع از سازگاری با دستگاه‌های موجود در مرکز خود با کارشناسان فروش تماس بگیرید.</p>
-      <h3>قیمت ${p.title}</h3><p>قیمت این کالا بسته به سایز، برند و تعداد سفارش متغیر است. به دلیل فروش مستقیم و بدون واسطه، بهترین قیمت بازار را ارائه می‌دهیم؛ برای دریافت قیمت روز و پیش‌فاکتور رسمی با شماره ${fa(SITE.phone)} تماس بگیرید.</p></div>
-    <div class="tab" id="t2"><table class="spec-table">${[["نام انگلیسی", p.en], ["برند", brandTitle(p.brand)], ...specs].map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("")}</table></div>
-    <div class="tab" id="t3"><div class="faq">${FAQ.map(f => `<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join("")}</div></div>
-  </div>`;
-  $$(".tab-btns button").forEach(b => b.onclick = () => { $$(".tab-btns button").forEach(x => x.classList.toggle("on", x === b)); $$(".tab").forEach(t => t.classList.toggle("on", t.id === b.dataset.t)); });
-  $$(".thumbs div").forEach((t, i) => t.onclick = () => { $$(".thumbs div").forEach(x => x.classList.toggle("on", x === t)); $("#main-img").innerHTML = i ? icon(t.dataset.ic) : productImg(p); });
-  const rel = PRODUCTS.filter(x => x.id !== p.id && x.parent === p.parent);
-  $("#related").innerHTML = (rel.length >= 4 ? rel : rel.concat(HOME.best.map(id => PRODUCTS.find(x => x.id === id)).filter(x => x && x.id !== p.id && !rel.includes(x)))).slice(0, 10).map(card).join("");
-</script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+# فقط فایل تصویری؛ اجرای اسکریپت در این پوشه ممنوع است
+<FilesMatch "\.(?i:php\d?|phtml|phar|pl|py|cgi|sh|html?|svg|js)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+Options -Indexes -ExecCGI
