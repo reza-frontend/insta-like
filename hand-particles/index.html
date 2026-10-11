@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hand Particles</title>
+<!--
+  Hand-gesture particle text.
+  Run: open this file in Chrome, or serve it: `npx serve hand-particles` → http://localhost:3000
+  No camera? Press keys 0-9 to preview each gesture.
+  Edit SCENES below to change what each finger count shows.
+-->
+<style>
+  :root { --fg: #fff; --muted: rgba(255,255,255,.55); }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; font-family: system-ui, sans-serif; color: var(--fg); }
+  video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); opacity: .18; filter: grayscale(1); }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
+  #hud { position: fixed; left: 16px; bottom: 16px; font-size: 13px; color: var(--muted); pointer-events: none; line-height: 1.6; }
+  #count { font-size: 28px; font-weight: 800; color: var(--fg); }
+  #status { position: fixed; inset: 0; display: grid; place-items: center; text-align: center; padding: 16px; font-size: 15px; color: var(--muted); pointer-events: none; }
+</style>
+</head>
+<body>
+<video id="video" playsinline muted></video>
+<canvas id="c"></canvas>
+<div id="status">Loading hand model…</div>
+<div id="hud"><div id="count">–</div>fingers · press V to toggle camera · 0-9 to preview</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js" crossorigin="anonymous"></script>
+<script>
+// ---------- config ----------
+// Finger count (both hands summed, 0-10) → scene. Text uses \n for line breaks; "heart" draws a heart shape.
+const SCENES = {
+  0: { type: 'explode' },
+  1: { text: 'HI' },
+  2: { text: 'I LOVE\nYOU' },
+  3: { type: 'heart' },
+  4: { text: 'MISS\nYOU' },
+  5: { text: '❤ 5 ❤' },
+  6: { text: 'HELLO\nWORLD' },
+  10: { text: 'THANK\nYOU' },
+};
+const PARTICLES = 5000;
+const STABLE_FRAMES = 6;     // gesture must hold this many frames before switching
+const STAGGER_MS = 700;      // left→right wave delay across the screen
+const PALETTE = [330, 345, 0, 15, 280, 300, 200, 190]; // hues
+
+// ---------- setup ----------
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const video = document.getElementById('video');
+const statusEl = document.getElementById('status');
+const countEl = document.getElementById('count');
+let W, H, DPR;
+
+const px = new Float32Array(PARTICLES), py = new Float32Array(PARTICLES);
+const vx = new Float32Array(PARTICLES), vy = new Float32Array(PARTICLES);
+const tx = new Float32Array(PARTICLES), ty = new Float32Array(PARTICLES);
+const startAt = new Float64Array(PARTICLES);
+const color = new Uint8Array(PARTICLES);
+const hasTarget = new Uint8Array(PARTICLES);
+const size = new Float32Array(PARTICLES);
+
+function resize() {
+  DPR = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  if (currentScene != null) applyScene(currentScene, true);
+}
+
+for (let i = 0; i < PARTICLES; i++) {
+  px[i] = Math.random() * innerWidth; py[i] = Math.random() * innerHeight;
+  color[i] = i % PALETTE.length;
+  size[i] = 1 + Math.random() * 1.6;
+}
+
+// ---------- target sampling ----------
+const off = document.createElement('canvas');
+const octx = off.getContext('2d', { willReadFrequently: true });
+
+function samplePoints(draw) {
+  off.width = W; off.height = H;
+  octx.clearRect(0, 0, W, H);
+  octx.fillStyle = '#fff';
+  draw(octx);
+  const data = octx.getImageData(0, 0, W, H).data;
+  // pick a grid step so we get roughly PARTICLES points
+  let filled = 0;
+  for (let i = 3; i < data.length; i += 16) if (data[i] > 128) filled++;
+  const step = Math.max(2, Math.round(Math.sqrt((filled * 4) / PARTICLES)));
+  const pts = [];
+  for (let y = 0; y < H; y += step)
+    for (let x = 0; x < W; x += step)
+      if (data[(y * W + x) * 4 + 3] > 128) pts.push(x, y);
+  return pts;
+}
+
+function drawText(text) {
+  return (g) => {
+    const lines = text.split('\n');
+    let fs = 400;
+    g.font = `900 ${fs}px system-ui, sans-serif`;
+    const widest = Math.max(...lines.map(l => g.measureText(l).width));
+    fs = Math.min(fs * (W * 0.86) / widest, (H * 0.75) / (lines.length * 1.05));
+    g.font = `900 ${fs}px system-ui, sans-serif`;
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    const lh = fs * 1.05, y0 = H / 2 - (lh * (lines.length - 1)) / 2;
+    lines.forEach((l, i) => g.fillText(l, W / 2, y0 + i * lh));
+  };
+}
+
+function drawHeart(g) {
+  const s = Math.min(W, H) / 38;
+  g.beginPath();
+  for (let t = 0; t <= Math.PI * 2 + 0.01; t += 0.02) {
+    const x = 16 * Math.sin(t) ** 3;
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+    g.lineTo(W / 2 + x * s, H / 2 - y * s);
+  }
+  g.fill();
+}
+
+// ---------- scenes ----------
+let currentScene = null;
+
+function applyScene(n, instant = false) {
+  currentScene = n;
+  const scene = SCENES[n];
+  const now = performance.now();
+  countEl.textContent = n;
+
+  if (!scene || scene.type === 'explode') {
+    hasTarget.fill(0);
+    for (let i = 0; i < PARTICLES; i++) {
+      const a = Math.random() * Math.PI * 2, f = scene ? 6 + Math.random() * 14 : 0;
+      vx[i] += Math.cos(a) * f; vy[i] += Math.sin(a) * f;
+    }
+    return;
+  }
+  const pts = samplePoints(scene.type === 'heart' ? drawHeart : drawText(scene.text));
+  const n2 = pts.length / 2;
+  if (!n2) return;
+  // shuffled assignment → particles cross paths for a swirling transition
+  const order = Array.from({ length: n2 }, (_, i) => i);
+  for (let i = n2 - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [order[i], order[j]] = [order[j], order[i]]; }
+  for (let i = 0; i < PARTICLES; i++) {
+    const pick = i < n2 ? order[i] : (Math.random() * n2) | 0;
+    tx[i] = pts[pick * 2] + (i >= n2 ? (Math.random() - .5) * 2 : 0);
+    ty[i] = pts[pick * 2 + 1];
+    hasTarget[i] = 1;
+    startAt[i] = instant ? 0 : now + (tx[i] / W) * STAGGER_MS + Math.random() * 150;
+  }
+}
+
+// ---------- hand tracking ----------
+let fingertips = [];
+let candidate = null, candidateFrames = 0;
+
+const d = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+function countFingers(lm) {
+  // rotation-invariant: a finger is open if its tip is farther from the wrist than its middle joint
+  let c = 0;
+  for (const [tip, pip] of [[8, 6], [12, 10], [16, 14], [20, 18]])
+    if (d(lm[tip], lm[0]) > d(lm[pip], lm[0]) * 1.1) c++;
+  // thumb: tip farther from the pinky base than the thumb's IP joint
+  if (d(lm[4], lm[17]) > d(lm[3], lm[17]) * 1.08 && d(lm[4], lm[5]) > d(lm[3], lm[5]) * 0.9) c++;
+  return c;
+}
+
+function toScreen(p) {
+  // map normalized landmark → screen, matching the mirrored object-fit:cover video
+  const vw = video.videoWidth || W, vh = video.videoHeight || H;
+  const s = Math.max(W / vw, H / vh);
+  const ox = (W - vw * s) / 2, oy = (H - vh * s) / 2;
+  return { x: W - (p.x * vw * s + ox), y: p.y * vh * s + oy };
+}
+
+function onResults(res) {
+  statusEl.textContent = '';
+  const hands = res.multiHandLandmarks || [];
+  fingertips = [];
+  let total = null;
+  if (hands.length) {
+    total = 0;
+    for (const lm of hands) {
+      total += countFingers(lm);
+      for (const t of [4, 8, 12, 16, 20]) fingertips.push(toScreen(lm[t]));
+    }
+  }
+  if (total === null) { countEl.textContent = '–'; candidate = null; return; }
+  if (total === candidate) candidateFrames++;
+  else { candidate = total; candidateFrames = 1; }
+  if (candidateFrames === STABLE_FRAMES && total !== currentScene) applyScene(total);
+}
+
+async function startCamera() {
+  if (typeof Hands === 'undefined') throw new Error('Could not load MediaPipe from the CDN.');
+  const hands = new Hands({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${f}` });
+  hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.7, minTrackingConfidence: 0.6 });
+  hands.onResults(onResults);
+  video.srcObject = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720, facingMode: 'user' } });
+  await video.play();
+  statusEl.textContent = 'Show your hand ✋';
+  let busy = false;
+  const loop = async () => {
+    if (!busy && video.readyState >= 2) {
+      busy = true;
+      try { await hands.send({ image: video }); } finally { busy = false; }
+    }
+    requestAnimationFrame(loop);
+  };
+  loop();
+}
+
+// ---------- render ----------
+function frame(now) {
+  // fade previous frame → motion trails over the transparent canvas
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.fillStyle = 'rgba(0,0,0,0.28)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'lighter';
+
+  for (let i = 0; i < PARTICLES; i++) {
+    if (hasTarget[i] && now >= startAt[i]) {
+      // spring toward target
+      vx[i] += (tx[i] - px[i]) * 0.018;
+      vy[i] += (ty[i] - py[i]) * 0.018;
+      vx[i] *= 0.86; vy[i] *= 0.86;
+    } else {
+      // idle drift
+      vx[i] += Math.sin(py[i] * 0.01 + now * 0.0005) * 0.03;
+      vy[i] += Math.cos(px[i] * 0.01 + now * 0.0004) * 0.03;
+      vx[i] *= 0.97; vy[i] *= 0.97;
+    }
+    // fingertips push particles away
+    for (const f of fingertips) {
+      const dx = px[i] - f.x, dy = py[i] - f.y, d2 = dx * dx + dy * dy;
+      if (d2 < 3600 && d2 > 1) { const k = 60 / d2; vx[i] += dx * k; vy[i] += dy * k; }
+    }
+    px[i] += vx[i]; py[i] += vy[i];
+    if (!hasTarget[i]) { // wrap around edges while idle
+      if (px[i] < 0) px[i] += W; else if (px[i] > W) px[i] -= W;
+      if (py[i] < 0) py[i] += H; else if (py[i] > H) py[i] -= H;
+    }
+  }
+
+  // batch by color to keep fillStyle switches low
+  const shift = (now * 0.02) % 360;
+  for (let c = 0; c < PALETTE.length; c++) {
+    ctx.fillStyle = `hsl(${(PALETTE[c] + shift) % 360} 100% 55%)`;
+    for (let i = c; i < PARTICLES; i += PALETTE.length) ctx.fillRect(px[i], py[i], size[i], size[i]);
+  }
+
+  ctx.fillStyle = '#fff';
+  for (const f of fingertips) { ctx.beginPath(); ctx.arc(f.x, f.y, 4, 0, 7); ctx.fill(); }
+  requestAnimationFrame(frame);
+}
+
+addEventListener('resize', resize);
+addEventListener('keydown', e => {
+  if (/^[0-9]$/.test(e.key)) { statusEl.textContent = ''; applyScene(+e.key); }
+  if (e.key === 'v' || e.key === 'V') video.style.display = video.style.display === 'none' ? '' : 'none';
+});
+
+resize();
+requestAnimationFrame(frame);
+startCamera().catch(err => {
+  statusEl.textContent = `Camera unavailable (${err.message}). Press 0-9 to preview scenes.`;
+});
+</script>
+</body>
+</html>
