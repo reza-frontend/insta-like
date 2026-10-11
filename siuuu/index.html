@@ -15,12 +15,15 @@
   :root { --neon: #39ff14; --muted: rgba(255,255,255,.5); --panel: rgba(6,10,8,.74); --line: rgba(57,255,20,.32); }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: #000; color: #fff; overflow: hidden; font-family: 'JetBrains Mono', ui-monospace, monospace; }
-  body::before { content: ''; position: fixed; inset: 0; pointer-events: none;
-    background-image: linear-gradient(rgba(57,255,20,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,20,.035) 1px, transparent 1px);
-    background-size: 40px 40px; }
+  #bg, #fx { position: fixed; inset: 0; width: 100%; height: 100%; }
+  #crt { position: fixed; inset: 0; pointer-events: none; z-index: 5;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px),
+                radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.7) 100%); }
+  #topbar { position: fixed; left: 16px; top: 16px; font-size: 10.5px; line-height: 1.75; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--neon); text-shadow: 0 0 8px rgba(57,255,20,.55); white-space: pre; pointer-events: none; }
   #fx { position: fixed; inset: 0; width: 100%; height: 100%; }
   #cam { position: fixed; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  #clip { position: fixed; opacity: 0; transform: scale(.82); transition: opacity .7s, transform .7s; border-radius: 6px; object-fit: cover; pointer-events: none; background: #000; }
+  #clip { position: fixed; z-index: 6; opacity: 0; transform: scale(.82); transition: opacity .7s, transform .7s; border-radius: 6px; object-fit: cover; pointer-events: none; background: #000; }
   #clip.show { opacity: 1; transform: scale(1); }
 
   .panel { position: fixed; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; backdrop-filter: blur(6px);
@@ -43,7 +46,7 @@
   .k { color: #ff79c6; } .s { color: #f1fa8c; } .c { color: #5f7360; font-style: italic; } .n { color: #bd93f9; } .f { color: #50fa7b; }
   .cursor { display: inline-block; width: 7px; height: 12px; background: var(--neon); vertical-align: text-bottom; animation: blink 1s steps(1) infinite; }
 
-  #status { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); font-size: 12px; color: var(--muted); text-align: center; }
+  #status { position: fixed; left: 16px; top: 112px; font-size: 11px; color: var(--muted); }
   #start { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.88); z-index: 10; padding: 16px; }
   #start button { font: 700 18px 'JetBrains Mono', monospace; color: #000; background: var(--neon); border: 0; border-radius: 8px;
     padding: 16px 36px; cursor: pointer; box-shadow: 0 0 34px var(--neon); display: block; margin: 0 auto; }
@@ -53,10 +56,13 @@
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
 <canvas id="fx"></canvas>
 <video id="clip" src="ronaldo.mp4" playsinline preload="auto"></video>
 <video id="cam" playsinline muted></video>
+<div id="topbar"></div>
 <div id="status"></div>
+<div id="crt"></div>
 
 <section class="panel" id="camPanel">
   <header><span class="rec"></span>vision.feed · mediapipe/hands<span id="fps" style="margin-left:auto">-- fps</span></header>
@@ -264,6 +270,7 @@ function applyScene(name, instant = false) {
 
 // ===== render =====
 function frame(now) {
+  drawBg(now);
   ctx.globalCompositeOperation = 'destination-out';   // fade → motion trails, keeps the grid visible
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.fillRect(0, 0, W, H);
@@ -298,6 +305,103 @@ function frame(now) {
   }
   drawCam(now);
   requestAnimationFrame(frame);
+}
+
+// ===== AI-vision background =====
+const bg = $('bg'), bctx = bg.getContext('2d');
+const vis = document.createElement('canvas'), vctx = vis.getContext('2d', { willReadFrequently: true });
+const CELL = 9, DOT = [0, 1.4, 2.3, 3.2, 4.2], DOT_A = [0, .16, .26, .4, .55];
+
+function camCover(w, h) {
+  const vw = cam.videoWidth || 16, vh = cam.videoHeight || 9, s = Math.max(w / vw, h / vh);
+  return { dw: vw * s, dh: vh * s, ox: (w - vw * s) / 2, oy: (h - vh * s) / 2 };
+}
+
+function drawBg(now) {
+  const g = bctx, dim = state === 'video' ? 0.35 : state === 'siuuu' ? 0.6 : 1;
+  g.setTransform(DPR, 0, 0, DPR, 0, 0);
+  g.fillStyle = '#010503'; g.fillRect(0, 0, W, H);
+  const rg = g.createRadialGradient(W * .4, H * .45, 0, W * .4, H * .45, Math.max(W, H) * .7);
+  rg.addColorStop(0, 'rgba(0,70,45,.35)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, W, H);
+
+  // perspective floor grid
+  const hz = H * .6, vp = W * .4, t = (now * .00035) % 1;
+  g.strokeStyle = `rgba(57,255,20,${.09 * dim})`; g.lineWidth = 1; g.beginPath();
+  for (let i = -24; i <= 24; i++) { g.moveTo(vp + i * 6, hz); g.lineTo(vp + i * W * .1, H); }
+  for (let k = 0; k < 16; k++) { const z = (k + t) / 16, y = hz + (H - hz) * z * z; g.moveTo(0, y); g.lineTo(W, y); }
+  g.stroke();
+
+  // camera → edge-detected dot matrix (what the model "sees")
+  const cols = Math.ceil(W / CELL), rows = Math.ceil(H / CELL);
+  if (vis.width !== cols || vis.height !== rows) { vis.width = cols; vis.height = rows; }
+  let d = null;
+  if (cam.readyState >= 2) {
+    const c = camCover(cols, rows);
+    vctx.save(); vctx.translate(cols, 0); vctx.scale(-1, 1);
+    vctx.drawImage(cam, c.ox, c.oy, c.dw, c.dh); vctx.restore();
+    d = vctx.getImageData(0, 0, cols, rows).data;
+  }
+  const lum = o => (d[o] + d[o + 1] + d[o + 2]) / 765;
+  const levels = [[], [], [], [], []];
+  for (let y = 0; y < rows; y++)
+    for (let x = 0; x < cols; x++) {
+      let v;
+      if (d) {
+        const o = (y * cols + x) * 4, l = lum(o);
+        const e = Math.abs(l - lum(x < cols - 1 ? o + 4 : o)) + Math.abs(l - lum(y < rows - 1 ? o + cols * 4 : o));
+        v = Math.min(1, e * 4 + l * .3);
+      } else {
+        v = (.5 + .5 * Math.sin(x * .13 + now * .0009) * Math.cos(y * .16 - now * .0012)) ** 4 * .7;
+      }
+      const lvl = Math.min(4, (v * 5) | 0);
+      if (lvl) levels[lvl].push(x * CELL + CELL / 2, y * CELL + CELL / 2);
+    }
+  for (let l = 1; l < 5; l++) {
+    const r = DOT[l], pts = levels[l];
+    g.fillStyle = `rgba(${l > 3 ? '120,255,200' : '57,255,20'},${DOT_A[l] * dim})`;
+    for (let i = 0; i < pts.length; i += 2) g.fillRect(pts[i] - r / 2, pts[i + 1] - r / 2, r, r);
+  }
+
+  // full-screen hand skeleton + lock-on reticle
+  const c = camCover(W, H), map = p => [W - (p.x * c.dw + c.ox), p.y * c.dh + c.oy];
+  g.font = '9px JetBrains Mono, monospace'; g.textAlign = 'left';
+  for (const hand of handsData) {
+    const pts = hand.lm.map(map);
+    g.strokeStyle = `rgba(57,255,20,${.35 * dim})`; g.lineWidth = 2; g.beginPath();
+    for (const [a, b] of CONN) { g.moveTo(...pts[a]); g.lineTo(...pts[b]); }
+    g.stroke();
+    pts.forEach(([x, y], i) => {
+      g.fillStyle = `rgba(200,255,220,${.6 * dim})`; g.fillRect(x - 2, y - 2, 4, 4);
+      g.fillStyle = `rgba(57,255,20,${.55 * dim})`; g.fillText(String(i).padStart(2, '0'), x + 5, y - 4);
+    });
+    const [cx, cy] = pts[9], R = 70, rot = now * .0015 * (hand.side === 'L' ? 1 : -1);
+    g.strokeStyle = `rgba(57,255,20,${.6 * dim})`; g.lineWidth = 1.5;
+    for (let k = 0; k < 4; k++) { g.beginPath(); g.arc(cx, cy, R, rot + k * Math.PI / 2, rot + k * Math.PI / 2 + .9); g.stroke(); }
+    g.beginPath(); g.arc(cx, cy, R + 10, -rot, -rot + Math.PI * 1.3); g.stroke();
+    g.beginPath();
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { g.moveTo(cx + dx * (R - 14), cy + dy * (R - 14)); g.lineTo(cx + dx * (R + 18), cy + dy * (R + 18)); }
+    g.stroke();
+    g.fillStyle = `rgba(57,255,20,${.85 * dim})`;
+    g.fillText(`HAND_${hand.side} · ${hand.count} · ${hand.conf.toFixed(2)}`, cx + R + 14, cy - R + 6);
+  }
+
+  // vertical scan sweep
+  const sy = ((now * .25) % (H + 200)) - 100;
+  const sg = g.createLinearGradient(0, sy - 100, 0, sy);
+  sg.addColorStop(0, 'rgba(57,255,20,0)'); sg.addColorStop(1, `rgba(57,255,20,${.07 * dim})`);
+  g.fillStyle = sg; g.fillRect(0, sy - 100, W, 100);
+  g.fillStyle = `rgba(120,255,180,${.35 * dim})`; g.fillRect(0, sy, W, 1);
+
+  // screen corner brackets + edge ruler
+  g.strokeStyle = 'rgba(57,255,20,.45)'; g.lineWidth = 2; g.beginPath();
+  for (const [x, y, dx, dy] of [[6, 6, 1, 1], [W - 6, 6, -1, 1], [6, H - 6, 1, -1], [W - 6, H - 6, -1, -1]]) {
+    g.moveTo(x + dx * 34, y); g.lineTo(x, y); g.lineTo(x, y + dy * 34);
+  }
+  g.stroke();
+  g.strokeStyle = 'rgba(57,255,20,.18)'; g.lineWidth = 1; g.beginPath();
+  for (let y = 60; y < H - 60; y += 12) { const len = y % 60 === 0 ? 10 : 4; g.moveTo(4, y); g.lineTo(4 + len, y); }
+  g.stroke();
 }
 
 // ===== camera panel: feed + green hand skeleton =====
@@ -370,11 +474,11 @@ function countFingers(lm) {
   return c;
 }
 
-let hold = 0, armed = true, state = 'idle', frames = 0, fps = 0, lastFpsAt = performance.now();
+let latency = 0, hold = 0, armed = true, state = 'idle', frames = 0, fps = 0, lastFpsAt = performance.now();
 function onResults(res) {
   frames++;
   // side = position on the mirrored screen, so it matches the user's own left/right
-  const hs = (res.multiHandLandmarks || []).map(lm => ({ lm, count: countFingers(lm), mx: 1 - lm[0].x }));
+  const hs = (res.multiHandLandmarks || []).map((lm, i) => ({ lm, count: countFingers(lm), mx: 1 - lm[0].x, conf: res.multiHandedness?.[i]?.score ?? 0 }));
   hs.sort((a, b) => a.mx - b.mx);
   if (hs.length === 2) { hs[0].side = 'L'; hs[1].side = 'R'; }
   else if (hs.length === 1) hs[0].side = hs[0].mx < 0.5 ? 'L' : 'R';
@@ -472,7 +576,8 @@ async function startCamera() {
   const loop = async () => {
     if (!busy && cam.readyState >= 2) {
       busy = true;
-      try { await hands.send({ image: cam }); } finally { busy = false; }
+      const t0 = performance.now();
+      try { await hands.send({ image: cam }); } finally { busy = false; latency = performance.now() - t0; }
     }
     requestAnimationFrame(loop);
   };
@@ -518,6 +623,12 @@ setInterval(() => {
   const lm = (handsData[0] || {}).lm;
   const f = v => (v >= 0 ? ' ' : '') + v.toFixed(3);
   const row = i => lm ? `lm[${String(i).padEnd(2)}] x=${f(lm[i].x)} y=${f(lm[i].y)} z=${f(lm[i].z)}` : `lm[${String(i).padEnd(2)}] ---`;
+  $('topbar').textContent = [
+    '◉ NEURAL VISION ENGINE v2.7',
+    `model  hand_landmark_full · 21 kp × ${handsData.length || 2}`,
+    `infer  ${fps.toFixed(1)} fps · ${latency.toFixed(0)} ms`,
+    `detect ${handsData.map(h => `HAND_${h.side} ${h.conf.toFixed(2)}`).join(' · ') || 'scanning…'}`,
+  ].join('\n');
   $('telemetry').textContent = [
     `> tracker        ${handsData.length ? 'LOCKED' : 'SCANNING…'}`,
     `> hands          ${handsData.length}`,
@@ -534,7 +645,7 @@ setInterval(() => {
 function resize() {
   DPR = Math.min(devicePixelRatio || 1, 2);
   W = innerWidth; H = innerHeight;
-  fx.width = W * DPR; fx.height = H * DPR;
+  fx.width = bg.width = W * DPR; fx.height = bg.height = H * DPR;
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   if (scene) applyScene(scene, true);
   if (state === 'video') {
